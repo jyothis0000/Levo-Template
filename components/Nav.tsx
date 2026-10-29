@@ -20,7 +20,7 @@ export default function Nav() {
   return (
     <>
       <header className="nav">
-        <a href="#top" className="nav-logo">
+        <a href="/home1#top" className="nav-logo">
           <img src={brand.logo} alt={brand.name} />
           <span className="nav-pill">{brand.pill}</span>
         </a>
@@ -28,7 +28,7 @@ export default function Nav() {
           {nav.map((l) => (
             <a key={l.href} href={l.href}>
               <RollText text={l.label} />
-              {l.href === "#projects" && <sup>{portfolioIntro.count}</sup>}
+              {l.href.endsWith("#projects") && <sup>{portfolioIntro.count}</sup>}
             </a>
           ))}
         </nav>

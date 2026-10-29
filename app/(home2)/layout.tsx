@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { ExploreCursor, PrivacyNote, SmoothScroll } from "@/components/home2/Chrome";
 import "./home2.css";
@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: "A Dubai exhibition studio designing and building custom stands for European exhibitors in the Gulf and across Europe.",
   icons: { icon: "/images/favicon-site-icon.png" },
 };
+
+// the browser's own chrome (mobile address bar) in the logo's navy
+export const viewport: Viewport = { themeColor: "#022439" };
 
 export default function Home2Layout({ children }: { children: React.ReactNode }) {
   return (

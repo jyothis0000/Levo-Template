@@ -1,4 +1,4 @@
-import { Approach, Layers } from "@/components/home3/Approach";
+import { Approach } from "@/components/home3/Approach";
 import { Footer, Nav, Wordmark } from "@/components/home3/Chrome";
 import { Contact } from "@/components/home3/Contact";
 import { Cubes } from "@/components/home3/Cubes";
@@ -14,7 +14,6 @@ export default function Home3() {
         <Hero />
         <Cubes />
         <Approach />
-        <Layers />
         <Works />
         <Services />
         <Process />

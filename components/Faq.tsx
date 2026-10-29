@@ -13,7 +13,7 @@ export default function Faq() {
       <div className="faq-wrap cols">
         <div className="faq-side">
           <div className="head-left">
-            <Label title="FAQ" sub="الأسئلة الشائعة" />
+            <Label title="FAQ" />
             <SplitTitle className="process-title" text={"Quick\nanswers."} />
             <p className="muted">Short and clear responses to the questions exhibitors ask us most.</p>
           </div>

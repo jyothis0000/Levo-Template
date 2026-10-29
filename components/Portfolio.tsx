@@ -51,7 +51,7 @@ function MoreWorks() {
   return (
     <div className="more cols">
       <div className="head-left">
-        <Label title="More cases" sub="المزيد" />
+        <Label title="More cases" />
         <p className="muted">{portfolioIntro.more}</p>
         <Button variant="light" className="more-btn">All projects</Button>
       </div>
@@ -124,7 +124,7 @@ export default function Portfolio() {
       <Lines />
       <div className="head cols">
         <div className="head-left">
-          <Label title="Portfolio" sub="أعمالنا" />
+          <Label title="Portfolio" />
           <p className="muted">{portfolioIntro.text}</p>
         </div>
         <SplitTitle className="giant" text="Case studies." />
@@ -140,7 +140,7 @@ export default function Portfolio() {
 
       <div className="head cols">
         <div className="head-left">
-          <Label title="Showreel" sub="لقطات" />
+          <Label title="Showreel" />
           <p className="muted">{portfolioIntro.reelText}</p>
         </div>
         <Reveal className="giant">

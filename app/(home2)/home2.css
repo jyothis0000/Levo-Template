@@ -1,10 +1,14 @@
 /* ───────── /home2 · after lpas.com ───────── */
 :root {
-  --ink: #262626;
+  /* the logo's colours: its navy is the ink and the dark surfaces, its blue the accent */
+  --navy: #022439;
+  --blue: #0070b8;
+  --logo: linear-gradient(to top right, #022439, #013759 13%, #004b7b 30%, #005b95 46%, #0066a8 64%, #006db4 81%, #0070b8);
+  --ink: var(--navy);
   --black: #111;
   --grey: #747474;
   --line: #d6d6d6;
-  --dark: #262626;
+  --dark: var(--navy);
   --pad: 5rem;
   --ease: cubic-bezier(0.14, 0.83, 0.4, 1);
   --ease-ui: cubic-bezier(0, 0, 0.13, 0.99);
@@ -61,6 +65,11 @@ button {
 :focus-visible {
   outline: 0.15rem dashed currentColor;
   outline-offset: 0.3rem;
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
 }
 
 .wrap {
@@ -159,7 +168,7 @@ button {
 
 .al:hover .al-dot,
 .list-link:hover .al-dot {
-  background: var(--ink);
+  background: var(--blue);
   color: #fff;
 }
 
@@ -203,6 +212,14 @@ button {
   will-change: transform, clip-path;
 }
 
+/* the initials spell LEVO; the "L" in the logo's gradient, as in the mark */
+.pl-word:first-child .pl-first {
+  background: var(--logo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .pl-img {
   position: absolute;
   inset: 0;
@@ -234,7 +251,7 @@ button {
   height: 3rem;
   padding: 0 1.1rem 0 0.4rem;
   border-radius: 0.6rem;
-  background: rgba(14, 14, 14, 0.6);
+  background: rgba(2, 36, 57, 0.6);
   backdrop-filter: blur(5px);
   color: #fff;
   font-size: 1.2rem;
@@ -302,7 +319,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: 700;
-  background: #1c1c1c;
+  background: var(--dark);
   color: #fff;
   padding: 13rem var(--pad) 4rem;
   display: flex;
@@ -415,7 +432,7 @@ button {
   height: 11rem;
   margin: -5.5rem 0 0 -5.5rem;
   border-radius: 50%;
-  background: rgba(70, 70, 70, 0.82);
+  background: rgba(0, 112, 184, 0.85); /* the logo blue */
   backdrop-filter: blur(4px);
   color: #fff;
   display: grid;
@@ -440,7 +457,7 @@ button {
   gap: 1.6rem;
   padding: 1.4rem 1.4rem 1.4rem 1.8rem;
   border-radius: 0.6rem;
-  background: rgba(14, 14, 14, 0.78);
+  background: rgba(2, 36, 57, 0.78);
   backdrop-filter: blur(8px);
   color: #fff;
   font-size: 1.3rem;
@@ -490,7 +507,7 @@ button {
 .hh-shade {
   position: absolute;
   inset: 0;
-  background: #000;
+  background: var(--dark);
   pointer-events: none;
 }
 
@@ -661,7 +678,7 @@ button {
   font-size: 1.4rem;
   font-weight: 500;
   color: #fff;
-  background: rgba(14, 14, 14, 0.36);
+  background: rgba(2, 36, 57, 0.36);
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   --cut: 2rem;
@@ -670,7 +687,7 @@ button {
 }
 
 .card:hover .card-items {
-  background: rgba(14, 14, 14, 0.5);
+  background: rgba(2, 36, 57, 0.5);
 }
 
 .card-items a {

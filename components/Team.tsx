@@ -16,7 +16,7 @@ export default function Team() {
         <Lines />
         <div className="head cols">
           <div className="head-left">
-            <Label title="The team" sub="فريقنا" />
+            <Label title="The team" />
             <p className="muted">{team.intro}</p>
           </div>
           <div className="team-marquee">
@@ -57,7 +57,7 @@ export default function Team() {
           <img src={belief.img} alt="" />
         </motion.div>
         <div className="belief-body">
-          <Label title="What we believe" sub="قيمنا" />
+          <Label title="What we believe" />
           <ScrollWords className="belief-text" text={belief.text} />
           <div className="belief-foot">
             <div>

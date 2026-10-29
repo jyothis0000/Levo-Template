@@ -5,15 +5,15 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** "[ LV® ‒ SERVICES / خدماتنا ]" section tag with the red bar mark. */
-export function Label({ title, sub }: { title: string; sub?: string }) {
+/** "[ LV® ‒ SERVICES ]" section tag with the red bar mark. */
+export function Label({ title }: { title: string }) {
   return (
     <div className="label">
       <span className="label-mark" aria-hidden>
         <i /><i /><i /><i />
       </span>
       <span>
-        [ <b>LV®</b> ‒ {title} {sub && <>/ <em>{sub}</em></>} ]
+        [ <b>LV®</b> ‒ {title} ]
       </span>
     </div>
   );
@@ -34,7 +34,7 @@ export function RollText({ text }: { text: string }) {
 }
 
 export function Button({
-  href = "#contact",
+  href = "/home1#contact", // page-qualified, so it also works from the privacy and legal pages
   children,
   variant = "dark",
   className = "",

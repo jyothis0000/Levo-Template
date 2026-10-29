@@ -102,6 +102,13 @@ export function Cubes() {
         return null; // no WebGL: the shutters and the dive photo still play
       }
     };
+    // the scene takes its ink and paper from the CSS, so it follows "invert color"
+    const tint = () => {
+      const s = getComputedStyle(canvasRef.current!);
+      scene?.tint(s.getPropertyValue("--ink").trim(), s.getPropertyValue("--paper").trim());
+      draw(window.scrollY);
+    };
+    const mo = new MutationObserver(tint);
     measure();
     draw(window.scrollY);
     boot().then((s) => {
@@ -109,11 +116,14 @@ export function Cubes() {
       scene = s;
       sceneRef.current = s;
       dispose = s.dispose;
+      tint();
       onResize();
+      mo.observe(document.documentElement, { attributeFilter: ["class"] });
     });
     window.addEventListener("resize", onResize);
     return () => {
       alive = false;
+      mo.disconnect();
       window.removeEventListener("resize", onResize);
       sceneRef.current = null;
       dispose();

@@ -10,7 +10,7 @@ export default function Reviews() {
       <Lines />
       <div className="head cols">
         <div className="head-left">
-          <Label title="Selected review" sub="آراء العملاء" />
+          <Label title="Selected review" />
           <p className="muted">{reviews.intro}</p>
         </div>
         <SplitTitle className="giant" text="True Stories." />
@@ -63,7 +63,7 @@ export default function Reviews() {
 
       <div className="more-reviews cols">
         <div className="head-left">
-          <Label title="Reviews" sub="شهادات" />
+          <Label title="Reviews" />
           <SplitTitle className="more-reviews-title" text={"More\nReviews"} />
           <p className="muted">{reviews.moreIntro}</p>
         </div>

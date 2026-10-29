@@ -100,8 +100,11 @@ export function createCubeScene(canvas: HTMLCanvasElement, family: string) {
     if (!textures.has(s)) textures.set(s, wordTexture(s, family, aniso));
     return textures.get(s)!;
   };
+  // every material shares these two, so "invert color" is a recolour (tint) rather than a CSS filter
+  const ink = new THREE.Color(0x022439);
+  const paper = new THREE.Color(0xf0f0f0);
   const textMat = (s: string) =>
-    new THREE.MeshBasicMaterial({ map: tex(s).map, color: 0xf0f0f0, transparent: true, opacity: 0, alphaTest: 0.02, side: THREE.DoubleSide });
+    Object.assign(new THREE.MeshBasicMaterial({ map: tex(s).map, transparent: true, opacity: 0, alphaTest: 0.02, side: THREE.DoubleSide }), { color: paper });
 
   const root = new THREE.Group();
   root.position.set(0, -2, 0.25);
@@ -122,7 +125,7 @@ export function createCubeScene(canvas: HTMLCanvasElement, family: string) {
       }
 
     // draw order: words, then edges over them, then the dark faces (nudged back so they never dim their own edges)
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xf2f0f0, transparent: true, opacity: 0 });
+    const lineMat = Object.assign(new THREE.LineBasicMaterial({ transparent: true, opacity: 0 }), { color: paper });
     const lineGeo = new THREE.BufferGeometry();
     lineGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(list.length * edges.length), 3));
     const lines = new THREE.LineSegments(lineGeo, lineMat);
@@ -130,10 +133,9 @@ export function createCubeScene(canvas: HTMLCanvasElement, family: string) {
     lines.frustumCulled = false;
     group.add(lines);
 
-    const planeMats = PLANE_O.map(
-      () =>
+    const planeMats = PLANE_O.map(() =>
+      Object.assign(
         new THREE.MeshBasicMaterial({
-          color: 0x111111,
           transparent: true,
           opacity: 0,
           depthWrite: false,
@@ -142,6 +144,8 @@ export function createCubeScene(canvas: HTMLCanvasElement, family: string) {
           polygonOffsetFactor: 1,
           polygonOffsetUnits: 1,
         }),
+        { color: ink },
+      ),
     );
     const planes = planeMats.map((mat, k) => {
       const mesh = new THREE.InstancedMesh(quad, mat, k === 3 && C === 0 ? 0 : list.length); // the reference leaves C = 0 open on top
@@ -354,5 +358,10 @@ export function createCubeScene(canvas: HTMLCanvasElement, family: string) {
     renderer.dispose();
   };
 
-  return { render, resize, dispose };
+  const tint = (i: string, p: string) => {
+    ink.set(i);
+    paper.set(p);
+  };
+
+  return { render, resize, dispose, tint };
 }

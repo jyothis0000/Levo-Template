@@ -10,7 +10,7 @@ export default function Services() {
       <div className="services-wrap cols">
         <aside className="services-side">
           <div className="services-sticky">
-            <Label title="Services" sub="خدماتنا" />
+            <Label title="Services" />
             <SplitTitle className="services-title" text={"What\nWe Build"} />
             <p>{servicesIntro.text}</p>
             <div className="services-side-foot">
@@ -25,9 +25,7 @@ export default function Services() {
           {services.map((s, i) => (
             <article key={s.title} className="service">
               <Reveal>
-                <p className="service-no">
-                  00{i + 1}. / <span className="muted">{s.sub}</span>
-                </p>
+                <p className="service-no">00{i + 1}.</p>
                 <h3>{s.title}</h3>
               </Reveal>
               <Reveal className="service-imgs" delay={0.1}>

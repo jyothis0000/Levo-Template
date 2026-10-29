@@ -17,7 +17,7 @@ export default function Process() {
       <div className="process-sticky cols">
         <div className="process-side">
           <div className="head-left">
-            <Label title="Steps" sub="منهجيتنا" />
+            <Label title="Steps" />
             <SplitTitle className="process-title" text={"From brief\nto launch"} />
             <p>{processIntro.text}</p>
           </div>

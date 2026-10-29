@@ -1,4 +1,4 @@
-// Privacy notice and legal notice text shared by the /home2 and /home3 editions.
+// Privacy notice and legal notice text shared by the /home1, /home2 and /home3 editions.
 // Highlighted brackets are facts Levo must supply or confirm with counsel before launch.
 const company = { legal: "Levo Advertising LLC", group: "A division of the Alams Group", email: "info@levoworld.com", phone: "+971 4 359 3600" };
 

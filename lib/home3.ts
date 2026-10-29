@@ -53,18 +53,6 @@ export const approach = {
   verbs: ["Listen", "Design", "Engineer", "Build"],
   lead: ["Design defines", "direction — engineering", "secures it."],
   sub: "We translate a brief into a built stand through one structured process and one team.",
-  layers: [
-    img("home-custom-exhibition-stand-with-illuminated-branding-meeting-area-and-product-display-shelves.jpeg"),
-    img("about-levo-exhibition-stand-build-process.jpg"),
-    img("service-exhibition-services-gallery-12.webp"),
-    img("about-exhibition-stand-carpentry-workshop.jpg"),
-  ],
-  principles: [
-    { label: "Direction", title: ["One point", "of contact"], text: "Design through dismantling sits with one team, so nothing falls between suppliers. You deal with the same people from first sketch to last panel." },
-    { label: "System", title: ["Engineering", "for hard builds"], text: "Double deckers and heavy rigging need structural sign-off and early submissions. Routine for us — resolved months before build-up." },
-    { label: "Craft", title: ["Designers who", "stay on the job"], text: "The people who draw your stand are the people who manage it on site, so the build looks like the render." },
-    { label: "Resolution", title: ["Assembled", "before it ships"], text: "Every stand is built and checked in our workshop, so problems are solved off the show floor — not in front of your visitors." },
-  ],
 };
 
 export const works = {

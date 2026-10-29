@@ -29,11 +29,12 @@ export const hero = {
   title: "We’re a Dubai exhibition studio building for European brands",
 };
 
+// card colours step along the logo's gradient, navy to blue, with two pale blue-greys between
 export const focus = [
   {
     title: "Exhibition Stands",
     sub: "Custom builds for European exhibitors",
-    color: "#625653",
+    color: "#022439",
     ink: "#fff",
     img: img("project-029-saudi-made.webp"),
     items: ["Custom stands", "Double deckers", "Modular systems", "Display stands"],
@@ -41,7 +42,7 @@ export const focus = [
   {
     title: "National Pavilions",
     sub: "Built for trade bodies",
-    color: "#925434",
+    color: "#004b7b",
     ink: "#fff",
     img: img("project-008-uruguay-national-pavilion.webp"),
     items: ["Government pavilions", "Co-exhibitor booths", "Organiser formalities", "Show-floor support"],
@@ -50,14 +51,14 @@ export const focus = [
     title: "Events & Conferences",
     sub: "Stages, AV and production",
     color: "#c9d3df",
-    ink: "#262626",
+    ink: "#022439",
     img: img("service-events-conferences.webp"),
     items: ["Stage & tent works", "Audio & video", "Furniture", "Hosts & catering"],
   },
   {
     title: "Interior & Fit-out",
     sub: "Offices and experience rooms",
-    color: "#707569",
+    color: "#0070b8",
     ink: "#fff",
     img: img("service-interior-fit-out.jpeg"),
     items: ["Office fit-out", "Retail interiors", "In-house joinery", "AV rooms"],
@@ -65,8 +66,8 @@ export const focus = [
   {
     title: "Mall Kiosks",
     sub: "Retail for high-footfall spaces",
-    color: "#e3c1aa",
-    ink: "#262626",
+    color: "#dce8f1",
+    ink: "#022439",
     img: img("service-mall-kiosk-gallery-04.webp"),
     items: ["Kiosk design", "Manufacturing", "Installation", "Branding"],
   },

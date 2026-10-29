@@ -31,7 +31,7 @@ export default function Timeline() {
         <div className="cols timeline-wrap">
           <div className="timeline-side">
             <div className="head-left">
-              <Label title="Timeline" sub="مسيرتنا" />
+              <Label title="Timeline" />
               <SplitTitle className="giant timeline-title" text={"The\nJourney"} />
               <p className="muted">{timeline.intro}</p>
             </div>

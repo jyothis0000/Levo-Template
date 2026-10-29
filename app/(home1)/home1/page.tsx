@@ -1,11 +1,10 @@
 import About from "@/components/About";
 import Blog from "@/components/Blog";
-import Contact from "@/components/Contact";
+import { Footer } from "@/components/Contact";
 import Faq from "@/components/Faq";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
-import Packages from "@/components/Packages";
 import Portfolio from "@/components/Portfolio";
 import Preloader from "@/components/Preloader";
 import Process from "@/components/Process";
@@ -28,13 +27,12 @@ export default function Home() {
         <Process />
         <Reviews />
         <Features />
-        <Packages />
         <Timeline />
         <Team />
         <Faq />
         <Blog />
       </main>
-      <Contact />
+      <Footer />
       <a className="float-cta mono-up" href={contact.whatsappLink} target="_blank" rel="noreferrer">
         WhatsApp <span>Levo</span> now
       </a>

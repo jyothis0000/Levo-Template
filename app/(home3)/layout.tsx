@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import { SmoothScroll } from "@/components/home2/Chrome";
 import { Invert, Note, Preloader } from "@/components/home3/Chrome";
@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: "A Dubai exhibition studio designing, engineering and building stands for European exhibitors in the Gulf and across Europe.",
   icons: { icon: "/images/favicon-site-icon.png" },
 };
+
+// the browser's own chrome (mobile address bar) in the logo's navy
+export const viewport: Viewport = { themeColor: "#022439" };
 
 export default function Home3Layout({ children }: { children: React.ReactNode }) {
   return (

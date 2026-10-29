@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { company, process, services, works } from "@/lib/home3";
 import { land } from "@/lib/worldDots";
@@ -187,17 +187,20 @@ export function Process() {
   );
 }
 
-/** Crew row, then "Working ⟷ Worldwide" closing in on a dotted globe that rests on Germany. */
+/** Crew row, then "Working ⟷ Worldwide" closing in on a dotted globe that turns from Germany to each market. */
 export function Company() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const DONE = 0.6; // the words meet here
+  const START = 0.1; // Germany alone until here
+  const DONE = 0.8; // the words meet here
   const lx = useTransform(p, [0, DONE], ["-30vw", "0vw"]);
   const rx = useTransform(p, [0, DONE], ["30vw", "0vw"]);
-  // Germany (first) stays lit; scrolling steps through the other markets, the last arriving as the words meet
+  // Germany (first) stays lit; scrolling then steps through the other markets, the last arriving as the words meet
   const others = company.countries.length - 1;
-  const [c, setC] = useState(1);
-  useMotionValueEvent(p, "change", (v) => setC(1 + Math.min(others - 1, Math.floor((v / DONE) * others))));
+  const [c, setC] = useState(0);
+  useMotionValueEvent(p, "change", (v) =>
+    setC(v < START ? 0 : 1 + Math.min(others - 1, Math.floor(((v - START) / (DONE - START)) * others))),
+  );
 
   return (
     <section className="co" id="company">
@@ -223,7 +226,7 @@ export function Company() {
       <div ref={ref} className="co-world">
         <div className="co-sticky">
           <motion.h2 style={{ x: lx }}>Working</motion.h2>
-          <Globe turn={p} active={c} />
+          <Globe active={c} />
           <motion.h2 style={{ x: rx }}>Worldwide</motion.h2>
           <ul className="co-countries">
             {company.countries.map((n, i) => (
@@ -244,14 +247,28 @@ const toVec = (lat: number, lon: number): Vec => [Math.cos(lat * RAD) * Math.sin
 const LAND = Array.from({ length: land.length / 2 }, (_, i) => toVec(land[i * 2] / 10, land[i * 2 + 1] / 10));
 const PINS = company.countries.map((n) => toVec(n.lat, n.lon));
 const HUB = PINS[0]; // Germany: the focus market
-const FOCUS = company.countries[0];
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+const easeInOut = (s: number) => (s < 0.5 ? 4 * s * s * s : 1 - (-2 * s + 2) ** 3 / 2);
+// along the great circle from a to b, s = 0..1
+const slerp = (a: Vec, b: Vec, s: number): Vec => {
+  const om = Math.acos(Math.min(1, a[0] * b[0] + a[1] * b[1] + a[2] * b[2]));
+  const f1 = Math.sin((1 - s) * om) / Math.sin(om), f2 = Math.sin(s * om) / Math.sin(om);
+  return [a[0] * f1 + b[0] * f2, a[1] * f1 + b[1] * f2, a[2] * f1 + b[2] * f2];
+};
+// where the view settles for each step: on Germany alone, then two thirds of the way along each route, so the
+// market comes near the centre while Germany stays on the near side (even for the USA)
+const VIEW = PINS.map((v, i) => {
+  const [x, y, z] = i ? slerp(HUB, v, 0.65) : HUB;
+  return [Math.asin(y) / RAD, Math.atan2(x, z) / RAD]; // lat, lon
+});
+const W = 2.4; // the turn's spring: critically damped, so it eases in and out and settles in ~1.7s
 
 /**
- * Dotted world in orthographic projection (canvas, ~2.7k dots), resting on Germany. Faint
- * great-circle arcs fan out from Germany to every other market; the one highlighted in the list draws
- * out brightly and is labelled. Scroll adds a little turn. Draws only while on screen.
+ * Dotted world in orthographic projection (canvas, ~2.7k dots). Faint great-circle arcs fan out from Germany to
+ * every other market. On each step the globe turns to the market highlighted in the list, its route draws out once
+ * the turn is under way, and then it is named. It can be dragged; let go and it glides back. Draws only on screen.
  */
-function Globe({ turn, active }: { turn: MotionValue<number>; active: number }) {
+function Globe({ active }: { active: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const activeRef = useRef(active);
   activeRef.current = active;
@@ -260,11 +277,16 @@ function Globe({ turn, active }: { turn: MotionValue<number>; active: number }) 
     const cv = ref.current!;
     const g = cv.getContext("2d")!;
     let raf = 0;
-    let lon = FOCUS.lon;
-    let lat = FOCUS.lat - 12; // Germany a touch above centre, so the Gulf stays in view
+    let [lat, lon] = VIEW[0];
+    let vLat = 0;
+    let vLon = 0;
+    let drag: { x: number; y: number } | null = null;
     let shown = -1;
+    let prev = -1;
     let since = 0;
     let colour = "#f0f0f0";
+    let ground = "#022439"; // the section behind the globe, for the label halo
+    let blue = "#0070b8"; // the logo's blue, for the routes and pins
     let family = "sans-serif";
     let frame = 0;
     let last = performance.now();
@@ -276,16 +298,33 @@ function Globe({ turn, active }: { turn: MotionValue<number>; active: number }) 
       const dpr = Math.min(devicePixelRatio, 2);
       const w = Math.round(cv.clientWidth * dpr);
       if (cv.width !== w) cv.width = cv.height = w;
-      if (frame++ % 30 === 0) ({ color: colour, fontFamily: family } = getComputedStyle(cv)); // follows "invert color"
+      if (frame++ % 30 === 0) {
+        // follows "invert color"
+        const s = getComputedStyle(cv);
+        ({ color: colour, fontFamily: family } = s);
+        ground = s.getPropertyValue("--ink").trim();
+        blue = s.getPropertyValue("--route").trim();
+      }
       const a = activeRef.current;
       if (a !== shown) {
+        prev = shown;
         shown = a;
         since = now;
       }
+      const t = (now - since) / 1000;
+      const grow = easeInOut(clamp01((t - 0.5) / 1.6)); // the route draws once the turn is under way
+      const arrive = clamp01((t - 1.8) / 0.5); // then the market is named
+      const leave = clamp01(1 - t / 0.6); // the previous route and name fade back
 
-      // rest on Germany; scroll turns it ±12°
-      const k = 1 - Math.exp(-dt * 3);
-      lon += (FOCUS.lon - (turn.get() - 0.5) * 24 - lon) * k;
+      // turn towards the step's view the short way round, unless it is being dragged
+      if (!drag) {
+        const [tLat, tLon] = VIEW[a];
+        const dLon = tLon - lon - 360 * Math.round((tLon - lon) / 360);
+        vLon += (dLon * W * W - vLon * 2 * W) * dt;
+        vLat += ((tLat - lat) * W * W - vLat * 2 * W) * dt;
+        lon += vLon * dt;
+        lat += vLat * dt;
+      }
 
       const sl = Math.sin(lon * RAD), cl = Math.cos(lon * RAD), sp = Math.sin(lat * RAD), cp = Math.cos(lat * RAD);
       const R = w * 0.46, c = w / 2;
@@ -333,60 +372,92 @@ function Globe({ turn, active }: { turn: MotionValue<number>; active: number }) 
       });
 
       // great-circle arc out of Germany, lifted off the surface; the far half stays hidden
-      const arc = (to: Vec, grow: number) => {
+      const arc = (to: Vec, part: number) => {
         const om = Math.acos(Math.min(1, HUB[0] * to[0] + HUB[1] * to[1] + HUB[2] * to[2]));
         g.beginPath();
         let on = false;
-        for (let i = 0; i <= 48 * grow; i++) {
+        for (let i = 0; i <= 48 * part; i++) {
           const s = i / 48;
-          const f1 = Math.sin((1 - s) * om) / Math.sin(om), f2 = Math.sin(s * om) / Math.sin(om);
           const lift = 1 + Math.sin(Math.PI * s) * (0.04 + om * 0.12);
-          const [x, y, z] = proj([(HUB[0] * f1 + to[0] * f2) * lift, (HUB[1] * f1 + to[1] * f2) * lift, (HUB[2] * f1 + to[2] * f2) * lift]);
+          const [px, py, pz] = slerp(HUB, to, s);
+          const [x, y, z] = proj([px * lift, py * lift, pz * lift]);
           if (z > 0) on ? g.lineTo(x, y) : g.moveTo(x, y);
           on = z > 0;
         }
         g.stroke();
       };
+      g.fillStyle = g.strokeStyle = blue;
       g.lineWidth = dpr * 0.8;
-      g.globalAlpha = 0.18;
-      PINS.forEach((v, i) => i && i !== a && arc(v, 1));
-      g.lineWidth = dpr * 1.2;
-      g.globalAlpha = 0.9;
-      arc(PINS[a], 1 - (1 - Math.min(1, (now - since) / 900)) ** 3);
+      PINS.forEach((v, i) => {
+        if (!i || i === a) return;
+        g.globalAlpha = 0.4 + (i === prev ? 0.6 * leave : 0);
+        arc(v, 1);
+      });
+      if (a) {
+        g.lineWidth = dpr * 1.6;
+        g.globalAlpha = 1;
+        arc(PINS[a], grow);
+      }
 
-      // pins: Germany pulses and is always named; the highlighted market is named beside its pin
+      // pins: Germany pulses and is always named; the highlighted market is named once its route lands
       g.textBaseline = "middle";
       const hubX = proj(HUB)[0];
       PINS.forEach((v, i) => {
         const [x, y, z] = proj(v);
         if (z <= 0) return;
-        const lit = i === 0 || i === a;
-        g.globalAlpha = lit ? 1 : 0.6;
+        const named = i === 0 ? 1 : i === a ? arrive : i === prev ? leave : 0;
+        g.globalAlpha = 0.7 + 0.3 * named;
+        g.fillStyle = blue;
         g.beginPath();
-        g.arc(x, y, dpr * (i === 0 ? 3.6 : lit ? 3 : 2.2), 0, Math.PI * 2);
+        g.arc(x, y, dpr * (i === 0 ? 3.6 : 2.2 + 0.8 * named), 0, Math.PI * 2);
         g.fill();
-        if (!lit) return;
+        if (!named) return;
+        g.globalAlpha = named;
+        // a paper ring keeps a lit pin clear of the dots around it
+        g.strokeStyle = colour;
+        g.lineWidth = dpr;
+        g.stroke();
         const left = i !== 0 && x < hubX; // western markets read to the left, clear of Germany
         const tx = x + (left ? -9 : 9) * dpr;
         g.textAlign = left ? "right" : "left";
         g.font = `${i === 0 ? 700 : 500} ${12 * dpr}px ${family}`;
         // a halo in the background colour knocks the dots out from under the name
-        g.strokeStyle = parseInt(colour.slice(colour.indexOf("(") + 1)) > 128 ? "#111111" : "#f0f0f0";
+        g.strokeStyle = ground;
         g.lineWidth = 4 * dpr;
         g.lineJoin = "round";
         g.strokeText(company.countries[i].name, tx, y);
-        g.strokeStyle = colour;
+        g.fillStyle = colour;
         g.fillText(company.countries[i].name, tx, y);
         if (i !== 0) return;
         const pulse = (now % 2000) / 2000;
         g.globalAlpha = 1 - pulse;
-        g.lineWidth = dpr;
+        g.strokeStyle = blue;
+        g.lineWidth = dpr * 1.2;
         g.beginPath();
         g.arc(x, y, dpr * (5 + pulse * 16), 0, Math.PI * 2);
         g.stroke();
       });
       g.globalAlpha = 1;
     };
+
+    // drag to spin it; let go and the turn glides back to the market in focus
+    const down = (e: PointerEvent) => {
+      drag = { x: e.clientX, y: e.clientY };
+      cv.setPointerCapture(e.pointerId);
+    };
+    const move = (e: PointerEvent) => {
+      if (!drag) return;
+      const deg = 180 / cv.clientWidth;
+      lon -= (e.clientX - drag.x) * deg;
+      lat = Math.max(-80, Math.min(80, lat + (e.clientY - drag.y) * deg));
+      drag = { x: e.clientX, y: e.clientY };
+      vLat = vLon = 0;
+    };
+    const up = () => (drag = null);
+    cv.addEventListener("pointerdown", down);
+    cv.addEventListener("pointermove", move);
+    cv.addEventListener("pointerup", up);
+    cv.addEventListener("pointercancel", up);
 
     // only animate while the section is on screen
     const io = new IntersectionObserver(([e]) => {
@@ -400,8 +471,12 @@ function Globe({ turn, active }: { turn: MotionValue<number>; active: number }) 
     return () => {
       io.disconnect();
       cancelAnimationFrame(raf);
+      cv.removeEventListener("pointerdown", down);
+      cv.removeEventListener("pointermove", move);
+      cv.removeEventListener("pointerup", up);
+      cv.removeEventListener("pointercancel", up);
     };
-  }, [turn]);
+  }, []);
 
   return <canvas ref={ref} className="globe" aria-hidden />;
 }

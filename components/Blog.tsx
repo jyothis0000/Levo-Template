@@ -8,7 +8,7 @@ export default function Blog() {
         <Lines />
         <div className="head cols">
           <div className="head-left">
-            <Label title="Insights" sub="المدونة" />
+            <Label title="Insights" />
             <p className="muted">Notes from the show floor — design, build and the shows we work at.</p>
           </div>
           <SplitTitle className="giant" text="Insights." />
@@ -34,7 +34,7 @@ export default function Blog() {
         <Lines />
         <div className="cols profile-row">
           <div className="head-left">
-            <Label title="Our profile" sub="ملفنا" />
+            <Label title="Our profile" />
             <h3 className="profile-title">Company Profile</h3>
             <p className="muted">Projects, capabilities and clients — the Levo company profile 2026.</p>
           </div>
@@ -45,6 +45,10 @@ export default function Blog() {
               <input id="profile-email" name="email" type="email" required placeholder="you@company.com" />
               <button type="submit" aria-label="Request profile">→</button>
             </div>
+            {/* GDPR Art. 13: say what happens to the address where it is collected */}
+            <p className="form-note">
+              We use your address only to send the profile — no newsletter. <a href="/home1/privacy">Privacy notice</a>
+            </p>
           </form>
           <p className="profile-note muted">
             Prefer to read it now?{" "}

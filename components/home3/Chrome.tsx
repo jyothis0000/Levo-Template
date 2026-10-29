@@ -2,7 +2,7 @@
 
 import { animate, AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
 import type { AnimationSequence } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { finishIntro, lock, useIntroDone } from "@/components/home2/Chrome";
 import { contact, nav, preloader } from "@/lib/home3";
 
@@ -46,9 +46,10 @@ export function Preloader() {
       ...wraps.map((w, k): AnimationSequence[number] => [w, { x: ["0%", "-100%"] }, { duration: 1.2, ease: IN, at: 2 + k * 0.1 }]),
       [$(".pl3-desc"), { opacity: [1, 0] }, { duration: 1.2, ease: IN, at: 2 }],
       [$(".pl3-title span"), { x: ["0%", "100%"] }, { duration: 1.2, ease: IN, at: 2.2 }],
-      [root, { backgroundColor: ["#f0f0f0", "#0f0f0f"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
-      [$(".pl3-cap"), { color: ["#0f0f0f", "#f0f0f0"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
-      [Array.from(root.querySelectorAll(".pl3-lines i")), { backgroundColor: ["rgba(15,15,15,0.08)", "rgba(240,240,240,0.1)"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
+      // the dark beat is the logo's navy
+      [root, { backgroundColor: ["#f0f0f0", "#022439"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
+      [$(".pl3-cap"), { color: ["#022439", "#f0f0f0"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
+      [Array.from(root.querySelectorAll(".pl3-lines i")), { backgroundColor: ["rgba(2,36,57,0.08)", "rgba(240,240,240,0.1)"] }, { duration: 0.4, ease: OUT, at: 3.4 }],
       [Array.from(root.querySelectorAll(".pl3-anim, .pl3-end")), { opacity: [0, 1] }, { duration: 0.4, ease: OUT, at: 3.4 }],
       [Array.from(root.querySelectorAll(".pl3-plash i")), { scaleY: [0, 1] }, { duration: 0.8, ease: IN_OUT, at: 4.4 }],
       [root, { opacity: [1, 0] }, { duration: 0.4, ease: IN, at: 5.2 }],
@@ -123,7 +124,37 @@ export function Wordmark() {
   );
 }
 
-/** Sticky column-aligned navigation with tick marks and a page-progress rule; "+" opens the menu. */
+const L_STOPS = ["#022439", "#013759", "#004b7b", "#005b95", "#0066a8", "#006db4", "#0070b8"];
+const L_AT = [0, 0.13, 0.3, 0.46, 0.64, 0.81, 1];
+
+/**
+ * The logo's "L", shape for shape from logo-black.svg: a bar with its foot cut on the diagonal, and the foot.
+ * Each part carries the logo's own gradient, resolved here from its transforms to plain lines (navy at the bottom).
+ */
+export function LogoL({ solid = false }: { solid?: boolean }) {
+  const id = useId().replace(/[^a-zA-Z0-9]/g, ""); // more than one on the page, so gradient ids must not clash
+  const stops = L_STOPS.map((c, k) => <stop key={c} offset={L_AT[k]} stopColor={c} />);
+  // solid: one flat colour from the CSS (.l-solid) instead of the gradients
+  const fill = (part: string) => (solid ? undefined : `url(#${id}${part})`);
+  return (
+    <svg viewBox="0 0 602.47 1060.41" className={solid ? "l-solid" : undefined} aria-hidden>
+      {!solid && (
+        <defs>
+          <linearGradient id={`${id}b`} x1="100.34" y1="831.76" x2="100.34" y2="12.34" gradientUnits="userSpaceOnUse">
+            {stops}
+          </linearGradient>
+          <linearGradient id={`${id}f`} x1="406.48" y1="1035.68" x2="406.48" y2="841.04" gradientUnits="userSpaceOnUse">
+            {stops}
+          </linearGradient>
+        </defs>
+      )}
+      <polygon points="197.75 1060.41 0 882.83 0 0 197.75 0" fill={fill("b")} />
+      <rect x="195.96" y="852.38" width="406.51" height="208.02" fill={fill("f")} />
+    </svg>
+  );
+}
+
+/** Sticky column-aligned navigation with tick marks and a page-progress rule; the logo's "L" opens the menu. */
 export function Nav() {
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -140,10 +171,6 @@ export function Nav() {
   return (
     <>
       <header className="nav">
-        <button className={`plus ${open ? "is-open" : ""}`} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
-          <i />
-          <i />
-        </button>
         {nav.map((l) => (
           <a key={l.href} href={l.href} className="nav-link" style={{ left: `${(l.col / 8) * 100}%` }}>
             {l.label}
@@ -151,6 +178,21 @@ export function Nav() {
         ))}
         <motion.span className="nav-progress" style={{ scaleX: progress }} />
       </header>
+      <div className="nav nav-tone" aria-hidden>
+        {nav.map((l) => (
+          <span key={l.href} className="nav-link" style={{ left: `${(l.col / 8) * 100}%` }}>
+            {l.label}
+          </span>
+        ))}
+        <motion.span className="nav-progress" style={{ scaleX: progress }} />
+      </div>
+      <div className="nav-mark">
+        <button className={`plus ${open ? "is-open" : ""}`} onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Menu"} aria-expanded={open}>
+          <LogoL />
+          <i />
+          <i />
+        </button>
+      </div>
 
       <AnimatePresence>
         {open && (
@@ -204,19 +246,25 @@ export function Invert() {
     document.documentElement.classList.toggle("inverted", on);
   }, [on]);
   return (
-    <button
-      className="invert"
-      onClick={() => {
-        const v = !on;
-        setOn(v);
-        try {
-          localStorage.setItem("levo-invert", v ? "1" : "0");
-        } catch {}
-      }}
-    >
-      <i />
-      invert color
-    </button>
+    <>
+      <button
+        className="invert"
+        onClick={() => {
+          const v = !on;
+          setOn(v);
+          try {
+            localStorage.setItem("levo-invert", v ? "1" : "0");
+          } catch {}
+        }}
+      >
+        <i />
+        invert color
+      </button>
+      <span className="invert invert-tone" aria-hidden>
+        <i />
+        invert color
+      </span>
+    </>
   );
 }
 

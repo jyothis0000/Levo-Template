@@ -11,7 +11,7 @@ export default function Features() {
       <Lines />
       <div className="head cols">
         <div className="head-left">
-          <Label title="Features" sub="مميزاتنا" />
+          <Label title="Features" />
           <p className="muted">{features.intro}</p>
         </div>
         <SplitTitle className="giant" text="How We Work" />

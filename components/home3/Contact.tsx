@@ -3,16 +3,20 @@
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { contact } from "@/lib/home3";
-import { ease } from "./Chrome";
+import { ease, LogoL } from "./Chrome";
 
 /**
- * A light "+" grows out of the dark until its centre becomes the page, and the contact
- * details settle inside it — the reference's cross transition, with Levo's mark-sign.
+ * The logo's "L" grows out of the dark from the middle of its bar until the bar becomes the page, turning from the
+ * logo's gradient to paper on the way, and the contact details settle inside it — the reference's cross transition,
+ * with Levo's own mark.
  */
 export function Contact() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const scale = useTransform(p, [0, 0.55], [0.32, 7.5]);
+  // first the mark rises to full size so it reads as the logo; then, since the bar is narrow (a sixth of the mark's
+  // height), it scales far further than the cross did to fill the width
+  const scale = useTransform(p, [0, 0.15, 0.55], [0.32, 1, 24]);
+  const solid = useTransform(p, [0.17, 0.35], [0, 1]);
   const bodyO = useTransform(p, [0.42, 0.6], [0, 1]);
   const bodyY = useTransform(p, [0.42, 0.6], ["3rem", "0rem"]);
   const [more, setMore] = useState(false);
@@ -20,9 +24,11 @@ export function Contact() {
   return (
     <section ref={ref} className="ct" id="contact">
       <div className="ct-sticky">
-        <motion.div className="ct-plus" style={{ scale }} aria-hidden>
-          <i />
-          <i />
+        <motion.div className="ct-mark" style={{ scale }} aria-hidden>
+          <LogoL />
+          <motion.div className="ct-solid" style={{ opacity: solid }}>
+            <LogoL solid />
+          </motion.div>
         </motion.div>
 
         <motion.div className="ct-body" style={{ opacity: bodyO, y: bodyY }}>

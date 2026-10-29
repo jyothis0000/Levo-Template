@@ -1,7 +1,11 @@
 /* ───────── /home3 · after santalarch.com — Swiss grid, 8 columns ───────── */
 :root {
+  /* the logo's colours: its navy is the ink, its blue the accent, and the "L" carries the gradient between them */
+  --navy: #022439;
+  --blue: #0070b8;
+  --logo: linear-gradient(to top right, #022439, #013759 13%, #004b7b 30%, #005b95 46%, #0066a8 64%, #006db4 81%, #0070b8);
   --paper: #f0f0f0;
-  --ink: #111111;
+  --ink: var(--navy);
   --mute: #8a8a8a;
   --pad: 1.6rem;
   --col: 12.5%;
@@ -10,8 +14,13 @@
 
 /* the reference's "invert color": every surface swaps */
 html.inverted {
-  --paper: #111111;
+  --paper: var(--navy);
   --ink: #f0f0f0;
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
 }
 
 *,
@@ -133,7 +142,7 @@ button {
   inset: 0;
   z-index: 100;
   background: #f0f0f0;
-  color: #0f0f0f;
+  color: var(--navy);
 }
 
 .pl3-content {
@@ -180,7 +189,7 @@ button {
 .pl3-wrap p::after,
 .pl3-lines i {
   content: "";
-  background: rgba(15, 15, 15, 0.08);
+  background: rgba(2, 36, 57, 0.08);
 }
 
 .pl3-wrap p::after {
@@ -299,6 +308,14 @@ button {
   display: inline-block;
 }
 
+/* as in the logo: the "L" in the blue gradient, "EVO" in ink */
+.wm-mask:first-child > span {
+  background: var(--logo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .nav {
   position: sticky;
   top: 0;
@@ -308,6 +325,26 @@ button {
   mix-blend-mode: difference; /* white text that inverts over whatever is beneath */
   font-size: 1.4rem;
   font-weight: 500;
+}
+
+/*
+ * "difference" over the navy surfaces leaves the text peach (its complement). A grey copy laid on top with a
+ * "saturation" blend keeps the luminance and drops the hue, so the nav and the invert switch read white or navy-dark.
+ */
+.nav-tone,
+.invert-tone {
+  mix-blend-mode: saturation;
+  color: #808080;
+  pointer-events: none;
+}
+
+.nav-tone {
+  margin-top: -4.6rem;
+  z-index: 51;
+}
+
+.invert-tone {
+  z-index: 61;
 }
 
 .nav::after {
@@ -358,37 +395,61 @@ html.menu-open .nav::after {
   transform-origin: left;
 }
 
+/* the menu button is the logo's "L", in a layer of its own above the blended nav so it keeps the logo's colours */
+.nav-mark {
+  position: sticky;
+  top: 0;
+  z-index: 52;
+  height: 4.6rem;
+  margin-top: -4.6rem;
+  pointer-events: none;
+}
+
 .plus {
   position: absolute;
   left: var(--pad);
-  top: 1.2rem;
-  width: 1.8rem;
-  height: 1.8rem;
-  transition: transform 0.6s var(--ease);
+  top: 0.9rem;
+  height: 2.6rem;
+  aspect-ratio: 602.47 / 1060.41;
+  pointer-events: auto;
 }
 
+.plus svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s, transform 0.6s var(--ease);
+}
+
+.plus:hover svg {
+  transform: translateY(-0.2rem);
+}
+
+/* open, the "L" gives way to a close cross */
 .plus i {
   position: absolute;
-  background: currentColor;
+  left: 50%;
+  top: 50%;
+  width: 2.2rem;
+  height: 0.4rem;
+  margin: -0.2rem 0 0 -1.1rem;
+  background: var(--paper);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.6s var(--ease);
 }
 
-.plus i:first-child {
-  left: 0;
-  right: 0;
-  top: 0.6rem;
-  height: 0.6rem;
+.plus.is-open svg {
+  opacity: 0;
+  transform: scale(0.6);
 }
 
-.plus i:last-child {
-  top: 0;
-  bottom: 0;
-  left: 0.6rem;
-  width: 0.6rem;
-}
-
-.plus:hover,
-.plus.is-open {
+.plus.is-open i {
+  opacity: 1;
   transform: rotate(45deg);
+}
+
+.plus.is-open i:last-of-type {
+  transform: rotate(-45deg);
 }
 
 .menu {
@@ -610,10 +671,6 @@ html.menu-open .nav::after {
   display: block;
 }
 
-html.inverted .ph-canvas {
-  filter: invert(1);
-}
-
 .ph-dive {
   opacity: 0;
 }
@@ -626,7 +683,7 @@ html.inverted .ph-canvas {
 }
 
 .pr-panel.is-dark {
-  background: #111;
+  background: var(--navy);
   color: #f0f0f0;
 }
 
@@ -664,7 +721,6 @@ html.inverted .ph-canvas {
 }
 
 .pr-index,
-.ly3-index,
 .sv-index {
   position: absolute;
   bottom: 1.4rem;
@@ -680,7 +736,6 @@ html.inverted .ph-canvas {
 }
 
 .pr-index span:first-child,
-.ly3-index span:first-child,
 .sv-index span:first-child {
   margin-right: 1.6rem;
 }
@@ -751,89 +806,6 @@ html.inverted .ph-canvas {
   font-size: 1.6rem;
   line-height: 1.28;
   letter-spacing: -0.02em;
-}
-
-/* ───────── exploded layers ───────── */
-.ly3 {
-  height: 440vh;
-}
-
-.ly3-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.ly3-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.ly3-lines line {
-  stroke: var(--ink);
-  stroke-opacity: 0.25;
-  stroke-width: 0.6;
-  vector-effect: non-scaling-stroke;
-  fill: none;
-}
-
-.ly3-stage {
-  position: absolute;
-  left: 25%;
-  width: 37.5%;
-  top: 9vh;
-  bottom: 9vh;
-  perspective: 1600px;
-}
-
-.ly3-stack {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-}
-
-.ly {
-  position: absolute;
-  left: 22%;
-  top: 4%;
-  width: 56%;
-  height: 92%;
-  overflow: hidden;
-  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.18);
-  background: #222;
-}
-
-.ly img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ly3-copy {
-  position: absolute;
-  left: 75%;
-  top: 34%;
-  width: 22%;
-}
-
-.ly3-copy h3 {
-  font-size: 4.4rem;
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  margin-bottom: 2.4rem;
-}
-
-.ly3-copy p {
-  font-size: 1.6rem;
-  line-height: 1.3;
-}
-
-.ly3-index {
-  left: 87.5%;
 }
 
 /* ───────── works ───────── */
@@ -1068,7 +1040,7 @@ html.inverted .ph-canvas {
 }
 
 html.inverted .ps-list > li {
-  border-color: rgba(17, 17, 17, 0.12);
+  border-color: rgba(2, 36, 57, 0.12);
 }
 
 .ps-list button {
@@ -1195,8 +1167,9 @@ html.inverted .ps-list > li {
   opacity: 1;
 }
 
+/* about half a screen of scroll per market, so each turn of the globe has time to land */
 .co-world {
-  height: 220vh;
+  height: 520vh;
 }
 
 .co-sticky {
@@ -1231,6 +1204,17 @@ html.inverted .ps-list > li {
   max-width: 48rem;
   aspect-ratio: 1;
   color: var(--paper);
+  --route: #59a2d1; /* the logo blue lifted 35% towards white, so routes read on the navy */
+  cursor: grab;
+  touch-action: pan-y; /* sideways drags spin it; vertical swipes still scroll the page */
+}
+
+.globe:active {
+  cursor: grabbing;
+}
+
+html.inverted .globe {
+  --route: var(--blue);
 }
 
 .co-countries {
@@ -1247,7 +1231,7 @@ html.inverted .ps-list > li {
 
 .co-countries li {
   opacity: 0.3;
-  transition: opacity 0.6s;
+  transition: opacity 1s var(--ease);
 }
 
 .co-countries li.is-on {
@@ -1273,33 +1257,28 @@ html.inverted .ps-list > li {
   overflow: hidden;
 }
 
-.ct-plus {
+/* the "L" is pinned by the middle of its bar (16.4% across, 41.6% down) to the middle of the screen and grows from there */
+.ct-mark {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 60vh;
   height: 60vh;
-  margin: -30vh 0 0 -30vh;
+  aspect-ratio: 602.47 / 1060.41;
+  translate: -16.4% -41.6%;
+  transform-origin: 16.4% 41.6%;
   will-change: transform;
 }
 
-.ct-plus i {
+.ct-mark svg,
+.ct-solid {
   position: absolute;
-  background: var(--paper);
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.ct-plus i:first-child {
-  left: 0;
-  right: 0;
-  top: 33.33%;
-  height: 33.34%;
-}
-
-.ct-plus i:last-child {
-  top: 0;
-  bottom: 0;
-  left: 33.33%;
-  width: 33.34%;
+.l-solid {
+  fill: var(--paper);
 }
 
 .ct-body {
@@ -1384,7 +1363,7 @@ html.inverted .ps-list > li {
   right: 0;
   bottom: 0;
   height: 9.5vw;
-  background: #111;
+  background: var(--ink);
   z-index: -1;
 }
 
@@ -1416,9 +1395,19 @@ html.inverted .ps-list > li {
   font-size: 19vw;
   line-height: 0.76;
   letter-spacing: -0.02em;
-  color: #f0f0f0;
-  mix-blend-mode: difference; /* dark on the light field, light on the dark band */
   padding-bottom: 1.6vw;
+}
+
+/* ink on the light field, paper where the letters cross the band (its top sits 9.5vw − 1.6vw above their foot) */
+.ft-mark span {
+  background: linear-gradient(var(--ink) calc(100% - 7.9vw), var(--paper) 0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ft-mark span:first-child {
+  background-image: linear-gradient(transparent calc(100% - 7.9vw), var(--paper) 0), var(--logo);
 }
 
 /* ───────── legal pages ───────── */
@@ -1582,25 +1571,6 @@ html.inverted .ps-list > li {
     font-size: 2.8rem;
   }
 
-  .ly3-stage {
-    left: 4%;
-    width: 92%;
-    top: 6vh;
-    bottom: 46vh;
-  }
-
-  .ly3-copy {
-    left: var(--pad);
-    right: var(--pad);
-    width: auto;
-    top: 58%;
-  }
-
-  .ly3-copy h3 {
-    font-size: 3.2rem;
-  }
-
-  .ly3-index,
   .sv-index {
     left: var(--pad);
   }

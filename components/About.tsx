@@ -1,15 +1,26 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { about, brand } from "@/lib/content";
 import { Label, Lines, Reveal, SplitTitle } from "./ui";
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const yA = useTransform(scrollYProgress, [0, 1], [120, -160]);
-  const yB = useTransform(scrollYProgress, [0, 1], [220, -260]);
+  // on phones the cards sit in the text flow, so only there they keep to a small drift
+  const [wide, setWide] = useState(true);
+  useEffect(() => {
+    const m = matchMedia("(min-width: 810px)");
+    const on = () => setWide(m.matches);
+    on();
+    m.addEventListener("change", on);
+    return () => m.removeEventListener("change", on);
+  }, []);
+  // the cards start below their place and climb through it at ~1.7–2× the scroll, rising up out of the section's
+  // bottom edge and away over the top
+  const yA = useTransform(scrollYProgress, [0, 1], wide ? ["55vh", "-80vh"] : ["40px", "-40px"]);
+  const yB = useTransform(scrollYProgress, [0, 1], wide ? ["80vh", "-120vh"] : ["40px", "-40px"]);
   const rA = useTransform(scrollYProgress, [0, 1], [-4, 3]);
   const rB = useTransform(scrollYProgress, [0, 1], [4, -3]);
 
@@ -31,7 +42,7 @@ export default function About() {
       </motion.figure>
 
       <div className="about-center">
-        <Label title="Who we are" sub="من نحن" />
+        <Label title="Who we are" />
         <SplitTitle as="h2" className="about-statement" text={about.statement} />
         <Reveal className="about-quote" delay={0.2}>
           <p>{about.quote}</p>

@@ -1,4 +1,5 @@
-// All copy and imagery below comes from levoexhibitions.com (see content-notes.md).
+// All copy and imagery below comes from levoexhibitions.com (see content-notes.md), framed for European exhibitors
+// like /home2 and /home3.
 const img = (f: string) => `/images/${f}`;
 
 export const brand = {
@@ -13,12 +14,13 @@ export const brand = {
   profile: "https://levoexhibitions.com/wp-content/uploads/2026/07/levo_company_profile_2026.pdf",
 };
 
+// page-qualified, so they also work from the privacy and legal pages
 export const nav = [
-  { label: "Who we are", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "#contact" },
+  { label: "Who we are", href: "/home1#about" },
+  { label: "Services", href: "/home1#services" },
+  { label: "Projects", href: "/home1#projects" },
+  { label: "Process", href: "/home1#process" },
+  { label: "Contact", href: "/home1#contact" },
 ];
 
 export const contact = {
@@ -30,6 +32,7 @@ export const contact = {
   address: "1104, 11th Floor, Latifa Tower, Sheikh Zayed Road, opposite Dubai World Trade Centre, Dubai, UAE",
   workshop: "FAB compound, building 16, workshop 5A/5B, Dubai Investment Park 1",
   hours: "Mon – Fri · 09:00 – 18:00",
+  lead: "Tell us your show, your space and your timeline — a project manager replies within one working day.",
   socials: [
     { label: "Fb", href: "https://www.facebook.com/levo.advt/" },
     { label: "Ig", href: "https://www.instagram.com/levoexhibitions/" },
@@ -45,7 +48,7 @@ export const hero = {
   services: ["Exhibition stands", "Events & conferences", "Interior & fit out"],
   slots: { label: "Now booking", value: "Gulfood 2027" },
   intro:
-    "We design, engineer and build custom exhibition stands in Dubai — for energy majors, global manufacturers and national pavilions at the region's biggest trade shows.",
+    "We design, engineer and build custom exhibition stands for European brands — at the Gulf's biggest trade shows and across Europe through our partner network.",
   cta: "Request a stand design",
   clientCount: "40+",
 };
@@ -61,13 +64,13 @@ export const clients = clientNames.map((name) => ({
 
 export const about = {
   meta: "3,000+ projects",
-  statement: "Custom exhibition stands across Dubai, Abu Dhabi and the wider Middle East — designed, built and installed in-house.",
+  statement: "Custom exhibition stands for European exhibitors, in the Gulf and across Europe — designed, built and installed by one team.",
   quote:
     "From concept development and 3D design to engineering, fabrication, installation and dismantling — every stage runs in-house, with expertise across carpentry, steel, electrical, graphics, fabrics and logistics.",
   person: { name: "The Levo team", role: "Project managers & engineers", img: img("favicon-site-icon.png") },
   images: [
     { src: img("home-custom-exhibition-stand-with-illuminated-branding-meeting-area-and-product-display-shelves.jpeg"), alt: "Custom stand" },
-    { src: img("home-double-decker-custom-exhibition-stand-with-led-display-reception-counter-and-meeting-areas.jpeg"), alt: "Double decker" },
+    { src: img("project-035-goldpac.webp"), alt: "Goldpac stand" },
   ],
 };
 
@@ -86,7 +89,6 @@ export const servicesIntro = {
 export const services = [
   {
     title: "Exhibition Stands",
-    sub: "أجنحة المعارض",
     text: "The one-stop shop for your exhibition stand — a unique booth conceptualised around your participation goals, built with high-quality finish and materials, and supported on site for the whole show.",
     note: "10,000+ sqm of exhibition space built",
     tags: ["Custom stands", "Double deckers", "Pavilions", "3D design", "Fabrication", "Installation"],
@@ -94,7 +96,6 @@ export const services = [
   },
   {
     title: "Events & Conferences",
-    sub: "الفعاليات والمؤتمرات",
     text: "Holistic event services at any range or scale — stage and tent works, custom furniture, audio and video, photography, hosts, catering, invitations and post-event support.",
     note: "Stage decoration & conference design",
     tags: ["Stage & tent works", "AV systems", "Furniture", "Photography", "Hosts", "Giveaways"],
@@ -102,7 +103,6 @@ export const services = [
   },
   {
     title: "Mall Kiosks",
-    sub: "الأكشاك",
     text: "Kiosks and specialised booths for high-footfall malls, public areas and events — designed, manufactured, installed and maintained by the same team.",
     note: "End-to-end kiosk services",
     tags: ["Kiosk design", "Manufacturing", "Installation", "Maintenance", "Hardware", "Branding"],
@@ -110,7 +110,6 @@ export const services = [
   },
   {
     title: "Interior & Fit Out",
-    sub: "التصميم الداخلي",
     text: "Your single point of contact for interior design, production and refurbishment — offices, shops, schools and universities, with in-house joinery and a dedicated after-care team.",
     note: "Civil Defence & Fire Dept. formalities included",
     tags: ["Office fit-out", "Retail", "Joinery", "System furniture", "AV rooms", "Refurbishment"],
@@ -121,19 +120,20 @@ export const services = [
 export const portfolioIntro = {
   text: "Real stands, real shows, real square metres — judge the work on evidence rather than adjectives.",
   more: "Every project designed and delivered by Levo, with the show, venue, stand size and year stated.",
-  reelText: "Gulfood, ADIPEC, GITEX, Beautyworld, Dubai Airshow — and the floors beyond the UAE.",
+  reelText: "SIAL Paris and Piscine Global Lyon, Gulfood, GITEX, Dubai Airshow — for exhibitors from across Europe.",
   reel: "Built ©26",
   count: 220,
 };
 
+// the European work leads: SIAL Paris and the Czech national pavilion are in the featured four
 export const projects = [
-  { client: "HSA", show: "Gulfood", size: "456 sqm", year: 2026, venue: "Dubai World Trade Centre", img: img("project-006-hsa.webp") },
   { client: "Saudi Made", show: "SIAL Paris", size: "915 sqm", year: 2022, venue: "Paris Nord Villepinte", img: img("project-029-saudi-made.webp") },
+  { client: "HSA", show: "Gulfood", size: "456 sqm", year: 2026, venue: "Dubai World Trade Centre", img: img("project-006-hsa.webp") },
   { client: "GSI", show: "Gulfood", size: "114 sqm", year: 2026, venue: "Dubai Exhibition Centre, Expo City", img: img("project-009-gsi.webp") },
-  { client: "Petronas", show: "ADIPEC", size: "117 sqm", year: 2018, venue: "ADNEC, Abu Dhabi", img: img("project-119-petronas.webp") },
+  { client: "Czech Ministry of Defence", show: "Dubai Airshow · national pavilion", size: "136.5 sqm", year: 2025, venue: "DWC, Maktoum Airport", img: img("project-031-ministry-of-defence-of-the-czech-republic.webp") },
   // "More cases" list
   { client: "GERAB", show: "ADIPEC · 205 sqm double decker", size: "205 sqm", year: 2025, venue: "ADNEC, Abu Dhabi", img: img("project-022-gerab.webp") },
-  { client: "Czech Ministry of Defence", show: "Dubai Airshow · national pavilion", size: "136.5 sqm", year: 2025, venue: "DWC, Maktoum Airport", img: img("project-031-ministry-of-defence-of-the-czech-republic.webp") },
+  { client: "Petronas", show: "ADIPEC", size: "117 sqm", year: 2018, venue: "ADNEC, Abu Dhabi", img: img("project-119-petronas.webp") },
   { client: "Logicom", show: "GITEX Technology", size: "210 sqm", year: 2023, venue: "Dubai World Trade Centre", img: img("project-144-logicom.webp") },
   { client: "Coretrax", show: "ADIPEC · two-storey stand", size: "92 sqm", year: 2022, venue: "ADNEC, Abu Dhabi", img: img("project-120-coretrax.webp") },
   { client: "Veritas", show: "GITEX Technology", size: "75.5 sqm", year: 2019, venue: "Dubai World Trade Centre", img: img("project-151-veritas.webp") },
@@ -244,7 +244,7 @@ export const features = {
       kicker: "Space built",
       badge: "",
       title: "Square metres of exhibition space",
-      text: "Across the UAE, Saudi Arabia, the wider GCC, Europe, Asia, India and the USA.",
+      text: "Across Europe, the UAE, Saudi Arabia, the wider GCC, Asia, India and the USA.",
       img: img("project-020-petrotech.webp"),
       value: 10000,
       suffix: "+",
@@ -257,42 +257,6 @@ export const features = {
       img: img("about-veritas-double-decker-exhibition-stand.webp"),
       value: 0,
       suffix: "",
-    },
-  ],
-};
-
-export const packages = {
-  intro: "Three ways we build — sized by the largest stand we've delivered in each.",
-  plans: [
-    {
-      title: "Custom Stand",
-      sub: "جناح مخصص",
-      text: "A unique stand conceptualised around your participation goals and built with high-quality finish and materials.",
-      size: 456,
-      badge: "",
-      includes: ["3D concept & walk-through", "Engineering & approvals", "Fabrication in our workshop", "Installation & dismantling"],
-      extras: ["Interactive technology", "On-site support team"],
-      time: "Brief us ten weeks before the show",
-    },
-    {
-      title: "Double Decker",
-      sub: "جناح بطابقين",
-      text: "Two-level stands for the energy and aviation shows, with structural engineering and independent sign-off.",
-      size: 205,
-      badge: "Routine for us",
-      includes: ["Structural drawings", "Load calculations", "Rigging & electrical layouts", "Built and checked before it ships"],
-      extras: ["Organiser submission months ahead", "Storage of reusable elements", "Dedicated project manager"],
-      time: "Brief us six months ahead",
-    },
-    {
-      title: "National Pavilion",
-      sub: "جناح وطني",
-      text: "Official pavilions for governments and trade bodies — Poland, Belarus, the Czech Republic and Malaysia.",
-      size: 915,
-      badge: "",
-      includes: ["Pavilion planning", "Organiser formalities", "Graphics, fabrics & print", "Daily show support"],
-      extras: ["Partner network abroad", "Same project managers end to end"],
-      time: "Six months ahead — twelve for IDEX & Airshow",
     },
   ],
 };
@@ -338,7 +302,7 @@ export const belief = {
 export const faqs = [
   {
     q: "Who is Levo Exhibitions?",
-    a: "An exhibition stand design and build company based in Dubai. It trades as Levo Advertising LLC, a division of the Alams Group founded in 1978, and has completed more than 3,000 projects.",
+    a: "An exhibition stand design and build company based in Dubai, building for European exhibitors in the Gulf and across Europe. It trades as Levo Advertising LLC, a division of the Alams Group founded in 1978, and has completed more than 3,000 projects.",
   },
   {
     q: "Can you build double decker stands?",
@@ -353,12 +317,16 @@ export const faqs = [
     a: "Often not — the constraint is the organiser's approval deadline rather than our production capacity. Our workshop at Dubai Investment Park can fast-track fabrication using modular structural systems with custom cladding and graphics.",
   },
   {
-    q: "Do you build outside the UAE?",
-    a: "Yes — across Saudi Arabia, Qatar, Europe, Asia, India and the United States. Design, engineering and project management stay with the Dubai team; fabrication runs through a vetted local partner network.",
+    q: "Do you build in Europe?",
+    a: "Yes — 915 sqm for Saudi Made at SIAL Paris and Phnix at Piscine Global, Lyon, through a vetted partner network, as well as across Saudi Arabia, Qatar, Asia, India and the United States. Design, engineering and project management stay with the same team throughout.",
+  },
+  {
+    q: "How do you handle my data?",
+    a: "Under the EU GDPR. This site sets no cookies, runs no analytics and loads nothing from third parties. What you send us is used only to answer your enquiry, and you can ask us at any time what we hold, or have it corrected or deleted — see our privacy notice.",
   },
   {
     q: "How do I start a project?",
-    a: "Message us on WhatsApp at +971 55 552 5709 or use the form below. Share your show, stand size and timeline, and a project manager comes back within one working day.",
+    a: "E-mail info@levoworld.com or call +971 4 359 3600. Share your show, stand size and timeline, and a project manager comes back within one working day. WhatsApp works too, under Meta's own privacy terms.",
   },
 ];
 export const faqImage = img("project-144-logicom.webp");
@@ -383,5 +351,3 @@ export const posts = [
     img: img("project-008-uruguay-national-pavilion.webp"),
   },
 ];
-
-export const shows = ["ADIPEC", "GITEX Global", "Gulfood", "WHX Dubai", "IDEX", "Dubai Airshow", "Beautyworld", "Intersec", "Big 5", "Arab Health"];
