@@ -11,7 +11,6 @@ export const brand = {
   script: "built by experience.",
   est: "1978",
   group: "A division of the Alams Group",
-  profile: "https://levoexhibitions.com/wp-content/uploads/2026/07/levo_company_profile_2026.pdf",
 };
 
 // page-qualified, so they also work from the privacy and legal pages
@@ -125,12 +124,13 @@ export const portfolioIntro = {
   count: 220,
 };
 
-// the European work leads: SIAL Paris and the Czech national pavilion are in the featured four
+// the European work is in the featured four, led by the Czech national pavilion; Saudi Made goes last, as its stand
+// carries Arabic signage
 export const projects = [
-  { client: "Saudi Made", show: "SIAL Paris", size: "915 sqm", year: 2022, venue: "Paris Nord Villepinte", img: img("project-029-saudi-made.webp") },
+  { client: "Czech Ministry of Defence", show: "Dubai Airshow · national pavilion", size: "136.5 sqm", year: 2025, venue: "DWC, Maktoum Airport", img: img("project-031-ministry-of-defence-of-the-czech-republic.webp") },
   { client: "HSA", show: "Gulfood", size: "456 sqm", year: 2026, venue: "Dubai World Trade Centre", img: img("project-006-hsa.webp") },
   { client: "GSI", show: "Gulfood", size: "114 sqm", year: 2026, venue: "Dubai Exhibition Centre, Expo City", img: img("project-009-gsi.webp") },
-  { client: "Czech Ministry of Defence", show: "Dubai Airshow · national pavilion", size: "136.5 sqm", year: 2025, venue: "DWC, Maktoum Airport", img: img("project-031-ministry-of-defence-of-the-czech-republic.webp") },
+  { client: "Saudi Made", show: "SIAL Paris", size: "915 sqm", year: 2022, venue: "Paris Nord Villepinte", img: img("project-029-saudi-made.webp") },
   // "More cases" list
   { client: "GERAB", show: "ADIPEC · 205 sqm double decker", size: "205 sqm", year: 2025, venue: "ADNEC, Abu Dhabi", img: img("project-022-gerab.webp") },
   { client: "Petronas", show: "ADIPEC", size: "117 sqm", year: 2018, venue: "ADNEC, Abu Dhabi", img: img("project-119-petronas.webp") },

@@ -12,7 +12,7 @@ export default function Privacy() {
       <main className="legal" id="top">
         <h1>Privacy notice</h1>
         <p className="mono-up muted">Last updated {PRIVACY_UPDATED}</p>
-        <PrivacyBody stored="Nothing is kept in your browser either. The company-profile form only opens your own e-mail app, so nothing is sent from the page itself." />
+        <PrivacyBody stored="Nothing is kept in your browser either, and there are no forms on this site: you reach us by e-mail, phone or WhatsApp." />
       </main>
       <Footer />
     </>

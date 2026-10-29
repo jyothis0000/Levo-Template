@@ -783,16 +783,31 @@
   min-width: 300px;
 }
 
-/* ───────── portfolio ───────── */
-.work {
-  position: relative;
-  height: 110vh;
+/* ───────── portfolio: case studies as a pinned deck ───────── */
+.works {
   margin: 0 calc(var(--pad) * -1);
-  padding: 80px var(--pad);
+}
+
+/* every case pins at the top and rests (REST in Portfolio.tsx sets its margin); then the next one slides up over it */
+.work {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  perspective: 1400px;
+}
+
+.work-card {
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 18px;
+  padding: calc(var(--nav) + 28px) var(--pad) 80px; /* the bottom clears the floating WhatsApp button */
   overflow: hidden;
+  background: var(--dark);
+  box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.5); /* the arriving card's edge shades the one beneath */
+  transform-origin: 50% 100%; /* sinking back, the top tips away */
+  will-change: transform;
 }
 
 .work-bg {
@@ -805,12 +820,31 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(40px) brightness(0.45) saturate(1.3);
+  filter: blur(40px) brightness(0.4) saturate(1.3);
+  transform: scale(1.2);
+}
+
+.work-top {
+  position: relative;
+  align-items: center;
+}
+
+.work-top > span + span {
+  padding-left: 10px;
+}
+
+.work-count {
+  text-align: right;
+}
+
+.work-count b {
+  color: var(--accent);
 }
 
 .work-frame {
   position: relative;
-  height: 65vh;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -820,31 +854,55 @@
   object-fit: cover;
 }
 
-.work-meta,
-.work-foot {
+.work-info {
   position: relative;
-  padding-top: 18px;
-}
-
-.work-meta h3 {
-  padding-left: 10px;
-  font-size: 14px;
-}
-
-.work-meta ul {
-  list-style: none;
-  padding-left: 10px;
   display: grid;
-  gap: 4px;
-  opacity: 0.6;
+  grid-template-columns: 2fr 1fr;
+  align-items: end;
+  gap: 24px;
 }
 
-.work-foot {
-  padding-top: 30px;
+.work-client {
+  font-family: var(--display);
+  font-size: clamp(44px, 6.4vw, 108px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
 }
 
-.work-foot > span + span {
+.work-specs {
+  display: grid;
+  gap: 8px;
   padding-left: 10px;
+}
+
+.work-specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.work-specs dd {
+  text-align: right;
+}
+
+.work-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left;
+}
+
+.work-shade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
 }
 
 .more {
@@ -1739,7 +1797,7 @@
   object-fit: cover;
 }
 
-/* ───────── blog + profile ───────── */
+/* ───────── blog ───────── */
 .blog {
   padding-bottom: 100px;
 }
@@ -1777,62 +1835,6 @@
 
 .post .mono-up span {
   margin: 0 6px;
-}
-
-.profile {
-  border-bottom: 1px solid var(--line);
-}
-
-.profile-row {
-  padding: 70px 0;
-  align-items: start;
-}
-
-.profile-title {
-  font-size: clamp(44px, 5vw, 70px);
-  font-weight: 600;
-  letter-spacing: -0.07em;
-  line-height: 0.9;
-}
-
-.profile-form {
-  display: grid;
-  gap: 14px;
-  padding: 0 24px;
-}
-
-.profile-input {
-  display: flex;
-  background: var(--soft);
-}
-
-.profile-input input {
-  flex: 1;
-  height: 56px;
-  padding: 0 18px;
-  font-size: 14px;
-}
-
-.profile-input button {
-  width: 56px;
-  background: var(--black);
-  color: #fff;
-  font-size: 18px;
-  transition: background 0.3s;
-}
-
-.profile-input button:hover {
-  background: var(--accent);
-}
-
-.profile-note {
-  padding: 30px 24px 0;
-  font-size: 13px;
-  max-width: 300px;
-}
-
-.profile-note b {
-  color: var(--black);
 }
 
 /* ───────── footer: the contact details, one screen tall ───────── */
@@ -1977,20 +1979,6 @@
 
 .footer-legal a:hover {
   opacity: 0.6;
-}
-
-/* GDPR: what happens to the data, said where it is collected */
-.form-note {
-  max-width: 460px;
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: 0;
-  opacity: 0.6;
-}
-
-.form-note a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* ───────── privacy + legal pages ───────── */
@@ -2232,24 +2220,27 @@
     padding-right: 0;
   }
 
-  .work {
-    height: auto;
-    padding: 50px var(--pad);
+  .work-card {
+    gap: 14px;
+    padding: calc(var(--nav) + 18px) var(--pad) 84px;
   }
 
-  .work-frame {
-    height: 50vh;
+  .work-top {
+    gap: 4px;
   }
 
-  .work-meta,
-  .work-foot {
-    gap: 6px;
-  }
-
-  .work-meta h3,
-  .work-meta ul,
-  .work-foot > span + span {
+  .work-top > span + span,
+  .work-specs {
     padding-left: 0;
+  }
+
+  .work-count {
+    text-align: left;
+  }
+
+  .work-info {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .more .head-left {
@@ -2313,15 +2304,6 @@
 
   .faq-q {
     font-size: 15px;
-  }
-
-  .profile-form,
-  .profile-note {
-    padding: 0;
-  }
-
-  .profile-row {
-    gap: 24px;
   }
 
   .footer-top {
