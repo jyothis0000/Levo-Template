@@ -1,0 +1,340 @@
+/* ───────── tokens ───────── */
+:root {
+  --white: #fff;
+  --soft: #f2f2f2;
+  --dark: #191919;
+  --black: #000;
+  --accent: #0070b8; /* Levo blue (reference red: #f02b42) */
+  --line: rgba(0, 0, 0, 0.08);
+  --line-dark: rgba(255, 255, 255, 0.08);
+  --muted: rgba(0, 0, 0, 0.5);
+  --muted-dark: rgba(255, 255, 255, 0.5);
+  --pad: 40px;
+  --nav: 44px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sans: var(--font-dm), "DM Sans", system-ui, sans-serif;
+  --display: var(--font-cal), "Cal Sans", var(--sans);
+  --script: var(--font-script), cursive;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.04em;
+  color: var(--black);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  border: 0;
+  background: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ───────── layout ───────── */
+.section {
+  position: relative;
+  padding: 0 var(--pad);
+}
+
+.dark {
+  --accent: #1f90e0; /* lifted Levo blue so it reads on dark */
+  background: var(--dark);
+  color: #fff;
+  --line: var(--line-dark);
+  --muted: var(--muted-dark);
+}
+
+.soft {
+  background: var(--soft);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cols > * {
+  min-width: 0;
+}
+
+.lines {
+  position: absolute;
+  inset: 0 var(--pad);
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  z-index: 0;
+}
+
+.lines i {
+  width: 1px;
+  height: 100%;
+  background: var(--line);
+}
+
+.lines i:nth-child(2) {
+  position: absolute;
+  left: 33.333%;
+}
+
+.lines i:nth-child(3) {
+  position: absolute;
+  left: 66.666%;
+}
+
+.lines i:nth-child(4) {
+  margin-left: auto;
+}
+
+/* :where keeps this at 0 specificity so per-section absolute positioning wins */
+.section > :where(:not(.lines)) {
+  position: relative;
+  z-index: 1;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.mono-up {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* section heading row: label left, giant title from column 2 */
+.head {
+  padding: 100px 0 60px;
+  align-items: start;
+}
+
+.head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-right: 40px;
+}
+
+.head-left p {
+  font-size: 14px;
+  max-width: 300px;
+}
+
+.giant {
+  grid-column: 2 / 4;
+  font-size: clamp(56px, 7vw, 100px);
+  font-weight: 600;
+  letter-spacing: -0.08em;
+  line-height: 0.85;
+  padding-left: 10px;
+}
+
+/* ───────── label ───────── */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.label b {
+  font-weight: 700;
+}
+
+.label em {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.label-mark {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.label-mark i {
+  width: 4px;
+  height: 10px;
+  background: var(--accent);
+  animation: bars 1.6s var(--ease) infinite;
+}
+
+.label-mark i:nth-child(2) { animation-delay: 0.1s; }
+.label-mark i:nth-child(3) { animation-delay: 0.2s; }
+.label-mark i:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes bars {
+  0%, 60%, 100% { opacity: 1; }
+  30% { opacity: 0.25; }
+}
+
+/* ───────── roll text + buttons ───────── */
+.roll {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.roll-char {
+  display: inline-flex;
+  flex-direction: column;
+  height: 1.15em;
+}
+
+.roll-char span {
+  transition: transform 0.5s var(--ease);
+  transition-delay: calc(var(--i) * 18ms);
+}
+
+a:hover .roll-char span,
+button:hover .roll-char span {
+  transform: translateY(-100%);
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 24px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s var(--ease);
+  z-index: -1;
+}
+
+.btn:hover::before {
+  transform: scaleY(1);
+}
+
+.btn-plus {
+  position: absolute;
+  right: 22px;
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.5s var(--ease);
+}
+
+.btn:hover .btn-plus {
+  transform: rotate(90deg);
+}
+
+.btn-dark { background: var(--black); color: #fff; }
+.btn-light { background: #fff; color: #000; }
+.btn-light:hover { color: #fff; }
+.btn-red { background: var(--accent); color: #fff; }
+.btn-red::before { background: var(--black); }
+
+/* ───────── split title ───────── */
+.split-line {
+  display: block;
+}
+
+.split-word {
+  display: inline-flex;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.split-word:not(:last-child) {
+  margin-right: 0.22em;
+}
+
+.split-char {
+  display: inline-block;
+}
+
+/* ───────── marquee ───────── */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
