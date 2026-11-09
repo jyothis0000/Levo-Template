@@ -5,6 +5,7 @@ import { Footer } from "@/components/home/Contact";
 import Events from "@/components/home/Events";
 import Faq from "@/components/home/Faq";
 import Hero from "@/components/home/Hero";
+import LTransition from "@/components/home/LTransition";
 import Nav from "@/components/home/Nav";
 import Perception from "@/components/home/Perception";
 import { CaseShowcase } from "@/components/home/Portfolio";
@@ -24,8 +25,8 @@ export default function Home() {
         <About />
         <Events />
         <Perception />
-        <Approach />
         <Services />
+        <Approach />
         <Shows />
         <CaseShowcase />
         <Reviews />
@@ -44,6 +45,7 @@ export default function Home() {
         {/* What we believe: hidden for now — restore this line and its import */}
         {/* <Belief /> */}
         <Faq />
+        <LTransition />
       </main>
       <Footer />
       <a className="float-cta mono-up" href={contact.whatsappLink} target="_blank" rel="noreferrer">

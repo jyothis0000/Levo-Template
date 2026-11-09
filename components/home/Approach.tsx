@@ -1,7 +1,7 @@
 "use client";
 
 // Ported from /home2's "Our approach" (components/home2/Sections.tsx → Approach).
-import { AnimatePresence, motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { approach } from "@/lib/home";
 
@@ -23,14 +23,9 @@ const rise = (delay = 0) => ({
 
 type Stage = (typeof approach.steps)[number];
 
-function Step({ i, s, active, onActive }: { i: number; s: Stage; active: boolean; onActive: (i: number) => void }) {
-  const ref = useRef<HTMLLIElement>(null);
-  const inView = useInView(ref, { margin: "-45% 0px -45% 0px" }); // "in view" = crossing the middle tenth of the screen
-  useEffect(() => {
-    if (inView) onActive(i);
-  }, [inView, i, onActive]);
+function Step({ i, s, active }: { i: number; s: Stage; active: boolean }) {
   return (
-    <li ref={ref} className={`ap-step ${active ? "is-on" : ""}`}>
+    <li className={`ap-step ${active ? "is-on" : ""}`}>
       <span className="ap-no">{pad(i + 1)}</span>
       <div>
         <h3>{s.title}</h3>
@@ -45,6 +40,24 @@ export default function Approach() {
   // which stage is lit, and which way we got there (1 = scrolling down, -1 = back up), so the number rolls that way
   const [{ active, dir }, set] = useState({ active: 0, dir: 1 });
   const setActive = useCallback((i: number) => set((s) => (s.active === i ? s : { active: i, dir: i > s.active ? 1 : -1 })), []);
+  // the lit stage is whichever sits nearest the middle of the screen — worked out from where the stages are, not from
+  // one crossing the middle, so it is right even when the page lands mid-section (a refresh, a link, a fast jump)
+  const list = useRef<HTMLOListElement>(null);
+  const pick = useCallback(() => {
+    const items = list.current?.children;
+    if (!items) return;
+    let best = 0;
+    let gap = Infinity;
+    Array.from(items).forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height / 2 - innerHeight / 2);
+      if (d < gap) [gap, best] = [d, i];
+    });
+    setActive(best);
+  }, [setActive]);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", pick);
+  useEffect(pick, [pick]);
   return (
     <section className="section ap" id="approach">
       <div className="ap-head">
@@ -85,9 +98,9 @@ export default function Approach() {
             </span>
           </div>
         </div>
-        <ol className="ap-steps">
+        <ol ref={list} className="ap-steps">
           {approach.steps.map((s, i) => (
-            <Step key={s.title} i={i} s={s} active={active === i} onActive={setActive} />
+            <Step key={s.title} i={i} s={s} active={active === i} />
           ))}
         </ol>
       </div>

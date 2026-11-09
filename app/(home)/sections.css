@@ -2983,7 +2983,7 @@
 /* ───────── upcoming shows (ported from /home2: a photo follows the pointer over the list) ───────── */
 .sh {
   position: relative;
-  padding: 100px var(--pad) 200px;
+  padding: 40px var(--pad) 200px; /* Our approach above already leaves 140px of air */
   background: var(--white);
 }
 
@@ -3105,4 +3105,50 @@
   .sh-link .ev-dot {
     display: none;
   }
+}
+
+/* ───────── L transition into the footer (after /home3's contact section) ───────── */
+.lx {
+  position: relative;
+  height: 280vh;
+  background: var(--white); /* carries on from the light section above */
+}
+
+.lx-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* scaled about the middle of the L's bar, so the bar is what grows to fill the screen */
+.lx-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 60vh;
+  aspect-ratio: 602.47 / 1060.41;
+  translate: -16.4% -41.6%;
+  transform-origin: 16.4% 41.6%;
+  will-change: transform;
+}
+
+.lx-mark svg,
+.lx-solid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lx-flat {
+  fill: #141414; /* the footer's base dark */
+}
+
+/* the footer's background turned upside down: its glow (top right there) sits bottom right here, so where the two
+   meet the colours match across the whole width */
+.lx-finish {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 60% at 70% 100%, #2a2a2a 0%, #141414 60%);
 }
