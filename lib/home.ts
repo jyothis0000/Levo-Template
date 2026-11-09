@@ -141,7 +141,10 @@ export const projects = [
 // "Events", taken from /home2's "A selection of our work": two staggered rows, each a tall photo beside a pair that
 // stays pinned while the tall one scrolls past; every card and filter links to the full portfolio.
 export const events = {
-  title: "Events",
+  label: "Events",
+  title: "Events.",
+  intro: "Recent stands from the shows we build for — from SIAL Paris to ADIPEC and GITEX.",
+  cta: "All events",
   all: "https://levoexhibitions.com/our-works/",
   filters: [
     { label: "Europe", count: 5 },
@@ -410,7 +413,7 @@ export const perception = {
 // the middle of the screen.
 export const approach = {
   label: "Our approach",
-  title: "From brief to dismantle",
+  title: "From brief\nto dismantle.",
   text: "One project manager for the whole build — handling the organiser, the venue, the contractors and the logistics, so your team is not chasing five suppliers in show week.",
   steps: [
     { title: "Brief and floor plan", text: "We review your show, hall, stand type, budget parameters, brand assets and objectives, then confirm the organiser’s technical regulations.", img: img("home-double-decker-custom-exhibition-stand-with-led-display-reception-counter-and-meeting-areas.jpeg") },
@@ -424,7 +427,10 @@ export const approach = {
 // "Upcoming shows", taken from /home2 (lib/home2.ts → shows): a list where a photo follows the pointer over each row.
 // European date order (DD.MM.YY).
 export const shows = {
-  title: "Upcoming events",
+  label: "Upcoming events",
+  title: "Upcoming\nevents.",
+  intro: "Where to find our stands next. Booking early secures the best build slots.",
+  cta: "All events",
   all: "https://levoexhibitions.com/upcoming-exhibitions-dubai/",
   list: [
     { title: "ADIPEC 2026", text: "ADNEC, Abu Dhabi — we built a 205 sqm double decker for GERAB here in 2025.", date: "02.11.26", img: img("project-022-gerab.webp"), cap: "GERAB — ADIPEC 2025" },

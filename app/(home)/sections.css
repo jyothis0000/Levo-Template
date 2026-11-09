@@ -2420,116 +2420,63 @@
   }
 }
 
-/* ───────── events (ported from /home2's "A selection of our work") ───────── */
+/* ───────── events (after /home2's "A selection of our work", set in /home's design) ───────── */
 .events {
-  padding-top: 100px;
   padding-bottom: 120px;
-  background: var(--white);
 }
 
-.ev-heading {
-  font-size: clamp(32px, 3.8vw, 56px);
-  line-height: 1.1;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+/* a head's call to action: sits under the intro, room on the right for the "+" */
+.head-btn {
+  align-self: start;
+  margin-top: 10px;
+  padding-right: 56px;
 }
 
 .ev-bar {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  margin-top: 24px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  gap: 24px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
-.ev-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
+.ev-bar .tags li {
+  padding: 0;
 }
 
-.ev-link-text {
-  position: relative;
-  padding-bottom: 4px;
-}
-
-.ev-link-text::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0;
-  height: 1px;
-  background: currentColor;
-  transform-origin: left;
-  transition: transform 0.5s var(--ease);
-}
-
-.ev-link:hover .ev-link-text::after {
-  transform: scaleX(0);
-  transform-origin: right;
-}
-
-.ev-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.1);
+.ev-bar .tags a {
+  display: block;
+  padding: 7px 10px;
   transition: background 0.3s, color 0.3s;
 }
 
-.ev-dot svg {
-  transition: transform 0.4s var(--ease);
-}
-
-.ev-link:hover .ev-dot {
-  background: var(--accent);
+.ev-bar .tags a:hover {
+  background: var(--black);
   color: #fff;
 }
 
-.ev-link:hover .ev-dot svg {
-  transform: translateX(2px);
+.ev-bar sup {
+  margin-left: 2px;
+  font-size: 9px;
+  color: var(--accent);
 }
 
-.ev-filters {
-  display: flex;
-  align-items: baseline;
-  gap: 30px;
-  font-size: 18px;
-  color: var(--muted);
+.ev-bar .tags a:hover sup {
+  color: inherit;
 }
 
-.ev-filters-title {
-  color: var(--black);
-  margin-right: 4px;
-}
-
-.ev-filters a {
-  transition: color 0.3s;
-}
-
-.ev-filters a:hover {
-  color: var(--black);
-}
-
-.ev-filters sup {
-  font-size: 11px;
-  margin-left: 1px;
-}
-
+/* one card per column, on the column rules: the tall photo in one, the pinned pair in the other two */
 .ev-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: start;
-  margin-top: 26px;
+  margin-top: 60px;
 }
 
 .ev-row + .ev-row {
-  margin-top: 80px;
+  margin-top: 100px;
 }
 
 .ev-row.is-flip .ev-big {
@@ -2538,9 +2485,9 @@
 
 /* pinned pair: sticks while the tall photo scrolls past, so it drifts down the row */
 .ev-small {
+  grid-column: span 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
   position: sticky;
   top: var(--so, 40vh);
 }
@@ -2551,16 +2498,11 @@
 
 .ev-img {
   overflow: hidden;
-  aspect-ratio: 1.6;
+  aspect-ratio: 1.25;
 }
 
 .ev-big .ev-img {
-  aspect-ratio: 1.15;
-}
-
-.ev-cut {
-  --cut: 60px;
-  clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
+  aspect-ratio: 0.72;
 }
 
 .ev-img img {
@@ -2570,19 +2512,27 @@
 }
 
 .ev-card:hover .ev-img img {
-  transform: scale(1.03) !important;
+  transform: scale(1.06) !important;
   transition: transform 1.2s var(--ease);
 }
 
-.ev-title {
-  margin-top: 24px;
-  font-size: 18px;
+.ev-cap {
+  display: grid;
+  gap: 12px;
+  padding: 20px 24px 0;
 }
 
-.ev-place {
-  margin-top: 4px;
-  font-size: 12px;
-  color: var(--muted);
+.ev-cap h4 {
+  max-width: 340px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  transition: color 0.3s;
+}
+
+.ev-card:hover .ev-cap h4 {
+  color: var(--accent);
 }
 
 @media (max-width: 899px), (pointer: coarse) {
@@ -2593,52 +2543,55 @@
 
 @media (max-width: 899px) {
   .events {
-    padding-top: 70px;
     padding-bottom: 80px;
+  }
+
+  .ev-bar {
+    padding: 16px 0;
+    gap: 14px;
   }
 
   .ev-row {
     grid-template-columns: 1fr;
+    margin-top: 32px;
   }
 
-  .ev-bar {
-    flex-direction: column;
-    align-items: start;
-    gap: 24px;
-  }
-
-  .ev-filters {
-    flex-wrap: wrap;
-    gap: 14px;
-    font-size: 16px;
-  }
-
-  .ev-filters-title {
-    width: 100%;
+  .ev-row + .ev-row {
+    margin-top: 48px;
   }
 
   .ev-row.is-flip .ev-big {
     order: 0;
   }
 
-  .ev-row + .ev-row {
-    margin-top: 40px;
+  .ev-small {
+    grid-column: auto;
+    margin-top: 24px;
   }
 
-  .ev-cut {
-    --cut: 30px;
+  .ev-big .ev-img {
+    aspect-ratio: 1.1;
+  }
+
+  .ev-cap {
+    padding: 14px 12px 0 0;
+  }
+
+  .ev-cap h4 {
+    font-size: 15px;
   }
 }
 
 /* ───────── exhibition shapes perception (ported from /home3: tagline → shutters → word cubes → principles) ───────── */
 .ph {
   --navy: #022439;
-  --ink: var(--navy); /* the cube scene reads its colours from these two */
+  --ink: var(--navy); /* the cube scene reads its colours from these two: /home3's navy, on white */
   --paper: #fff;
   --tf: 96px;
   --tl: calc(var(--tf) * 0.92);
   position: relative;
   z-index: 2; /* the shutters reach up over the section above while this one arrives */
+  margin-top: 20vh; /* white air between Events and the tagline; outside the section, so the timing is untouched */
   height: 1100vh; /* 100vh + 10 timeline units of 100vh (UNIT in Perception.tsx) */
   background: var(--paper);
   color: var(--ink);
@@ -2655,18 +2608,20 @@
   position: absolute;
   inset: 0;
   font-size: var(--tf);
-  font-weight: 400;
+  font-weight: 600; /* weight and tracking match the cube scene's text (cubeScene.ts) */
   line-height: var(--tl);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.07em;
   white-space: nowrap;
 }
 
-/* right edge on the 5th of 8 columns; "Perception" ends 1.7 lines above the horizon */
+/* centred across the screen; "Perception" ends 1.7 lines above the horizon, as on /home3 (--n counts up from it) */
 .ph-tag span {
   position: absolute;
-  right: 37.5%;
+  left: 0;
+  right: 0;
   top: calc(50% - (1.7 + var(--n)) * var(--tl));
   height: var(--tl);
+  text-align: center;
 }
 
 .ph-shade {
@@ -2679,7 +2634,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 50%;
+  height: calc(50% + 1px); /* the two overlap by a pixel, so no hairline of the tagline shows between them when shut */
   background: var(--ink);
   transform-origin: bottom;
   transform: scaleY(0);
@@ -2730,10 +2685,10 @@
   position: absolute;
   left: 12.5%;
   top: calc(50% + 2px);
-  font-size: 112px;
-  font-weight: 400;
+  font-size: clamp(64px, 7vw, 120px); /* "Engineered" ends short of the text column at 50% */
+  font-weight: 600;
   line-height: 0.9;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.08em;
 }
 
 .pr-text {
@@ -2742,8 +2697,8 @@
   top: calc(50% + 10px);
   width: 25%;
   min-width: 280px;
-  font-size: 17px;
-  line-height: 1.25;
+  font-size: 16px;
+  line-height: 1.35;
 }
 
 .pr-index {
@@ -2753,8 +2708,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
-  font-weight: 500;
 }
 
 .pr-index span:first-child {
@@ -2786,10 +2739,6 @@
     --tf: 52px;
   }
 
-  .ph-tag span {
-    right: 16px;
-  }
-
   .pr-word {
     left: 16px;
     top: 30%;
@@ -2809,44 +2758,15 @@
   }
 }
 
-/* ───────── our approach (ported from /home2: sticky photo cross-fades as each stage passes mid-screen) ───────── */
+/* ───────── our approach (after /home2's, set in /home's design: photo in column 1, stages in columns 2–3) ───────── */
 .ap {
-  padding-top: 80px;
-  padding-bottom: 140px;
-  background: var(--white);
-}
-
-.ap-head {
-  padding-top: 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.16);
-}
-
-.ap-label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
-.ap-title {
-  font-size: clamp(36px, 3.9vw, 56px);
-  line-height: 1.08;
-  font-weight: 400;
-  max-width: 800px;
-}
-
-.ap-lead {
-  margin-top: 30px;
-  max-width: 560px;
-  font-size: 16px;
-  line-height: 1.35;
-  color: var(--muted);
+  padding-bottom: 120px;
 }
 
 .ap-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 80px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
 }
 
 .ap-media {
@@ -2854,12 +2774,10 @@
 }
 
 .ap-frame {
-  --cut: 60px;
   position: sticky;
-  top: 12vh;
-  height: 76vh;
+  top: calc(var(--nav) + 6vh);
+  height: calc(88vh - var(--nav));
   overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
 }
 
 .ap-frame img {
@@ -2876,10 +2794,11 @@
   bottom: 20px;
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 8px;
   color: #fff;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -2887,10 +2806,11 @@
   position: relative; /* the outgoing number is positioned against this box, so it stays inside the clip */
   display: inline-block;
   overflow: hidden;
-  height: 1.3em;
-  font-size: 44px;
-  font-weight: 400;
-  line-height: 1.3;
+  height: 1em;
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -0.08em;
+  line-height: 1;
 }
 
 .ap-num > span {
@@ -2898,19 +2818,24 @@
 }
 
 .ap-steps {
+  grid-column: 2 / 4;
   list-style: none;
-  padding: 12vh 0 12vh 60px;
+  padding: 10vh 0 6vh;
 }
 
 .ap-step {
   min-height: 44vh;
   display: grid;
-  grid-template-columns: 60px 1fr;
+  grid-template-columns: 50px minmax(0, 1fr);
   align-content: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.16);
-  padding-top: 24px;
+  padding: 24px 24px 0;
+  border-top: 1px solid var(--line);
   opacity: 0.28;
   transition: opacity 0.6s var(--ease);
+}
+
+.ap-step:first-child {
+  border-top: 0;
 }
 
 .ap-step.is-on {
@@ -2918,40 +2843,31 @@
 }
 
 .ap-no {
-  font-size: 14px;
-  font-weight: 600;
-  padding-top: 10px;
+  padding-top: 12px;
 }
 
 .ap-step h3 {
-  font-size: clamp(28px, 2.7vw, 38px);
-  line-height: 1.1;
-  font-weight: 400;
   margin-bottom: 16px;
+  font-size: clamp(32px, 3.4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  line-height: 0.95;
 }
 
 .ap-step p {
   max-width: 460px;
-  font-size: 16px;
-  line-height: 1.35;
-  color: var(--muted);
+  font-size: 14px;
 }
 
 @media (max-width: 899px) {
   .ap {
-    padding-top: 60px;
     padding-bottom: 80px;
   }
 
-  .ap-title {
-    font-size: 36px;
-  }
-
   /* one column, and the photo's wrapper steps out of the way: a sticky element only sticks within its parent, so the
-     photo now pins against the whole list of stages instead of its own height */
+     photo pins against the whole list of stages instead of its own height */
   .ap-grid {
     display: block;
-    margin-top: 40px;
   }
 
   .ap-media {
@@ -2960,87 +2876,105 @@
 
   /* the photo pins to the top of the screen while the stages scroll under it */
   .ap-frame {
-    --cut: 30px;
     top: var(--nav);
     height: 42vh;
     z-index: 2;
   }
 
+  .ap-num {
+    font-size: 44px;
+  }
+
   .ap-steps {
-    padding: 40px 0 0;
+    padding: 24px 0 0;
   }
 
   .ap-step {
     min-height: 36vh;
     grid-template-columns: 40px 1fr;
+    padding: 20px 0 0;
   }
 
   .ap-step h3 {
-    font-size: 28px;
+    font-size: 30px;
   }
 }
 
-/* ───────── upcoming shows (ported from /home2: a photo follows the pointer over the list) ───────── */
+/* ───────── upcoming events (after /home2's "Upcoming shows", set in /home's design: rows like the FAQ's) ───────── */
 .sh {
-  position: relative;
-  padding: 40px var(--pad) 200px; /* Our approach above already leaves 140px of air */
-  background: var(--white);
+  padding-bottom: 120px;
 }
 
 .sh-list {
   list-style: none;
-  margin: 24px 0 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.16);
+  border-top: 1px solid var(--line);
 }
 
 .sh-list li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid var(--line);
 }
 
+/* three columns on the column rules: number + name, what we built there, date */
 .sh-link {
   display: grid;
-  grid-template-columns: 1fr 1fr 90px 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
-  gap: 20px;
-  padding: 16px 0;
-  transition: opacity 0.4s var(--ease);
+  padding: 26px 0;
+  transition: opacity 0.4s var(--ease), background 0.4s;
 }
 
-.sh-title {
-  font-size: 18px;
-  transition: padding-left 0.3s var(--ease);
-}
-
-.sh-link:hover .sh-title,
-.sh-link.is-on .sh-title {
-  padding-left: 10px;
+.sh-link.is-on {
+  background: #fff;
 }
 
 .sh-list:hover .sh-link:not(.is-on) {
   opacity: 0.4;
 }
 
-.sh-link:hover .ev-dot {
-  background: var(--accent);
-  color: #fff;
+.sh-name {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+  padding-left: 24px;
 }
 
-.sh-link:hover .ev-dot svg {
-  transform: translateX(2px);
+.sh-title {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  transition: transform 0.4s var(--ease);
+}
+
+.sh-link.is-on .sh-title {
+  transform: translateX(10px);
 }
 
 .sh-text {
+  padding: 0 24px;
   font-size: 14px;
-  color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.sh-date {
-  font-size: 12px;
-  font-weight: 600;
-  text-align: right;
+.sh-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.sh-icon {
+  font-size: 22px;
+  font-weight: 300;
+  transition: transform 0.5s var(--ease), color 0.3s;
+}
+
+.sh-link.is-on .sh-icon {
+  transform: rotate(45deg);
+  color: var(--accent);
 }
 
 @media (pointer: fine) {
@@ -3050,7 +2984,6 @@
 }
 
 .sh-peek {
-  --cut: 30px;
   position: fixed;
   z-index: 600;
   width: 300px;
@@ -3059,7 +2992,6 @@
   overflow: hidden;
   pointer-events: none;
   background: var(--dark);
-  clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
 }
 
 .sh-peek img {
@@ -3076,8 +3008,7 @@
   bottom: 12px;
   z-index: 2;
   color: #fff;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 10px;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
@@ -3089,21 +3020,30 @@
 
 @media (max-width: 899px) {
   .sh {
-    padding-bottom: 100px;
+    padding-bottom: 80px;
   }
 
   .sh-link {
     grid-template-columns: 1fr auto;
+    row-gap: 10px;
+    padding: 20px 0;
+  }
+
+  .sh-name {
+    grid-template-columns: 36px 1fr;
+    padding-left: 0;
   }
 
   .sh-text {
     grid-column: 1 / -1;
     grid-row: 2;
+    padding: 0 0 0 36px;
     white-space: normal;
   }
 
-  .sh-link .ev-dot {
-    display: none;
+  .sh-meta {
+    gap: 14px;
+    padding: 0;
   }
 }
 

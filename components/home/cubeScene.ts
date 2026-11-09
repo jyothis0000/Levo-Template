@@ -61,8 +61,9 @@ function wordTexture(word: string, family: string, aniso: number) {
   const c = document.createElement("canvas");
   const g = c.getContext("2d")!;
   const set = () => {
-    g.font = `400 ${TEXT_PX}px ${family}`;
-    g.letterSpacing = `${-0.05 * TEXT_PX}px`;
+    // the same weight and tracking as the DOM tagline (.ph-tag in sections.css), so the white copy lines up with it
+    g.font = `600 ${TEXT_PX}px ${family}`;
+    g.letterSpacing = `${-0.07 * TEXT_PX}px`;
   };
   set();
   const m = g.measureText(word);

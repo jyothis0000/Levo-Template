@@ -1,9 +1,11 @@
 "use client";
 
-// Ported from /home2's "Our approach" (components/home2/Sections.tsx → Approach).
+// Taken from /home2's "Our approach" (the pinned photo that cross-fades stage by stage), dressed in /home's own design:
+// the label + giant-title head, the column rules, the photo in the first column and the stages across the other two.
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { approach } from "@/lib/home";
+import { Label, Lines, SplitTitle } from "./ui";
 
 const ease = [0.14, 0.83, 0.4, 1] as const; // /home2's house curve
 const pad = (k: number) => String(k).padStart(2, "0");
@@ -14,22 +16,15 @@ const roll = {
   exit: (d: number) => ({ y: d > 0 ? "-100%" : "100%" }),
 };
 
-const rise = (delay = 0) => ({
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-10% 0px" },
-  transition: { duration: 1.2, delay, ease },
-});
-
 type Stage = (typeof approach.steps)[number];
 
 function Step({ i, s, active }: { i: number; s: Stage; active: boolean }) {
   return (
     <li className={`ap-step ${active ? "is-on" : ""}`}>
-      <span className="ap-no">{pad(i + 1)}</span>
+      <span className="mono-up ap-no">{pad(i + 1)}.</span>
       <div>
         <h3>{s.title}</h3>
-        <p>{s.text}</p>
+        <p className="muted">{s.text}</p>
       </div>
     </li>
   );
@@ -60,16 +55,13 @@ export default function Approach() {
   useEffect(pick, [pick]);
   return (
     <section className="section ap" id="approach">
-      <div className="ap-head">
-        <motion.p className="ap-label" {...rise()}>
-          {approach.label}
-        </motion.p>
-        <motion.h2 className="ap-title" {...rise(0.05)}>
-          {approach.title}
-        </motion.h2>
-        <motion.p className="ap-lead" {...rise(0.1)}>
-          {approach.text}
-        </motion.p>
+      <Lines />
+      <div className="head cols">
+        <div className="head-left">
+          <Label title={approach.label} />
+          <p className="muted">{approach.text}</p>
+        </div>
+        <SplitTitle className="giant" text={approach.title} />
       </div>
       <div className="ap-grid">
         <div className="ap-media">

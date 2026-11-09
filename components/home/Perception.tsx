@@ -35,8 +35,8 @@ function Panel({ i, p, n }: { i: number; p: MotionValue<number>; n: number }) {
       <motion.p className="pr-text" style={{ opacity: textO }}>
         {s.text}
       </motion.p>
-      <motion.p className="pr-index" style={i ? undefined : { opacity: textO }}>
-        <span>Our Principles</span>
+      <motion.p className="pr-index mono-up" style={i ? undefined : { opacity: textO }}>
+        <span>Our principles</span>
         <b>0{i + 1}</b>
         <span className="sep" />
         <b>0{n}</b>
@@ -48,6 +48,7 @@ function Panel({ i, p, n }: { i: number; p: MotionValue<number>; n: number }) {
 /**
  * The tagline climbs into the horizon, two dark shutters close behind "Perception" and a white copy of it carries on
  * into a 3D pyramid of word cubes; the camera swings over the top and drops through the apex into the principles.
+ * The motion is /home3's, unchanged.
  */
 export default function Perception() {
   const ref = useRef<HTMLElement>(null);
