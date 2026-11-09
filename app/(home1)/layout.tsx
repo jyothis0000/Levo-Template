@@ -12,7 +12,7 @@ const script = Ms_Madi({ subsets: ["latin", "latin-ext"], weight: "400", variabl
 export const metadata: Metadata = {
   title: "Levo Exhibitions — Exhibition Stand Design & Build",
   description:
-    "Levo Exhibitions designs, builds and installs custom exhibition stands for European brands — at the Gulf's leading shows and across Europe.",
+    "Levo Exhibitions designs, builds and installs custom exhibition stands for European brands - at the Gulf's leading shows and across Europe.",
   icons: { icon: "/images/favicon-site-icon.png" },
 };
 

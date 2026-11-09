@@ -1,9 +1,16 @@
 "use client";
 
 import { AnimatePresence, motion, useInView, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { approach, shows, voices, work } from "@/lib/home2";
 import { ArrowLink, ease } from "./Chrome";
+
+// the approach stage number rolls like a counter: the new one comes from below going down the page, from above coming back
+const roll = {
+  enter: (d: number) => ({ y: d > 0 ? "100%" : "-100%" }),
+  in: { y: "0%" },
+  exit: (d: number) => ({ y: d > 0 ? "-100%" : "100%" }),
+};
 
 const rise = (delay = 0) => ({
   initial: { opacity: 0, y: 40 },
@@ -130,7 +137,9 @@ function Step({ i, s, active, onActive }: { i: number; s: (typeof approach.steps
 
 /** Sticky photograph on the left cross-fades as each stage passes the middle of the screen. */
 export function Approach() {
-  const [active, setActive] = useState(0);
+  // which stage is lit, and which way we got there (1 = scrolling down, -1 = back up), so the number rolls that way
+  const [{ active, dir }, set] = useState({ active: 0, dir: 1 });
+  const setActive = useCallback((i: number) => set((s) => (s.active === i ? s : { active: i, dir: i > s.active ? 1 : -1 })), []);
   return (
     <section className="ap wrap" id="approach">
       <div className="ap-head">
@@ -159,17 +168,14 @@ export function Approach() {
               />
             ))}
             <span className="ap-count">
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.span
-                  key={active}
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  exit={{ y: "-100%" }}
-                  transition={{ duration: 0.6, ease }}
-                >
-                  {String(active + 1).padStart(2, "0")}
-                </motion.span>
-              </AnimatePresence>
+              {/* the mask: a positioned, clipping box, so the outgoing number (popped out of the flow) is clipped too */}
+              <span className="ap-num">
+                <AnimatePresence mode="popLayout" initial={false} custom={dir}>
+                  <motion.span key={active} custom={dir} variants={roll} initial="enter" animate="in" exit="exit" transition={{ duration: 0.6, ease }}>
+                    {String(active + 1).padStart(2, "0")}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
               <span>/ {String(approach.steps.length).padStart(2, "0")}</span>
             </span>
           </div>

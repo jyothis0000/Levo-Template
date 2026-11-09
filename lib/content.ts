@@ -47,7 +47,7 @@ export const hero = {
   services: ["Exhibition stands", "Events & conferences", "Interior & fit out"],
   slots: { label: "Now booking", value: "Gulfood 2027" },
   intro:
-    "We design, engineer and build custom exhibition stands for European brands — at the Gulf's biggest trade shows and across Europe through our partner network.",
+    "We design, engineer and build custom exhibition stands for European brands - at the Gulf's biggest trade shows and across Europe through our partner network.",
   cta: "Request a stand design",
   clientCount: "40+",
 };
@@ -63,7 +63,7 @@ export const clients = clientNames.map((name) => ({
 
 export const about = {
   meta: "3,000+ projects",
-  statement: "Custom exhibition stands for European exhibitors, in the Gulf and across Europe — designed, built and installed by one team.",
+  statement: "Custom exhibition stands for European exhibitors, in the Gulf and across Europe - designed, built and installed by one team.",
   quote:
     "From concept development and 3D design to engineering, fabrication, installation and dismantling — every stage runs in-house, with expertise across carpentry, steel, electrical, graphics, fabrics and logistics.",
   person: { name: "The Levo team", role: "Project managers & engineers", img: img("favicon-site-icon.png") },

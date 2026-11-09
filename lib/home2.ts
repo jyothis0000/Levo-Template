@@ -78,7 +78,7 @@ export const intro = {
   tagline: ["Listen. Envision.", "Validate. Open."],
   img: img("project-151-veritas.webp"),
   text:
-    "At Levo, we design, engineer and build custom exhibition stands from our Dubai studio and workshop — for European exhibitors at the Gulf’s leading trade shows, and at shows across Europe through our partner network. One project manager stays with you from the first sketch to the last panel coming down.",
+    "At Levo, we design, engineer and build custom exhibition stands from our Dubai studio and workshop - for European exhibitors at the Gulf’s leading trade shows, and at shows across Europe through our partner network. One project manager stays with you from the first sketch to the last panel coming down.",
 };
 
 export const work = {
