@@ -2113,24 +2113,30 @@
   }
 }
 
+/* the sticky WhatsApp button, in WhatsApp's own green so it reads at a glance as "chat on WhatsApp" */
 .float-cta {
   position: fixed;
   right: var(--pad);
   bottom: 20px;
   z-index: 40;
-  background: var(--black);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
   color: #fff;
-  padding: 12px 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  transition: background 0.3s;
+  padding: 12px 18px 12px 14px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35);
+  transition: background 0.3s, transform 0.3s var(--ease);
 }
 
-.float-cta span {
-  opacity: 0.5;
+.float-levo {
+  opacity: 0.75;
 }
 
 .float-cta:hover {
-  background: var(--accent);
+  background: #1ebe5d;
+  transform: translateY(-2px);
 }
 
 /* ───────── responsive ───────── */
@@ -2428,10 +2434,23 @@
     padding: 18px 0 72px; /* the WhatsApp button spans the width here */
   }
 
+  /* on phones, just the logo in a round button in the corner (the link keeps its name for screen readers) */
   .float-cta {
-    right: var(--pad);
-    left: var(--pad);
-    text-align: center;
+    right: 16px;
+    bottom: 16px;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .float-cta svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .float-text {
+    display: none;
   }
 }
 
