@@ -8,9 +8,13 @@ import { useId, useRef } from "react";
 import { finale } from "@/lib/home";
 import { Button, Label, Lines, Marquee, SplitTitle } from "./ui";
 
-// the closing scene holds for the first 50vh of the section's 230vh of scroll; the L's own run is the remaining 180vh,
-// timed exactly as before
-const HOLD = 50 / 230;
+// The timeline, in vh of scroll through the section (230vh in all; .lx's height is this plus the screen it pins on):
+// the closing scene holds for 50vh, then the L runs for 130vh and its zoom completes at 176vh, together with the
+// footer's glow; the last 50vh belong to the footer alone, which fades in over them (FooterReveal.tsx: from 0.5 of
+// its own progress, which starts 100vh before the end — i.e. at 180vh, once the zoom is done).
+const TOTAL = 230;
+const at = (vh: number) => vh / TOTAL;
+const RUN = 50; // where the L's run begins
 
 // the logo's own gradient, navy at the foot to blue at the top (as logo-black.svg / home3's LogoL)
 const L_STOPS = ["#022439", "#013759", "#004b7b", "#005b95", "#0066a8", "#006db4", "#0070b8"];
@@ -41,16 +45,16 @@ function LogoL({ solid = false }: { solid?: boolean }) {
 export default function LTransition() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const q = useTransform(p, [HOLD, 1], [0, 1]); // the L's run, after the hold
-  // first the mark rises to full size so it reads as the logo; then, since the bar is narrow (a sixth of the mark's
-  // height), it scales far further to fill the screen
-  const scale = useTransform(q, [0, 0.2, 0.7], [0.32, 1, 24]);
-  const solid = useTransform(q, [0.22, 0.45], [0, 1]); // gradient → the footer's dark on the way up
-  const finish = useTransform(q, [0.65, 0.9], [0, 1]); // then the footer's own glow, lines and grain settle in
+  // first the mark rises to full size so it reads as the logo (36vh into its run); then, since the bar is narrow (a
+  // sixth of the mark's height), it scales far further to fill the screen (126vh) — the same pace as before
+  const scale = useTransform(p, [at(RUN), at(RUN + 36), at(RUN + 126)], [0.32, 1, 24]);
+  const solid = useTransform(p, [at(RUN + 40), at(RUN + 81)], [0, 1]); // gradient → the footer's dark on the way up
+  // the footer's own glow, lines and grain settle in as the L covers the screen, done as the zoom completes
+  const finish = useTransform(p, [at(RUN + 91), at(RUN + 126)], [0, 1]);
   // the scene parts around the growing L: the two columns drift apart and fade as it starts to rise
-  const fade = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [1, 0]);
-  const left = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [0, -80]);
-  const right = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [0, 80]);
+  const fade = useTransform(p, [at(30), at(66)], [1, 0]);
+  const left = useTransform(p, [at(30), at(66)], [0, -80]);
+  const right = useTransform(p, [at(30), at(66)], [0, 80]);
 
   return (
     <section ref={ref} className="lx">

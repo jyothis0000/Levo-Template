@@ -2,6 +2,7 @@ import About from "@/components/home/About";
 import Approach from "@/components/home/Approach";
 import Blog from "@/components/home/Blog";
 import { Footer } from "@/components/home/Contact";
+import FooterReveal from "@/components/home/FooterReveal";
 import Events from "@/components/home/Events";
 import Faq from "@/components/home/Faq";
 import Hero from "@/components/home/Hero";
@@ -47,7 +48,10 @@ export default function Home() {
         <Faq />
         <LTransition />
       </main>
-      <Footer />
+      {/* fades in as the L transition's last frame, rather than scrolling up after it */}
+      <FooterReveal>
+        <Footer />
+      </FooterReveal>
       <a className="float-cta mono-up" href={contact.whatsappLink} target="_blank" rel="noreferrer" aria-label="WhatsApp Levo now">
         {/* WhatsApp's glyph, inline: nothing is loaded from Meta until the visitor taps */}
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden>

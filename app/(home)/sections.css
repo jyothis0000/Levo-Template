@@ -3161,8 +3161,15 @@
 /* ───────── L transition into the footer (after /home3's contact section) ───────── */
 .lx {
   position: relative;
-  height: 330vh; /* 50vh for the closing scene, then the L's 180vh, plus the screen it pins on */
+  height: 330vh; /* 50vh closing scene, 130vh L zoom, 50vh footer fade, plus the screen it pins on (LTransition.tsx) */
+  margin-bottom: -100vh; /* the footer overlaps the last screen, to fade in there (FooterReveal.tsx) */
   background: var(--white); /* carries on from the light section above */
+}
+
+/* the footer sits over the L transition's last screen, invisible until it fades in */
+.footer-reveal {
+  position: relative;
+  z-index: 3;
 }
 
 .lx-sticky {
