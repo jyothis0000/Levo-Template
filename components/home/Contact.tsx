@@ -96,8 +96,9 @@ export function Footer() {
         </motion.span>
         <motion.span
           className="footer-script"
-          initial={{ clipPath: "inset(0 100% 0 0)" }}
-          whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+          // the clip reaches above and below the line (the script's loops and tails), and goes once written on
+          initial={{ clipPath: "inset(-0.6em 100% -0.6em 0)" }}
+          whileInView={{ clipPath: "inset(-0.6em 0% -0.6em 0)", transitionEnd: { clipPath: "none" } }}
           viewport={{ once: true }}
           transition={{ duration: 1.6, delay: 0.5, ease: "easeInOut" }}
         >

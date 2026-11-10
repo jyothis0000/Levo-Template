@@ -29,8 +29,8 @@ export default function Preloader() {
         >
           <motion.p
             className="preloader-script"
-            initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
-            animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+            initial={{ clipPath: "inset(-0.6em 100% -0.6em 0)", opacity: 0 }}
+            animate={{ clipPath: "inset(-0.6em 0% -0.6em 0)", opacity: 1, transitionEnd: { clipPath: "none" } }}
             transition={{ duration: 1.3, delay: 0.3, ease: "easeInOut" }}
           >
             {brand.script}
