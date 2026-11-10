@@ -304,15 +304,18 @@ button:hover .roll-char span {
   display: block;
 }
 
+/* each word is the mask its letters slide up into. The titles' tight line-height and tracking push ink outside the
+   word's own box — the tails of g, p, y below, the last letter's overhang on the right — so the mask is padded out to
+   take them in, and the matching negative margins leave the layout exactly where it was */
 .split-word {
   display: inline-flex;
   overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+  padding: 0.06em 0.1em 0.26em 0.02em;
+  margin: -0.06em -0.1em -0.26em -0.02em;
 }
 
 .split-word:not(:last-child) {
-  margin-right: 0.22em;
+  margin-right: calc(0.22em - 0.1em); /* the word gap, less the overhang padding */
 }
 
 .split-char {

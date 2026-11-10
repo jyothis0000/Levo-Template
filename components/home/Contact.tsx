@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { brand, contact, nav } from "@/lib/home";
-import { Button, Label, Lines, RollText } from "./ui";
+import { Label, Lines, RollText } from "./ui";
 
 function Clock({ zone }: { zone: string }) {
   const [t, setT] = useState("");
@@ -82,9 +82,6 @@ export function Footer() {
               WhatsApp
             </a>
           </div>
-          <Button variant="light" href={`mailto:${contact.email}?subject=Stand%20enquiry`}>
-            E-mail your brief
-          </Button>
         </div>
       </div>
 

@@ -1,10 +1,16 @@
 "use client";
 
 // After /home3's contact transition (components/home3/Contact.tsx): the logo's "L" grows from the middle of its bar until
-// the bar becomes the page — here it becomes the footer's dark, so the footer follows on without a seam.
+// the bar becomes the page — here it becomes the footer's dark, so the footer follows on without a seam. Before it
+// grows, it sits at the heart of a closing scene: a last call to action either side, the shows we build for behind.
 import { motion, useScroll, useTransform } from "motion/react";
 import { useId, useRef } from "react";
-import { Lines } from "./ui";
+import { finale } from "@/lib/home";
+import { Button, Label, Lines, Marquee, SplitTitle } from "./ui";
+
+// the closing scene holds for the first 50vh of the section's 230vh of scroll; the L's own run is the remaining 180vh,
+// timed exactly as before
+const HOLD = 50 / 230;
 
 // the logo's own gradient, navy at the foot to blue at the top (as logo-black.svg / home3's LogoL)
 const L_STOPS = ["#022439", "#013759", "#004b7b", "#005b95", "#0066a8", "#006db4", "#0070b8"];
@@ -35,23 +41,57 @@ function LogoL({ solid = false }: { solid?: boolean }) {
 export default function LTransition() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const q = useTransform(p, [HOLD, 1], [0, 1]); // the L's run, after the hold
   // first the mark rises to full size so it reads as the logo; then, since the bar is narrow (a sixth of the mark's
   // height), it scales far further to fill the screen
-  const scale = useTransform(p, [0, 0.2, 0.7], [0.32, 1, 24]);
-  const solid = useTransform(p, [0.22, 0.45], [0, 1]); // gradient → the footer's dark on the way up
-  const finish = useTransform(p, [0.65, 0.9], [0, 1]); // then the footer's own glow, lines and grain settle in
+  const scale = useTransform(q, [0, 0.2, 0.7], [0.32, 1, 24]);
+  const solid = useTransform(q, [0.22, 0.45], [0, 1]); // gradient → the footer's dark on the way up
+  const finish = useTransform(q, [0.65, 0.9], [0, 1]); // then the footer's own glow, lines and grain settle in
+  // the scene parts around the growing L: the two columns drift apart and fade as it starts to rise
+  const fade = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [1, 0]);
+  const left = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [0, -80]);
+  const right = useTransform(p, [HOLD * 0.6, HOLD + 0.07], [0, 80]);
 
   return (
-    <section ref={ref} className="lx" aria-hidden>
+    <section ref={ref} className="lx">
       <div className="lx-sticky">
-        <motion.div className="lx-mark" style={{ scale }}>
+        <Lines />
+        <motion.div className="lx-shows" style={{ opacity: fade }} aria-hidden>
+          <Marquee speed={70}>
+            {finale.shows.map((s) => (
+              <span key={s} className="lx-show">
+                {s}
+                <i>✦</i>
+              </span>
+            ))}
+          </Marquee>
+        </motion.div>
+        <div className="cols lx-scene">
+          <motion.div className="lx-left" style={{ opacity: fade, x: left }}>
+            <Label title={finale.label} />
+            <SplitTitle className="lx-title" text={finale.title} />
+            <p className="muted">{finale.lead}</p>
+          </motion.div>
+          <motion.div className="lx-right" style={{ opacity: fade, x: right }}>
+            <dl className="lx-facts">
+              {finale.facts.map(([k, v]) => (
+                <div key={k}>
+                  <dt className="mono-up muted">{k}</dt>
+                  <dd className="mono-up">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <Button>{finale.cta}</Button>
+          </motion.div>
+        </div>
+        <motion.div className="lx-mark" style={{ scale }} aria-hidden>
           <LogoL />
           <motion.div className="lx-solid" style={{ opacity: solid }}>
             <LogoL solid />
           </motion.div>
         </motion.div>
         {/* the footer's top edge, mirrored: its glow sits at the bottom here, so the two meet as one */}
-        <motion.div className="dark lx-finish" style={{ opacity: finish }}>
+        <motion.div className="dark lx-finish" style={{ opacity: finish }} aria-hidden>
           <Lines />
           <div className="footer-grain" />
         </motion.div>

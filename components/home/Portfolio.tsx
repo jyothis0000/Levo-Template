@@ -213,6 +213,12 @@ function CaseGrid() {
         <motion.h3 className="reel-title" style={{ opacity: textO, scale: textS }}>
           {caseStudies.overlay}
         </motion.h3>
+        {/* phones: the centre cell is too narrow for the button, so it sits over the whole settled grid instead */}
+        <motion.div className="reel-cta-m" style={{ opacity: capO, pointerEvents: ctaEvents }}>
+          <Button variant="red" href={caseStudies.all} external>
+            {caseStudies.cta}
+          </Button>
+        </motion.div>
       </div>
     </div>
   );

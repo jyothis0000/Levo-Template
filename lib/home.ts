@@ -57,10 +57,14 @@ const clientNames = [
   "Mitsubishi", "Petronas", "Coesia", "Brother", "Arkema", "Alfanar", "Veritas", "Zamil Offshore",
   "Hemani", "Foodics", "AGFA", "Panatta", "Middlesex University", "Polska", "Tourism Malaysia", "Belarus",
 ];
-export const clients = clientNames.map((name) => ({
-  name,
-  logo: img(`client-${name.toLowerCase().replace(/\s+/g, "-")}.jpg`),
-}));
+export const clients = clientNames.map((name) => {
+  const slug = name.toLowerCase().replace(/\s+/g, "-");
+  return {
+    name,
+    logo: img(`client-${slug}.jpg`), // on white, for light backgrounds
+    mark: img(`client-${slug}-mark.png`), // white on transparent, for the banner's dark strip
+  };
+});
 
 export const about = {
   meta: "3,000+ projects",
@@ -439,4 +443,19 @@ export const shows = {
     { title: "IDEX & NAVDEX 2027", text: "ADNEC, Abu Dhabi — stands for the India Pavilion, SFTE and ABIMDE at IDEX 2025.", date: "25.01.27", img: img("project-031-ministry-of-defence-of-the-czech-republic.webp"), cap: "Czech Ministry of Defence — Dubai Airshow 2025" },
     { title: "Gulfood 2027", text: "Dubai World Trade Centre and Expo City — builds for Coesia and Ghassan Aboud Group.", date: "15.03.27", img: img("project-013-hemani.webp"), cap: "Hemani — Gulfood 2026" },
   ],
+};
+
+// The closing scene around the logo's "L", just before it grows into the footer: a last call to action, with the
+// shows we build for running behind it.
+export const finale = {
+  label: "Your next show",
+  title: "Let’s build\nwhat’s next.",
+  lead: "Send the show, your stand size and the organiser’s floor plan — a project manager replies within one working day.",
+  facts: [
+    ["Now booking", "Gulfood 2027"],
+    ["Reply", "Within one working day"],
+    ["Built in", "Our Dubai workshop"],
+  ],
+  cta: "Request a stand design",
+  shows: ["Gulfood", "GITEX", "ADIPEC", "Beautyworld", "SIAL Paris", "Dubai Airshow", "IDEX", "WHX"],
 };

@@ -22,7 +22,7 @@ function Panel({ i, p, n }: { i: number; p: MotionValue<number>; n: number }) {
   const start = i / n;
   // every panel after the first wipes up over the previous one; the first sits on the dive photo
   const clip = useTransform(p, [start - 0.1, start + 0.04], ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]);
-  const wordY = useTransform(p, [start, start + 0.14], ["105%", "0%"]);
+  const wordY = useTransform(p, [start, start + 0.14], ["118%", "0%"]); // starts just below its mask (.line-mask)
   const textO = useTransform(p, [start + 0.04, start + 0.16], [0, 1]);
   return (
     <motion.div className={`pr-panel is-dark ${i ? "" : "is-clear"}`} style={i ? { clipPath: clip } : undefined}>

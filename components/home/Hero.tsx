@@ -135,7 +135,7 @@ export default function Hero() {
         <Marquee speed={45}>
           {clients.map((c) => (
             <span key={c.name} className="hero-logo">
-              <img src={c.logo} alt={c.name} />
+              <img src={c.mark} alt={c.name} />
             </span>
           ))}
         </Marquee>

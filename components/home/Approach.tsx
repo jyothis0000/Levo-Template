@@ -5,6 +5,7 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { approach } from "@/lib/home";
+import Blueprint from "./Blueprint";
 import { Label, Lines, SplitTitle } from "./ui";
 
 const ease = [0.14, 0.83, 0.4, 1] as const; // /home2's house curve
@@ -90,6 +91,8 @@ export default function Approach() {
             </span>
           </div>
         </div>
+        {/* behind the stages: a stand drawn as a blueprint, layer by layer, stage by stage */}
+        <Blueprint list={list} caption={`Fig. ${pad(active + 1)} — ${approach.steps[active].title}`} />
         <ol ref={list} className="ap-steps">
           {approach.steps.map((s, i) => (
             <Step key={s.title} i={i} s={s} active={active === i} />
