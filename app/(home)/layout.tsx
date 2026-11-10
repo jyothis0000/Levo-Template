@@ -11,9 +11,9 @@ const cal = Cal_Sans({ subsets: ["latin", "latin-ext"], weight: "400", variable:
 const script = Ms_Madi({ subsets: ["latin", "latin-ext"], weight: "400", variable: "--font-script" });
 
 export const metadata: Metadata = {
-  title: "Levo Exhibitions — Exhibition Stand Design & Build",
+  title: "Levo Exhibitions — Exhibition Stands for European Exhibitors",
   description:
-    "Levo Exhibitions designs, builds and installs custom exhibition stands for European brands - at the Gulf's leading shows and across Europe.",
+    "Levo Exhibitions designs, builds and installs custom exhibition stands and national pavilions for European brands - at shows across Europe and at the Gulf's leading trade shows.",
   icons: { icon: "/images/favicon-site-icon.png" },
 };
 

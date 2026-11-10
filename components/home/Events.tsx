@@ -78,7 +78,7 @@ export default function Events() {
       </div>
 
       <div className="ev-bar">
-        <span className="mono-up">See our focus cases</span>
+        <span className="mono-up">{events.filtersLabel}</span>
         <ul className="tags">
           {events.filters.map((f) => (
             <li key={f.label}>

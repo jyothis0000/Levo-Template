@@ -193,7 +193,7 @@ function CaseGrid() {
               <motion.p className="reel-name" style={{ opacity: capO }}>
                 <b>{p.client}</b>
                 <span className="mono-up">
-                  {p.show.split(" · ")[0]} · {p.year}
+                  {[p.show.split(" · ")[0], p.year].filter(Boolean).join(" · ") /* year only where the portfolio states it */}
                 </span>
               </motion.p>
               {i === 4 && (
