@@ -369,19 +369,19 @@ export const faqImage = img("project-028-phnix.webp");
 export const posts = [
   {
     title: "How Exhibition Stands Are Designed and Built: A Step-by-Step Guide",
-    date: "Oct 21, 2026",
+    date: "21 Oct 2026",
     href: "https://levoexhibitions.com/blog/exhibition-stand-design-process/",
     img: img("about-dp-world-trade-show-booth.jpg"),
   },
   {
     title: "Sustainable Exhibitions: Beyond Buzzwords to Real Impact",
-    date: "Jan 9, 2026",
+    date: "9 Jan 2026",
     href: "https://levoexhibitions.com/blog/sustainable-exhibitions-beyond-buzzwords-to-real-impact/",
     img: img("project-156-arkema.webp"),
   },
   {
     title: "Exhibition Stands Are the Cathedrals of Modern Commerce",
-    date: "Jan 9, 2026",
+    date: "9 Jan 2026",
     href: "https://levoexhibitions.com/blog/exhibition-stands-are-the-cathedrals-of-modern-commerce/",
     img: img("project-062-middlesex-university.webp"),
   },
