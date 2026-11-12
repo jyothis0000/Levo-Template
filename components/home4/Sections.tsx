@@ -4,6 +4,7 @@ import { AnimatePresence, motion, type MotionValue, useInView, useMotionValue, u
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { clients, events, faq, footer, hero, insights, process, projects, reviewStats, services, site, statement, stories } from "@/lib/home4";
 import { Icon } from "./Chrome";
+import { useLoaderReveal } from "./Loader";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const rise = (delay = 0) => ({
@@ -17,6 +18,7 @@ const rise = (delay = 0) => ({
 
 export function Hero() {
   const video = useRef<HTMLVideoElement>(null);
+  const ready = useLoaderReveal(); // the loader's L has opened (or there is no loader)
   const [playing, setPlaying] = useState(true);
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) setPlaying(false);
@@ -36,7 +38,7 @@ export function Hero() {
         </svg>
       </button>
       <div className="h4-hero-inner">
-        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease }}>
+        <motion.h1 initial={{ opacity: 0, y: 40 }} animate={ready ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 1, ease }}>
           {hero.title}{" "}
           <mark className="h4-mark">
             <span>{hero.highlight}</span>
@@ -46,14 +48,14 @@ export function Hero() {
               preserveAspectRatio="none"
               aria-hidden
               initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
+              animate={ready ? { scaleX: 1 } : undefined}
               transition={{ duration: 0.9, delay: 0.7, ease }}
             >
               <path d="M2 8.5C38 4 86 2.4 138 3.4c40 .8 78 2.4 100 1.6l-1.8 6.4c-30 1.4-70 .6-112 1.2-44 .6-86 .4-120-.2z" />
             </motion.svg>
           </mark>
         </motion.h1>
-        <motion.p className="h4-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.5 }}>
+        <motion.p className="h4-hero-sub" initial={{ opacity: 0 }} animate={ready ? { opacity: 1 } : undefined} transition={{ duration: 1, delay: 0.5 }}>
           {hero.sub}
         </motion.p>
       </div>

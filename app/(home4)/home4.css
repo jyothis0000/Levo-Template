@@ -106,7 +106,7 @@ mark {
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 22px 50px rgba(0, 0, 0, 0.16);
-  transition: translate 0.5s var(--h4-ease);
+  transition: translate 0.5s var(--h4-ease), opacity 0.9s ease 0.15s;
 }
 
 /* scrolled down: up and out, far enough that its shadow goes too (back while a link in it has keyboard focus) */
@@ -1645,7 +1645,7 @@ mark {
   font-size: 14px;
   font-weight: 600;
   box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35);
-  transition: background 0.3s, transform 0.3s var(--h4-ease);
+  transition: background 0.3s, transform 0.3s var(--h4-ease), opacity 0.9s ease 0.3s;
 }
 
 .h4-whatsapp:hover {
@@ -1869,6 +1869,72 @@ mark {
 
   .h4-legal {
     padding: 120px 0 80px;
+  }
+}
+
+/* ───────── loader (components/home4/Loader.tsx): a bar and a rolling counter, then the logo's L opens onto the page ───────── */
+.h4-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.h4-ld-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.h4-ld-black {
+  fill: var(--h4-ink);
+}
+
+.h4-ld-track {
+  fill: rgba(255, 255, 255, 0.22);
+}
+
+/* the counter: three columns, each a stack of digits one em tall, rolled by translateY inside a one-em window */
+.h4-ld-count {
+  position: absolute;
+  left: clamp(12px, 1.2vw, 28px);
+  bottom: clamp(4px, 0.8vw, 18px);
+  display: flex;
+  height: 1em;
+  overflow: hidden;
+  font-size: clamp(76px, 9.2vw, 176px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.h4-ld-col {
+  display: block;
+  width: 0.62em;
+  text-align: center;
+}
+
+.h4-ld-col > span {
+  display: block;
+  will-change: transform;
+}
+
+.h4-ld-col i {
+  display: block;
+  height: 1em;
+  font-style: normal;
+}
+
+/* while it plays, the page's own chrome waits behind it, then fades in as the L opens */
+html.h4-loading :is(.h4-header, .h4-side, .h4-whatsapp) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h4-loader {
+    display: none;
   }
 }
 

@@ -1,5 +1,6 @@
 import Perception from "@/components/home/Perception";
 import { Cursor, Header, SideBars, WhatsApp } from "@/components/home4/Chrome";
+import Loader from "@/components/home4/Loader";
 import { DarkBand, Faq, Footer, Hero, Insights, Intro, Services, Upcoming } from "@/components/home4/Sections";
 
 // /home4 — layout after creativdesign.eu, with Levo's own content (lib/home4.ts). Perception, Services, Upcoming
@@ -8,6 +9,7 @@ import { DarkBand, Faq, Footer, Hero, Insights, Intro, Services, Upcoming } from
 export default function Home4() {
   return (
     <>
+      <Loader />
       <Header />
       <SideBars />
       <Cursor />
