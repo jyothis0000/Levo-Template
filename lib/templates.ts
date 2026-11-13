@@ -100,10 +100,10 @@ export const templates: Template[] = [
     href: "/home4",
     name: "Home 4",
     tag: "Newest",
-    summary: "A bold dark-and-white edition with a floating header, a custom cursor and a loader that builds Levo's L.",
+    summary: "A bold dark-and-white edition with a floating header and a custom cursor.",
     styles: [
       "Smooth inertial scroll",
-      "Loader that builds the logo L",
+      "Script-line curtain preloader",
       "Header that hides on scroll",
       "Blend-mode cursor with labels",
       "Side rails with a scroll dot",

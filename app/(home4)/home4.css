@@ -1413,7 +1413,8 @@ mark {
 
 /* upcoming events */
 .h4-events {
-  padding: 150px 0 120px;
+  padding: 120px 0 150px;
+  border-top: 1px solid var(--h4-line);
 }
 
 .h4-events-list li {
@@ -1538,7 +1539,6 @@ mark {
 /* insights: the project cards, outside their white panel */
 .h4-insights {
   padding: 120px 0;
-  border-top: 1px solid var(--h4-line);
 }
 
 .h4-cards.h4-posts {
@@ -1934,6 +1934,39 @@ html.h4-loading :is(.h4-header, .h4-side, .h4-whatsapp) {
 
 @media (prefers-reduced-motion: reduce) {
   .h4-loader {
+    display: none;
+  }
+}
+
+/* ───────── preloader (components/home4/Preloader.tsx): /home1's — script line, then the black curtain lifts ───────── */
+.h4-pre {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #000;
+  color: #fff;
+}
+
+.h4-pre-script {
+  font-family: var(--h4-script), cursive;
+  font-size: 44px;
+  opacity: 0.9;
+}
+
+.h4-pre-logo {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  translate: -50% 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h4-pre {
     display: none;
   }
 }
