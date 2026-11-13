@@ -335,8 +335,10 @@ export function Services() {
               <p>{s.text}</p>
               <p className="h4-service-note">{s.note}</p>
               <ul className="h4-chips">
-                {s.tags.map((t) => (
-                  <li key={t}>{t}</li>
+                {s.tags.map((t, k) => (
+                  <li key={t} className={`pop-${(k + i) % 5}`}>
+                    {t}
+                  </li>
                 ))}
               </ul>
             </motion.article>

@@ -58,17 +58,17 @@ export const process = {
 
 export const statement = {
   text: "We design, engineer and build stands for European exhibitors — one project manager and one team, from the first sketch to the last panel coming down.",
-  // the pills that tumble into a pile: [label, colour step 0 (deepest) … 8 (palest)]
+  // the pills that tumble into a pile: [label, colour step: 0 (deepest blue) … 8 (palest blue), or a pop: 9 coral, 10 green, 11 pink, 12 violet, 13 apricot]
   tags: [
-    ["Partner Network in Europe", 8],
-    ["3D Design", 7],
+    ["Partner Network in Europe", 12],
+    ["3D Design", 9],
     ["Engineering", 6],
-    ["Turnkey Service", 5],
-    ["Double Deckers", 4],
-    ["National Pavilions", 3],
-    ["Custom Stands", 6],
+    ["Turnkey Service", 10],
+    ["Double Deckers", 11],
+    ["National Pavilions", 13],
+    ["Custom Stands", 10],
     ["Fabrication", 0],
-    ["On-Time Build-Up", 2],
+    ["On-Time Build-Up", 12],
   ] as [string, number][],
 };
 

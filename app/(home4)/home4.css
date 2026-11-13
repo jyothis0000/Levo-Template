@@ -8,6 +8,15 @@
   --h4-ink: #0e0e0e;
   --h4-grey: #6b6b6b;
   --h4-line: #e6e6e6;
+  /* the pops: five hues well apart from the blue and from each other, set at the blue steps' own tone (60–80%
+     saturation, light-mid lightness) so they sit in the same family. They fill the falling tags and the Services tags, and
+     colour the zigzag and one figure on the dark band. As a fill each takes navy text (5.8:1 or better); on the dark band
+     they can be text. */
+  --h4-coral: #eb825c;
+  --h4-green: #57c78f;
+  --h4-pink: #ea90ae;
+  --h4-violet: #b79be9;
+  --h4-apricot: #eea153;
   --h4-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -161,6 +170,7 @@ mark {
 
 .h4-header-cta:hover {
   background: var(--h4-blue);
+  color: #fff;
 }
 
 .h4-burger {
@@ -514,7 +524,7 @@ mark {
   width: 48px;
   margin-bottom: 34px;
   fill: none;
-  stroke: #fff;
+  stroke: var(--h4-coral);
   stroke-width: 2;
 }
 
@@ -533,11 +543,13 @@ mark {
   margin-top: 40px;
 }
 
+/* the pills shrink a little with the window (full size from 1440px), since their places scale with the width but their size
+   did not: below that they piled up and hid each other's names */
 .h4-tag {
   position: absolute;
-  padding: 7px 30px;
+  padding: 7px clamp(16px, 2.1vw, 30px);
   border-radius: 140px;
-  font-size: 20px;
+  font-size: clamp(14px, 1.4vw, 20px);
   font-weight: 700;
   line-height: 40px;
   white-space: nowrap;
@@ -551,7 +563,8 @@ mark {
   cursor: grabbing;
 }
 
-/* Levo blue to its palest tint, in nine steps; white text on 0–1, navy from 2 (each at least 4.5:1) */
+/* Levo blue to its palest tint, in nine steps; white text on 0–1, navy from 2 (each at least 4.5:1). 9–13 are the pops
+   (coral, green, pink, violet, apricot), with navy text. */
 .shade-0 { background: #0070b8; color: #fff; }
 .shade-1 { background: #1a7abb; color: #fff; }
 .shade-2 { background: #3b93cd; }
@@ -561,6 +574,11 @@ mark {
 .shade-6 { background: #99c8ec; }
 .shade-7 { background: #b3d7f4; }
 .shade-8 { background: #cfe6fa; }
+.shade-9 { background: var(--h4-coral); }
+.shade-10 { background: var(--h4-green); }
+.shade-11 { background: var(--h4-pink); }
+.shade-12 { background: var(--h4-violet); }
+.shade-13 { background: var(--h4-apricot); }
 
 .h4-projects {
   position: relative;
@@ -1376,11 +1394,17 @@ mark {
 .h4-chips li {
   padding: 6px 14px;
   border-radius: 999px;
-  background: #cfe6fa;
   color: var(--h4-navy);
   font-size: 12px;
   font-weight: 700;
 }
+
+/* each tag takes the next pop, and each service starts one colour further along (see Services in Sections.tsx) */
+.h4-chips .pop-0 { background: var(--h4-coral); }
+.h4-chips .pop-1 { background: var(--h4-green); }
+.h4-chips .pop-2 { background: var(--h4-pink); }
+.h4-chips .pop-3 { background: var(--h4-violet); }
+.h4-chips .pop-4 { background: var(--h4-apricot); }
 
 /* review figures, under the stories on the dark band */
 .h4-stats {
@@ -1401,7 +1425,7 @@ mark {
 }
 
 .h4-stats li:first-child b {
-  color: var(--h4-blue-lift);
+  color: var(--h4-coral);
 }
 
 .h4-stats span {
