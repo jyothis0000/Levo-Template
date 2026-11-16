@@ -4,6 +4,7 @@
 // the label + giant-title head, the column rules, and rows set like the FAQ's.
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
 import { useState } from "react";
+import { place, shortDate, type LevoEvent } from "@/lib/events";
 import { shows } from "@/lib/home";
 import { Button, Label, Lines, SplitTitle } from "./ui";
 
@@ -17,12 +18,12 @@ const rise = (delay = 0) => ({
 });
 
 /** A list of shows; with a mouse, that show's photo follows the pointer, tilting with its speed. */
-export default function Shows() {
+export default function Shows({ events }: { events: LevoEvent[] }) {
   const [hover, setHover] = useState<number | null>(null);
   const x = useSpring(useMotionValue(0), { stiffness: 220, damping: 26, mass: 0.5 });
   const y = useSpring(useMotionValue(0), { stiffness: 220, damping: 26, mass: 0.5 });
   const rotate = useTransform(useVelocity(x), [-1500, 1500], [-8, 8], { clamp: true });
-  const cur = hover === null ? null : shows.list[hover];
+  const cur = hover === null ? null : events[hover];
 
   return (
     <section className="section sh" id="shows">
@@ -31,7 +32,7 @@ export default function Shows() {
         <div className="head-left">
           <Label title={shows.label} />
           <p className="muted">{shows.intro}</p>
-          <Button href={shows.all} external className="head-btn">
+          <Button href="/home/events" className="head-btn">
             {shows.cta}
           </Button>
         </div>
@@ -47,15 +48,17 @@ export default function Shows() {
         }}
         onPointerLeave={() => setHover(null)}
       >
-        {shows.list.map((s, i) => (
+        {events.map((s, i) => (
           <motion.li key={s.title} {...rise(i * 0.05)} onPointerEnter={(e) => e.pointerType === "mouse" && setHover(i)}>
             <a href="/home#contact" className={`sh-link ${hover === i ? "is-on" : ""}`}>
               <span className="sh-name">
                 <span className="mono-up muted">0{i + 1}.</span>
                 <span className="sh-title">{s.title}</span>
-                <span className="sh-date mono-up">{s.date}</span>
+                <span className="sh-date mono-up">{shortDate(s.start)}</span>
               </span>
-              <span className="sh-text muted">{s.text}</span>
+              <span className="sh-text muted">
+                {place(s)}. {s.text}
+              </span>
               <span className="sh-meta">
                 {/* the clients we built for at this show: their logo where we have it, otherwise their name */}
                 <span className="sh-clients" aria-label={`Built here for ${s.clients.map((c) => c.name).join(", ")}`}>

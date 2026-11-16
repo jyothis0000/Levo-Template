@@ -1,5 +1,7 @@
 // /home — the working copy of /home1 (cloned so it can change freely). Copy and imagery from levoexhibitions.com
 // (see content-notes.md), framed for European exhibitors.
+import { EVENTS, place, shortDate, upcoming } from "./events";
+
 const img = (f: string) => `/images/${f}`;
 
 export const brand = {
@@ -16,6 +18,7 @@ export const brand = {
 // page-qualified, so they also work from the privacy and legal pages
 export const nav = [
   { label: "Who we are", href: "/home#about" },
+  { label: "Events", href: "/home/events" },
   { label: "Services", href: "/home#services" },
   { label: "Projects", href: "/home#featured" }, // "#projects" while the Case studies section is shown
   { label: "Process", href: "/home#approach" }, // "#process" while the Steps section is shown
@@ -436,27 +439,17 @@ export const approach = {
 };
 
 // "Upcoming shows", taken from /home2 (lib/home2.ts → shows): a list where a photo follows the pointer over each row.
-// The shows European exhibitors book us for: three in Europe, two in the Gulf with European clients. European date
-// order (DD.MM.YY). Gulf dates from content-notes.md; European ones from trade-fair listings (Nov 2026) — confirm on the
-// organisers' sites (piscine-global.com, intertabac.de, eurosatory.com) as each edition nears.
+// The events themselves live in lib/events.ts; /home shows the featured ones and links to /home/events for the rest.
 export const shows = {
   label: "Upcoming events",
   title: "Where to find\nus next.",
   intro: "Where European exhibitors will find our stands next — at shows across Europe and in the Gulf.",
   cta: "All events",
   all: "https://levoexhibitions.com/upcoming-exhibitions-dubai/",
-  list: [
-    { title: "Piscine Global Europe 2026", text: "Eurexpo, Lyon — we built a 117 sqm stand for PHNIX here in 2022.", date: "17.11.26", img: img("project-028-phnix.webp"), cap: "PHNIX — Piscine Global 2022",
-      clients: [{ name: "PHNIX", logo: img("client-phnix.jpg") }] },
-    { title: "IDEX & NAVDEX 2027", text: "ADNEC, Abu Dhabi — a 104 sqm stand for Spain's Indra at IDEX 2025.", date: "25.01.27", img: img("project-044-indra.webp"), cap: "Indra — IDEX 2025",
-      clients: [{ name: "Indra" }, { name: "SFTE" }] },
-    { title: "Gulfood 2027", text: "Dubai World Trade Centre and Expo City — stands for Italy's Coesia, and the Belarus national stand at Gulfood Manufacturing.", date: "15.03.27", img: img("project-206-belarus.webp"), cap: "Belarus — Gulfood Manufacturing",
-      clients: [{ name: "Coesia", logo: img("client-coesia.jpg") }, { name: "Belarus pavilion" }] },
-    { title: "InterTabac 2027", text: "Messe Dortmund — a 60 sqm stand for Tabaterra here in 2024.", date: "14.09.27", img: img("project-027-tabaterra.webp"), cap: "Tabaterra — InterTabac 2024",
-      clients: [{ name: "Tabaterra" }] },
-    { title: "Eurosatory 2028", text: "Paris Nord Villepinte — the 210 sqm Ukraine Pavilion here in 2022.", date: "19.06.28", img: img("project-208-ukraine-pavilion.webp"), cap: "Ukraine Pavilion — Eurosatory 2022",
-      clients: [{ name: "Ukraine Pavilion" }, { name: "CAA" }] },
-  ] as { title: string; text: string; date: string; img: string; cap: string; clients: { name: string; logo?: string }[] }[],
+  // /home4's list: the featured events, with the date in European order (DD.MM.YY) and the place before the story
+  list: upcoming(EVENTS)
+    .filter((e) => e.featured)
+    .map((e) => ({ ...e, date: shortDate(e.start), text: `${place(e)}. ${e.text}` })),
 };
 
 // The closing scene around the logo's "L", just before it grows into the footer: a last call to action, with the
@@ -471,5 +464,15 @@ export const finale = {
     ["Built in", "Dubai, or with partners in Europe"],
   ],
   cta: "Request a stand design",
-  shows: ["Eurosatory", "SIAL Paris", "Piscine Global", "InterTabac", "Gulfood", "IDEX", "Dubai Airshow", "GITEX"],
+  // each links to the show's own site (checked Nov 2026)
+  shows: [
+    { name: "Eurosatory", href: "https://www.eurosatory.com/" },
+    { name: "SIAL Paris", href: "https://www.sialparis.com/" },
+    { name: "Piscine Global", href: "https://www.piscine-global.com/en" },
+    { name: "InterTabac", href: "https://www.intertabac.de/" },
+    { name: "Gulfood", href: "https://www.gulfood.com/" },
+    { name: "IDEX", href: "https://www.idexuae.ae/en" },
+    { name: "Dubai Airshow", href: "https://www.dubaiairshow.aero/" },
+    { name: "GITEX", href: "https://www.gitex.com/" },
+  ],
 };

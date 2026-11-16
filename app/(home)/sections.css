@@ -3327,6 +3327,7 @@
   translate: -16.4% -41.6%;
   transform-origin: 16.4% 41.6%;
   will-change: transform;
+  pointer-events: none;
 }
 
 .lx-mark svg,
@@ -3341,6 +3342,8 @@
 .lx-scene {
   position: absolute;
   inset: 0 var(--pad);
+  pointer-events: none;
+  /* only its two columns take the pointer (LTransition.tsx), so the marquee under its foot stays clickable */
   align-items: center;
   padding: var(--nav) 0 130px;
   /* clear of the nav, and of the marquee along the foot */
@@ -3396,7 +3399,12 @@
   left: 0;
   right: 0;
   bottom: 28px;
-  pointer-events: none;
+}
+
+/* holds still while pointed at, or while a name has keyboard focus, so it can be clicked. Not :focus-within: a clicked
+   link keeps focus, which would leave the marquee stopped after coming back from the show's site */
+.lx-shows:is(:hover, :has(:focus-visible)) .marquee-track {
+  animation-play-state: paused;
 }
 
 .lx-show {
@@ -3411,6 +3419,18 @@
   white-space: nowrap;
   color: transparent;
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0.16);
+  transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+}
+
+/* the name pointed at fills in the Levo blue */
+.lx-show:is(:hover, :focus-visible) {
+  color: var(--accent);
+  -webkit-text-stroke-color: var(--accent);
+}
+
+.lx-show:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .lx-show i {
@@ -3457,5 +3477,304 @@
 .lx-finish {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  /* invisible until the L has grown: it must not cover the scene's links and button */
   background: radial-gradient(80% 60% at 70% 100%, #2a2a2a 0%, #141414 60%);
+}
+
+/* ───────── /home/events: every upcoming event — filters in a sidebar, industries in a chip row, a card per event ───────── */
+.evp {
+  padding-bottom: 120px;
+}
+
+.evp-head {
+  padding: 170px 0 70px;
+  align-items: start;
+}
+
+.evp-body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.evp-side {
+  position: sticky;
+  top: calc(var(--nav) + 24px);
+  display: grid;
+  gap: 24px;
+}
+
+.evp-side-title {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+}
+
+.evp-group {
+  display: grid;
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.evp-group-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.evp-clear {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.evp-clear:hover {
+  text-decoration: underline;
+}
+
+.evp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.evp-chip {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.evp-chip:hover {
+  border-color: var(--black);
+}
+
+.evp-chip[aria-pressed="true"] {
+  border-color: var(--black);
+  background: var(--black);
+  color: #fff;
+}
+
+.evp-chip:focus-visible,
+.evp-clear:focus-visible,
+.evp-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* not on the list: the one call to action in the sidebar */
+.evp-ask {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  background: var(--soft);
+}
+
+.evp-ask p {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.evp-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: color 0.3s;
+}
+
+.evp-link span {
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.5s var(--ease);
+}
+
+.evp-link:hover {
+  color: var(--accent);
+}
+
+.evp-link:hover span {
+  transform: rotate(90deg);
+}
+
+.evp-count {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.evp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 48px 24px;
+  list-style: none;
+}
+
+.evp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.evp-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.evp-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+
+.evp-card:hover .evp-img img {
+  transform: scale(1.05);
+}
+
+.evp-region {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 7px 10px;
+  background: #fff;
+}
+
+/* the date strip along the photo's foot, in the Levo blue */
+.evp-date {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 13px 14px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.evp-info {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.evp-title {
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  transition: color 0.3s;
+}
+
+.evp-card:hover .evp-title {
+  color: var(--accent);
+}
+
+.evp-place {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.evp-text {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* the tiles come from the home list's styles; undo that list's phone placement */
+.evp-info .sh-clients {
+  grid-row: auto;
+  margin-top: 8px;
+  padding-left: 0;
+}
+
+.evp-card .sh-tile {
+  width: 84px;
+  height: 52px;
+}
+
+.evp-card:hover .sh-tile img {
+  filter: none;
+  opacity: 1;
+}
+
+.evp-card:hover .sh-tile b {
+  color: var(--black);
+}
+
+.evp-cta {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.evp-empty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 0;
+  font-size: 15px;
+}
+
+@media (max-width: 899px) {
+  .evp {
+    padding-bottom: 80px;
+  }
+
+  .evp-head {
+    padding: 120px 0 40px;
+    gap: 24px;
+  }
+
+  .evp-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-top: 28px;
+  }
+
+  /* the sidebar becomes two rows of chips above the list (each card keeps its own enquiry link) */
+  .evp-side {
+    position: static;
+    gap: 18px;
+  }
+
+  .evp-side-title,
+  .evp-ask {
+    display: none;
+  }
+
+  .evp-group {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  /* industries scroll sideways, edge to edge */
+  .evp-bar {
+    margin: 0 calc(-1 * var(--pad));
+    padding: 0 var(--pad);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .evp-bar .evp-chips {
+    flex-wrap: nowrap;
+  }
+
+  .evp-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
 }

@@ -55,28 +55,32 @@ export default function LTransition() {
   const fade = useTransform(p, [at(30), at(66)], [1, 0]);
   const left = useTransform(p, [at(30), at(66)], [0, -80]);
   const right = useTransform(p, [at(30), at(66)], [0, 80]);
+  const events = useTransform(fade, (o) => (o > 0.5 ? "auto" : "none")); // clickable only while it shows
 
   return (
     <section ref={ref} className="lx">
       <div className="lx-sticky">
         <Lines />
-        <motion.div className="lx-shows" style={{ opacity: fade }} aria-hidden>
+        {/* the shows we build for, each a link to its own site */}
+        <motion.div className="lx-shows" style={{ opacity: fade, pointerEvents: events }}>
           <Marquee speed={70}>
-            {finale.shows.map((s) => (
-              <span key={s} className="lx-show">
-                {s}
-                <i>✦</i>
-              </span>
-            ))}
+            {(copy) =>
+              finale.shows.map((s) => (
+                <a key={s.name} href={s.href} className="lx-show" target="_blank" rel="noreferrer noopener" tabIndex={copy ? -1 : undefined}>
+                  {s.name}
+                  <i aria-hidden>✦</i>
+                </a>
+              ))
+            }
           </Marquee>
         </motion.div>
         <div className="cols lx-scene">
-          <motion.div className="lx-left" style={{ opacity: fade, x: left }}>
+          <motion.div className="lx-left" style={{ opacity: fade, x: left, pointerEvents: events }}>
             <Label title={finale.label} />
             <SplitTitle className="lx-title" text={finale.title} />
             <p className="muted">{finale.lead}</p>
           </motion.div>
-          <motion.div className="lx-right" style={{ opacity: fade, x: right }}>
+          <motion.div className="lx-right" style={{ opacity: fade, x: right, pointerEvents: events }}>
             <dl className="lx-facts">
               {finale.facts.map(([k, v]) => (
                 <div key={k}>

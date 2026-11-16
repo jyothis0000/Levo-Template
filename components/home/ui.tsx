@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** "[ LV® ‒ SERVICES ]" section tag with the red bar mark. */
+/** "[ SERVICES ]" section tag with the bar mark. */
 export function Label({ title }: { title: string }) {
   return (
     <div className="label">
@@ -13,7 +13,7 @@ export function Label({ title }: { title: string }) {
         <i /><i /><i /><i />
       </span>
       <span>
-        [ <b>LV®</b> ‒ {title} ]
+        [ {title} ]
       </span>
     </div>
   );
@@ -161,12 +161,23 @@ export function Counter({ to, prefix = "", suffix = "", duration = 2 }: { to: nu
   );
 }
 
-export function Marquee({ children, speed = 40, reverse = false }: { children: ReactNode; speed?: number; reverse?: boolean }) {
+export function Marquee({
+  children,
+  speed = 40,
+  reverse = false,
+}: {
+  children: ReactNode | ((copy: boolean) => ReactNode); // copy: the repeat that closes the loop, hidden from assistive tech
+  speed?: number;
+  reverse?: boolean;
+}) {
+  const group = (copy: boolean) => (typeof children === "function" ? children(copy) : children);
   return (
     <div className="marquee">
       <div className="marquee-track" style={{ animationDuration: `${speed}s`, animationDirection: reverse ? "reverse" : "normal" }}>
-        <div className="marquee-group">{children}</div>
-        <div className="marquee-group" aria-hidden>{children}</div>
+        <div className="marquee-group">{group(false)}</div>
+        <div className="marquee-group" aria-hidden>
+          {group(true)}
+        </div>
       </div>
     </div>
   );

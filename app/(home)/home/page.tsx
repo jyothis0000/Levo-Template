@@ -14,9 +14,13 @@ import Preloader from "@/components/home/Preloader";
 import Reviews from "@/components/home/Reviews";
 import Services from "@/components/home/Services";
 import Shows from "@/components/home/Shows";
+import { getEvents } from "@/lib/events";
 import { contact } from "@/lib/home";
 
-export default function Home() {
+export const revalidate = 3600; // re-read the events hourly, so ended ones drop off
+
+export default async function Home() {
+  const events = (await getEvents()).filter((e) => e.featured).slice(0, 5);
   return (
     <>
       <Preloader />
@@ -24,7 +28,7 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Shows />
+        <Shows events={events} />
         {/* Events (the work built in Europe): hidden for now - restore this line and its import */}
         {/* <Events /> */}
         <Perception />

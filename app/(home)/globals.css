@@ -210,10 +210,6 @@ button {
   white-space: nowrap;
 }
 
-.label b {
-  font-weight: 700;
-}
-
 .label-mark {
   display: inline-flex;
   gap: 2px;
