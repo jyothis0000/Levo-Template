@@ -181,19 +181,31 @@
 }
 
 /* ───────── nav + menu ───────── */
+/* boxed: a floating bar narrower than the page rather than edge to edge, a little below the top (--nav-gap, --nav-bar;
+   the sections clear --nav, their sum). It slides away while you scroll down and comes back as you scroll up (Nav.tsx). */
 .nav {
   position: fixed;
-  top: 0;
+  top: var(--nav-gap);
   left: 0;
   right: 0;
   z-index: 50;
-  height: var(--nav);
+  width: min(1080px, 100% - 2 * var(--pad));
+  height: var(--nav-bar);
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 0 var(--pad);
+  padding: 0 22px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transition: translate 0.5s var(--ease);
+}
+
+/* scrolled down: up and out, shadow and all (back while a link in it has keyboard focus) */
+.nav.is-hidden:not(:focus-within) {
+  translate: 0 calc(-1 * (var(--nav) + 40px));
 }
 
 .nav-logo {
@@ -203,23 +215,16 @@
 }
 
 .nav-logo img {
-  height: 24px;
+  height: 30px;
   width: auto;
 }
 
-.nav-pill {
-  background: var(--accent);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 3px 7px;
-  border-radius: 3px;
-  white-space: nowrap;
-}
-
+/* centred in the bar both ways: the grid centres the row, and the nudge centres the capitals themselves, which sit high
+   in their line box (all caps, so the space kept for descenders is empty) */
 .nav-links {
   display: flex;
   gap: 48px;
+  translate: 0 1.5px;
 }
 
 .nav-links a {

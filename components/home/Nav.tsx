@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import { brand, contact, nav, portfolioIntro } from "@/lib/home";
 import { Button, RollText } from "./ui";
@@ -9,6 +9,10 @@ const ease = [0.76, 0, 0.24, 1] as const;
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  // slides away while scrolling down, comes back on any scroll up; always there near the top and while the menu is open
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  useMotionValueEvent(scrollY, "change", (y) => setHidden(y > 120 && y > (scrollY.getPrevious() ?? 0)));
 
   useEffect(() => {
     if (!open) return;
@@ -19,10 +23,9 @@ export default function Nav() {
 
   return (
     <>
-      <header className="nav">
+      <header className={`nav ${hidden && !open ? "is-hidden" : ""}`}>
         <a href="/home#top" className="nav-logo">
           <img src={brand.logo} alt={brand.name} />
-          <span className="nav-pill">{brand.pill}</span>
         </a>
         <nav className="nav-links">
           {nav.map((l) => (
