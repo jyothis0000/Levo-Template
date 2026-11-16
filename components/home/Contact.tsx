@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { CookieSettings } from "@/components/consent/Consent";
 import { brand, contact, nav } from "@/lib/home";
 import { Label, Lines, RollText } from "./ui";
 
@@ -114,6 +115,7 @@ export function Footer() {
         <span className="footer-legal">
           <a href="/home/privacy">Privacy notice</a>
           <a href="/home/legal">Legal notice</a>
+          <CookieSettings />
         </span>
         <a href="#top">Back to top ↑</a>
       </div>

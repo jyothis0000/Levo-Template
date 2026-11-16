@@ -25,7 +25,7 @@
   font-size: 13px;
 }
 
-.person > div {
+.person>div {
   display: flex;
   flex-direction: column;
 }
@@ -112,7 +112,7 @@
   display: flex;
 }
 
-.avatars > span {
+.avatars>span {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -124,7 +124,7 @@
   place-items: center;
 }
 
-.avatars > span:first-child {
+.avatars>span:first-child {
   margin-left: 0;
 }
 
@@ -281,7 +281,8 @@
 .menu {
   position: fixed;
   inset: 0;
-  z-index: 45; /* under the nav so the close button stays reachable */
+  z-index: 45;
+  /* under the nav so the close button stays reachable */
   padding: calc(var(--nav) + 60px) var(--pad) 0;
   display: flex;
   flex-direction: column;
@@ -334,10 +335,13 @@
 }
 
 /* ───────── hero ───────── */
+/* the first screen, exactly: svh leaves out the browser's own bars, so the logo strip is always in view. Below, the gaps
+   and the strip ease off with the height so the whole banner fits shorter laptop screens too. */
 .hero {
   position: relative;
   height: 100vh;
-  min-height: 720px;
+  height: 100svh;
+  min-height: 520px;
   padding: var(--nav) var(--pad) 0;
   overflow: hidden;
   background: #000;
@@ -381,40 +385,13 @@
   33% {
     transform: translate(-2%, 1%);
   }
+
   66% {
     transform: translate(1%, -2%);
   }
 }
 
-.hero-grid {
-  position: absolute;
-  inset: calc(var(--nav) + 100px) var(--pad) 70px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.hero-grid i {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.hero-grid i:nth-child(1) { left: 0; }
-.hero-grid i:nth-child(2) { left: 33.333%; }
-.hero-grid i:nth-child(3) { left: 66.666%; }
-.hero-grid i:nth-child(4) { right: 0; }
-
-.hero-grid b {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  margin: -2px;
-  background: #fff;
-}
-
-.hero > *:not(.hero-bg):not(.hero-grain):not(.hero-grid) {
+.hero>*:not(.hero-bg):not(.hero-grain) {
   position: relative;
   z-index: 2;
 }
@@ -422,7 +399,7 @@
 .hero-top {
   display: flex;
   justify-content: space-between;
-  padding-top: 36px;
+  padding-top: clamp(14px, 4.5vh, 36px);
 }
 
 .hero-slots {
@@ -444,14 +421,6 @@
 
 .hero-bars i:last-child {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.hero-services {
-  margin-top: 48px;
-}
-
-.hero-services p + p {
-  padding-left: 10px;
 }
 
 .hero-word {
@@ -481,17 +450,56 @@
   opacity: 0;
 }
 
-.glitch-slice:nth-child(1) { clip-path: inset(10% 0 78% 0); animation: glitch 4s steps(1) infinite; }
-.glitch-slice:nth-child(2) { clip-path: inset(34% 0 52% 0); animation: glitch 4s steps(1) 0.15s infinite reverse; }
-.glitch-slice:nth-child(3) { clip-path: inset(58% 0 30% 0); animation: glitch 4s steps(1) 0.3s infinite; }
-.glitch-slice:nth-child(4) { clip-path: inset(80% 0 6% 0); animation: glitch 4s steps(1) 0.45s infinite reverse; }
+.glitch-slice:nth-child(1) {
+  clip-path: inset(10% 0 78% 0);
+  animation: glitch 4s steps(1) infinite;
+}
+
+.glitch-slice:nth-child(2) {
+  clip-path: inset(34% 0 52% 0);
+  animation: glitch 4s steps(1) 0.15s infinite reverse;
+}
+
+.glitch-slice:nth-child(3) {
+  clip-path: inset(58% 0 30% 0);
+  animation: glitch 4s steps(1) 0.3s infinite;
+}
+
+.glitch-slice:nth-child(4) {
+  clip-path: inset(80% 0 6% 0);
+  animation: glitch 4s steps(1) 0.45s infinite reverse;
+}
 
 @keyframes glitch {
-  0%, 86%, 96%, 100% { transform: none; opacity: 0; }
-  87% { transform: translateX(-3%); opacity: 1; }
-  89% { transform: translateX(2.5%); opacity: 1; }
-  91% { transform: translateX(-1%); opacity: 1; color: var(--accent); }
-  93% { transform: translateX(4%); opacity: 1; }
+
+  0%,
+  86%,
+  96%,
+  100% {
+    transform: none;
+    opacity: 0;
+  }
+
+  87% {
+    transform: translateX(-3%);
+    opacity: 1;
+  }
+
+  89% {
+    transform: translateX(2.5%);
+    opacity: 1;
+  }
+
+  91% {
+    transform: translateX(-1%);
+    opacity: 1;
+    color: var(--accent);
+  }
+
+  93% {
+    transform: translateX(4%);
+    opacity: 1;
+  }
 }
 
 .hero-script {
@@ -510,7 +518,7 @@
 
 .hero-bottom {
   align-items: end;
-  padding-bottom: 28px;
+  padding-bottom: clamp(12px, 3.5vh, 28px);
 }
 
 .hero-social {
@@ -554,7 +562,7 @@
 .hero-cta {
   padding-left: 10px;
   display: grid;
-  gap: 24px;
+  gap: clamp(14px, 3vh, 24px);
 }
 
 .hero-cta p {
@@ -566,21 +574,21 @@
 
 .hero-cta .btn {
   width: calc(100% - 10px);
-  height: 60px;
+  height: clamp(48px, 7.5vh, 60px);
 }
 
+/* the client reviews sit at the right-hand end of the row (on phones, left like the rest of the hero) */
 .hero-rating {
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 14px;
-  padding-left: 40px;
   padding-bottom: 10px;
 }
 
 .hero-logos {
-  height: 70px;
+  height: clamp(52px, 9vh, 70px);
   margin: 0 calc(var(--pad) * -1);
-  padding-left: calc(var(--pad) + (100% - 2 * var(--pad)) / 3);
   display: flex;
   align-items: center;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -594,14 +602,14 @@
   display: flex;
   align-items: center;
   padding: 0 18px;
-  height: 70px;
+  height: clamp(52px, 9vh, 70px);
 }
 
 .hero-logo img {
-  height: 64px;
+  height: clamp(44px, 8vh, 64px);
   width: auto;
   object-fit: contain;
-  /* white marks on transparent (client-*-mark.png), so no box shows on the video — the old invert + screen blend
+  /* white marks on transparent (client-*-mark.png), so no box shows on the video - the old invert + screen blend
      left black boxes, as the strip's edge-fade mask cut the logos off from the video they were meant to blend with */
   opacity: 0.8;
 }
@@ -764,7 +772,7 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.service-imgs > div {
+.service-imgs>div {
   aspect-ratio: 4 / 3.3;
 }
 
@@ -829,11 +837,14 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: calc(var(--nav) + 28px) var(--pad) 80px; /* the bottom clears the floating WhatsApp button */
+  padding: calc(var(--nav) + 28px) var(--pad) 80px;
+  /* the bottom clears the floating WhatsApp button */
   overflow: hidden;
   background: var(--dark);
-  box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.5); /* the arriving card's edge shades the one beneath */
-  transform-origin: 50% 100%; /* sinking back, the top tips away */
+  box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.5);
+  /* the arriving card's edge shades the one beneath */
+  transform-origin: 50% 100%;
+  /* sinking back, the top tips away */
   will-change: transform;
 }
 
@@ -856,7 +867,7 @@
   align-items: center;
 }
 
-.work-top > span + span {
+.work-top>span+span {
   padding-left: 10px;
 }
 
@@ -984,7 +995,7 @@
   object-fit: cover;
 }
 
-.more-list li > div:last-child {
+.more-list li>div:last-child {
   display: grid;
   gap: 2px;
   font-size: 16px;
@@ -1040,7 +1051,8 @@
 
 .reel-name {
   position: absolute;
-  z-index: 3; /* above the centre cell's darkening */
+  z-index: 3;
+  /* above the centre cell's darkening */
   pointer-events: none;
   left: 16px;
   right: 16px;
@@ -1078,7 +1090,8 @@
 }
 
 .reel-cta-m {
-  display: none; /* phones only, see below */
+  display: none;
+  /* phones only, see below */
 }
 
 .reel-cta .btn,
@@ -1166,8 +1179,13 @@
   border-bottom: 1px solid var(--line);
 }
 
-.step-2 { grid-area: 2 / 2; }
-.step-3 { grid-area: 2 / 1; }
+.step-2 {
+  grid-area: 2 / 2;
+}
+
+.step-3 {
+  grid-area: 2 / 1;
+}
 
 .step-top {
   display: flex;
@@ -1255,7 +1273,7 @@
   margin-top: auto;
 }
 
-.featured-foot > div {
+.featured-foot>div {
   display: grid;
   font-size: 13px;
 }
@@ -1272,7 +1290,7 @@
   padding: 40px 0;
 }
 
-.review-score .avatars > span {
+.review-score .avatars>span {
   border-color: #fff;
   background: var(--soft);
 }
@@ -1303,12 +1321,12 @@
 }
 
 /* a light rule between the two dark stat cards */
-.stat-card + .stat-card {
+.stat-card+.stat-card {
   border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 809px) {
-  .stat-card + .stat-card {
+  .stat-card+.stat-card {
     border-left: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
@@ -1343,7 +1361,7 @@
   justify-content: space-between;
 }
 
-.review-card > p {
+.review-card>p {
   font-size: 15px;
   font-weight: 500;
   text-align: center;
@@ -1465,9 +1483,20 @@
   font-size: 13px;
 }
 
-.chip-0 { left: 6%; top: 18%; }
-.chip-1 { right: 4%; top: 42%; }
-.chip-2 { left: 4%; top: 64%; }
+.chip-0 {
+  left: 6%;
+  top: 18%;
+}
+
+.chip-1 {
+  right: 4%;
+  top: 42%;
+}
+
+.chip-2 {
+  left: 4%;
+  top: 64%;
+}
 
 .chip-static {
   position: static;
@@ -1543,7 +1572,7 @@
   padding: 0 24px;
 }
 
-.timeline-img > div {
+.timeline-img>div {
   position: sticky;
   top: calc(var(--nav) + 60px);
 }
@@ -1773,7 +1802,7 @@
   gap: 20px;
 }
 
-.belief-foot > div {
+.belief-foot>div {
   display: grid;
   font-size: 13px;
 }
@@ -1890,7 +1919,7 @@
   padding: 24px 24px 0;
 }
 
-.posts > div:first-child .post {
+.posts>div:first-child .post {
   padding-left: 0;
 }
 
@@ -1920,7 +1949,8 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  padding-top: calc(var(--nav) + 40px); /* clear of the fixed nav bar */
+  padding-top: calc(var(--nav) + 40px);
+  /* clear of the fixed nav bar */
   overflow: hidden;
   background: radial-gradient(80% 60% at 70% 0%, #2a2a2a 0%, #141414 60%);
 }
@@ -1948,7 +1978,7 @@
   padding-right: 40px;
 }
 
-.footer-col + .footer-col {
+.footer-col+.footer-col {
   padding-left: 24px;
 }
 
@@ -2020,7 +2050,7 @@
   letter-spacing: -0.05em;
 }
 
-.footer-word > span:first-child {
+.footer-word>span:first-child {
   display: inline-block;
 }
 
@@ -2029,7 +2059,8 @@
   left: 50%;
   top: 46%;
   font-family: var(--script);
-  font-size: 0.233em; /* 7vw at the full 30vw word */
+  font-size: 0.233em;
+  /* 7vw at the full 30vw word */
   letter-spacing: 0;
   color: var(--accent);
   rotate: -6deg;
@@ -2041,7 +2072,8 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  padding: 18px 190px 18px 0; /* the right end stays clear of the floating WhatsApp button */
+  padding: 18px 190px 18px 0;
+  /* the right end stays clear of the floating WhatsApp button */
   border-top: 1px solid var(--line);
   margin-top: 20px;
 }
@@ -2090,7 +2122,7 @@
   letter-spacing: -0.01em;
 }
 
-.legal-body p + p {
+.legal-body p+p {
   margin-top: 12px;
 }
 
@@ -2167,10 +2199,7 @@
   }
 
   .lines i:nth-child(2),
-  .lines i:nth-child(3),
-  .hero-grid i:nth-child(2),
-  .hero-grid i:nth-child(3),
-  .hero-grid b {
+  .lines i:nth-child(3) {
     display: none;
   }
 
@@ -2194,13 +2223,15 @@
     padding-left: 0;
   }
 
-  .hero-services p + p,
   .hero-cta,
   .hero-rating {
     padding-left: 0;
   }
 
-  .hero-services,
+  .hero-rating {
+    justify-self: start;
+  }
+
   .hero-social {
     display: none;
   }
@@ -2209,8 +2240,9 @@
     gap: 20px;
   }
 
-  .hero-logos {
-    padding-left: 0;
+  .hero {
+    height: auto;
+    min-height: 100svh;
   }
 
   .hero-script {
@@ -2244,7 +2276,7 @@
 
   .services-sticky,
   .process-sticky,
-  .timeline-img > div {
+  .timeline-img>div {
     position: relative;
     top: 0;
     min-height: 0;
@@ -2309,7 +2341,7 @@
     gap: 4px;
   }
 
-  .work-top > span + span,
+  .work-top>span+span,
   .work-specs {
     padding-left: 0;
   }
@@ -2382,7 +2414,7 @@
   .featured-card,
   .review-card,
   .post,
-  .posts > div:first-child .post {
+  .posts>div:first-child .post {
     padding: 24px 0;
   }
 
@@ -2426,7 +2458,7 @@
   }
 
   .footer-col:first-child,
-  .footer-col + .footer-col {
+  .footer-col+.footer-col {
     padding: 0;
   }
 
@@ -2436,7 +2468,8 @@
 
   .footer-bottom {
     flex-direction: column;
-    padding: 18px 0 72px; /* the WhatsApp button spans the width here */
+    padding: 18px 0 72px;
+    /* the WhatsApp button spans the width here */
   }
 
   /* on phones, just the logo in a round button in the corner (the link keeps its name for screen readers) */
@@ -2514,7 +2547,7 @@
   margin-top: 60px;
 }
 
-.ev-row + .ev-row {
+.ev-row+.ev-row {
   margin-top: 100px;
 }
 
@@ -2574,7 +2607,8 @@
   color: var(--accent);
 }
 
-@media (max-width: 899px), (pointer: coarse) {
+@media (max-width: 899px),
+(pointer: coarse) {
   .ev-small {
     position: static;
   }
@@ -2595,7 +2629,7 @@
     margin-top: 32px;
   }
 
-  .ev-row + .ev-row {
+  .ev-row+.ev-row {
     margin-top: 48px;
   }
 
@@ -2624,14 +2658,18 @@
 /* ───────── exhibition shapes perception (ported from /home3: tagline → shutters → word cubes → principles) ───────── */
 .ph {
   --navy: #022439;
-  --ink: var(--navy); /* the cube scene reads its colours from these two: /home3's navy, on white */
+  --ink: var(--navy);
+  /* the cube scene reads its colours from these two: /home3's navy, on white */
   --paper: #fff;
   --tf: 96px;
   --tl: calc(var(--tf) * 0.92);
   position: relative;
-  z-index: 2; /* the shutters reach up over the section above while this one arrives */
-  margin-top: 20vh; /* white air between Events and the tagline; outside the section, so the timing is untouched */
-  height: 1100vh; /* 100vh + 10 timeline units of 100vh (UNIT in Perception.tsx) */
+  z-index: 2;
+  /* the shutters reach up over the section above while this one arrives */
+  margin-top: 20vh;
+  /* white air between Events and the tagline; outside the section, so the timing is untouched */
+  height: 1100vh;
+  /* 100vh + 10 timeline units of 100vh (UNIT in Perception.tsx) */
   background: var(--paper);
   color: var(--ink);
 }
@@ -2647,7 +2685,8 @@
   position: absolute;
   inset: 0;
   font-size: var(--tf);
-  font-weight: 600; /* weight and tracking match the cube scene's text (cubeScene.ts) */
+  font-weight: 600;
+  /* weight and tracking match the cube scene's text (cubeScene.ts) */
   line-height: var(--tl);
   letter-spacing: -0.07em;
   white-space: nowrap;
@@ -2673,7 +2712,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: calc(50% + 1px); /* the two overlap by a pixel, so no hairline of the tagline shows between them when shut */
+  height: calc(50% + 1px);
+  /* the two overlap by a pixel, so no hairline of the tagline shows between them when shut */
   background: var(--ink);
   transform-origin: bottom;
   transform: scaleY(0);
@@ -2724,7 +2764,8 @@
   position: absolute;
   left: 12.5%;
   top: calc(50% + 2px);
-  font-size: clamp(64px, 7vw, 120px); /* "Engineered" ends short of the text column at 50% */
+  font-size: clamp(64px, 7vw, 120px);
+  /* "Engineered" ends short of the text column at 50% */
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: -0.08em;
@@ -2755,7 +2796,7 @@
 
 /* the principle word's mask: tall enough for the risen word's descenders (the g of "Engineered", 0.14em below its
    0.9em line) and its last letter's overhang, while the word waiting below (at 118%, Perception.tsx) stays fully out of
-   sight — keep 0.9 × 118% above 0.9 + 0.14 */
+   sight - keep 0.9 × 118% above 0.9 + 0.14 */
 .line-mask {
   display: block;
   overflow: hidden;
@@ -2763,7 +2804,7 @@
   margin: 0 -0.1em -0.14em 0;
 }
 
-.line-mask > span {
+.line-mask>span {
   display: block;
 }
 
@@ -2845,7 +2886,8 @@
 }
 
 .ap-num {
-  position: relative; /* the outgoing number is positioned against this box, so it stays inside the clip */
+  position: relative;
+  /* the outgoing number is positioned against this box, so it stays inside the clip */
   display: inline-block;
   overflow: hidden;
   height: 1em;
@@ -2855,7 +2897,7 @@
   line-height: 1;
 }
 
-.ap-num > span {
+.ap-num>span {
   display: inline-block;
 }
 
@@ -2863,7 +2905,8 @@
   grid-column: 2 / 4;
   grid-row: 1;
   position: relative;
-  z-index: 1; /* over the blueprint */
+  z-index: 1;
+  /* over the blueprint */
   list-style: none;
   padding: 10vh 0 6vh;
 }
@@ -2879,7 +2922,7 @@
   pointer-events: none;
 }
 
-/* the dotted paper on its own layer, so only the dots fade out at the edges — not the drawing or its caption */
+/* the dotted paper on its own layer, so only the dots fade out at the edges - not the drawing or its caption */
 .ap-bp::before {
   content: "";
   position: absolute;
@@ -2894,13 +2937,15 @@
   position: absolute;
   top: 4%;
   right: 0;
-  width: 50%; /* the third column, beside the stage text rather than under it */
+  width: 50%;
+  /* the third column, beside the stage text rather than under it */
   height: 92%;
   overflow: visible;
   fill: none;
   stroke: var(--accent);
   stroke-width: 1.2;
-  stroke-linecap: butt; /* round caps would leave a dot on every line that has not started drawing yet */
+  stroke-linecap: butt;
+  /* round caps would leave a dot on every line that has not started drawing yet */
   stroke-linejoin: round;
   opacity: 0.75;
 }
@@ -2958,7 +3003,8 @@
 }
 
 .ap-step h3 {
-  max-width: 480px; /* ends before the blueprint in the third column */
+  max-width: 480px;
+  /* ends before the blueprint in the third column */
   margin-bottom: 16px;
   font-size: clamp(30px, 3vw, 44px);
   font-weight: 600;
@@ -2987,7 +3033,8 @@
   }
 
   .ap-bp {
-    display: none; /* no room beside the stages on a phone */
+    display: none;
+    /* no room beside the stages on a phone */
   }
 
   /* the photo pins to the top of the screen while the stages scroll under it */
@@ -3054,6 +3101,13 @@
   padding-left: 24px;
 }
 
+/* the date sits under the show's name */
+.sh-date {
+  grid-column: 2;
+  margin-top: 10px;
+  color: var(--accent);
+}
+
 .sh-title {
   font-size: 18px;
   font-weight: 500;
@@ -3070,16 +3124,74 @@
 .sh-text {
   padding: 0 24px;
   font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.45;
 }
 
 .sh-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   padding: 0 24px;
+}
+
+.sh-clients {
+  display: grid;
+  gap: 8px;
+}
+
+.sh-clients-label {
+  font-size: 10px;
+}
+
+.sh-tiles {
+  display: flex;
+  gap: 8px;
+}
+
+/* a hairline tile per client, grey until its row is the one pointed at */
+.sh-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 60px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+/* the logo files are 220 × 200 with white around the mark: pinned to the tile, cover crops the white, not the mark */
+.sh-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: filter 0.4s, opacity 0.4s;
+}
+
+.sh-tile b {
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--muted);
+  transition: color 0.4s;
+}
+
+.sh-link:is(.is-on, :focus-visible) .sh-tile img {
+  filter: none;
+  opacity: 1;
+}
+
+.sh-link:is(.is-on, :focus-visible) .sh-tile b {
+  color: var(--black);
 }
 
 .sh-icon {
@@ -3095,7 +3207,8 @@
 
 @media (pointer: fine) {
   .sh-list {
-    cursor: none; /* the photo takes the pointer's place */
+    cursor: none;
+    /* the photo takes the pointer's place */
   }
 }
 
@@ -3128,7 +3241,8 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
-@media (max-width: 899px), (pointer: coarse) {
+@media (max-width: 899px),
+(pointer: coarse) {
   .sh-peek {
     display: none;
   }
@@ -3141,7 +3255,7 @@
 
   .sh-link {
     grid-template-columns: 1fr auto;
-    row-gap: 10px;
+    gap: 10px 14px; /* a long show name wraps instead of running into its date */
     padding: 20px 0;
   }
 
@@ -3154,21 +3268,40 @@
     grid-column: 1 / -1;
     grid-row: 2;
     padding: 0 0 0 36px;
-    white-space: normal;
   }
 
+  /* the meta's children join the row's grid: the clients under the text, the "+" beside the name */
   .sh-meta {
-    gap: 14px;
-    padding: 0;
+    display: contents;
+  }
+
+  .sh-clients {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    padding-left: 36px;
+  }
+
+  .sh-icon {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .sh-tile {
+    width: 84px;
+    height: 54px;
   }
 }
 
 /* ───────── L transition into the footer (after /home3's contact section) ───────── */
 .lx {
   position: relative;
-  height: 330vh; /* 50vh closing scene, 130vh L zoom, 50vh footer fade, plus the screen it pins on (LTransition.tsx) */
-  margin-bottom: -100vh; /* the footer overlaps the last screen, to fade in there (FooterReveal.tsx) */
-  background: var(--white); /* carries on from the light section above */
+  height: 330vh;
+  /* 50vh closing scene, 130vh L zoom, 50vh footer fade, plus the screen it pins on (LTransition.tsx) */
+  margin-bottom: -100vh;
+  /* the footer overlaps the last screen, to fade in there (FooterReveal.tsx) */
+  background: var(--white);
+  /* carries on from the light section above */
 }
 
 /* the footer sits over the L transition's last screen, invisible until it fades in */
@@ -3209,7 +3342,8 @@
   position: absolute;
   inset: 0 var(--pad);
   align-items: center;
-  padding: var(--nav) 0 130px; /* clear of the nav, and of the marquee along the foot */
+  padding: var(--nav) 0 130px;
+  /* clear of the nav, and of the marquee along the foot */
 }
 
 .lx-left {
@@ -3314,7 +3448,8 @@
 }
 
 .lx-flat {
-  fill: #141414; /* the footer's base dark */
+  fill: #141414;
+  /* the footer's base dark */
 }
 
 /* the footer's background turned upside down: its glow (top right there) sits bottom right here, so where the two

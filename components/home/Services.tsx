@@ -1,7 +1,10 @@
 "use client";
 
-import { services, servicesIntro } from "@/lib/home";
+import { services as allServices, servicesIntro } from "@/lib/home";
 import { Button, Label, Lines, Reveal, SplitTitle } from "./ui";
+
+// Interior & Fit Out: hidden on /home for now (still listed in lib/home.ts, and shown on /home4)
+const services = allServices.filter((s) => s.title !== "Interior & Fit Out");
 
 export default function Services() {
   return (

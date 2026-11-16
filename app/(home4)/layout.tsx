@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Ms_Madi, Poppins } from "next/font/google";
+import Consent from "@/components/consent/Consent";
 import SmoothScroll from "@/components/home/SmoothScroll";
 import "./home4.css";
 
@@ -23,6 +24,7 @@ export default function Home4Layout({ children }: { children: React.ReactNode })
       <body>
         <SmoothScroll />
         {children}
+        <Consent privacyHref="/home4/privacy" />
       </body>
     </html>
   );

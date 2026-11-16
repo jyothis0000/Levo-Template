@@ -3,7 +3,7 @@ import { Footer } from "@/components/home/Contact";
 import { LegalBody } from "@/components/home/legal";
 import Nav from "@/components/home/Nav";
 
-export const metadata: Metadata = { title: "Legal notice — Levo Exhibitions" };
+export const metadata: Metadata = { title: "Legal notice - Levo Exhibitions" };
 
 export default function Legal() {
   return (

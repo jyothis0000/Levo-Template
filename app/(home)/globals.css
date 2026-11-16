@@ -4,15 +4,19 @@
   --soft: #f2f2f2;
   --dark: #191919;
   --black: #000;
-  --accent: #0070b8; /* Levo blue (reference red: #f02b42) */
+  --accent: #0070b8;
+  /* Levo blue (reference red: #f02b42) */
   --line: rgba(0, 0, 0, 0.08);
   --line-dark: rgba(255, 255, 255, 0.08);
   --muted: rgba(0, 0, 0, 0.5);
   --muted-dark: rgba(255, 255, 255, 0.5);
   --pad: 40px;
-  --nav-bar: 56px; /* the boxed header's height */
-  --nav-gap: 10px; /* how far it floats below the top */
-  --nav: calc(var(--nav-gap) + var(--nav-bar)); /* the space the page keeps clear for it */
+  --nav-bar: 56px;
+  /* the boxed header's height */
+  --nav-gap: 10px;
+  /* how far it floats below the top */
+  --nav: calc(var(--nav-gap) + var(--nav-bar));
+  /* the space the page keeps clear for it */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --sans: var(--font-dm), "DM Sans", system-ui, sans-serif;
   --display: var(--font-cal), "Cal Sans", var(--sans);
@@ -99,7 +103,8 @@ button {
 }
 
 .dark {
-  --accent: #1f90e0; /* lifted Levo blue so it reads on dark */
+  --accent: #1f90e0;
+  /* lifted Levo blue so it reads on dark */
   background: var(--dark);
   color: #fff;
   --line: var(--line-dark);
@@ -115,7 +120,7 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.cols > * {
+.cols>* {
   min-width: 0;
 }
 
@@ -149,7 +154,7 @@ button {
 }
 
 /* :where keeps this at 0 specificity so per-section absolute positioning wins */
-.section > :where(:not(.lines)) {
+.section> :where(:not(.lines)) {
   position: relative;
   z-index: 1;
 }
@@ -221,13 +226,29 @@ button {
   animation: bars 1.6s var(--ease) infinite;
 }
 
-.label-mark i:nth-child(2) { animation-delay: 0.1s; }
-.label-mark i:nth-child(3) { animation-delay: 0.2s; }
-.label-mark i:nth-child(4) { animation-delay: 0.3s; }
+.label-mark i:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.label-mark i:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.label-mark i:nth-child(4) {
+  animation-delay: 0.3s;
+}
 
 @keyframes bars {
-  0%, 60%, 100% { opacity: 1; }
-  30% { opacity: 0.25; }
+
+  0%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 0.25;
+  }
 }
 
 /* ───────── roll text + buttons ───────── */
@@ -295,11 +316,28 @@ button:hover .roll-char span {
   transform: rotate(90deg);
 }
 
-.btn-dark { background: var(--black); color: #fff; }
-.btn-light { background: #fff; color: #000; }
-.btn-light:hover { color: #fff; }
-.btn-red { background: var(--accent); color: #fff; }
-.btn-red::before { background: var(--black); }
+.btn-dark {
+  background: var(--black);
+  color: #fff;
+}
+
+.btn-light {
+  background: #fff;
+  color: #000;
+}
+
+.btn-light:hover {
+  color: #fff;
+}
+
+.btn-red {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-red::before {
+  background: var(--black);
+}
 
 /* ───────── split title ───────── */
 .split-line {
@@ -307,7 +345,7 @@ button:hover .roll-char span {
 }
 
 /* each word is the mask its letters slide up into. The titles' tight line-height and tracking push ink outside the
-   word's own box — the tails of g, p, y below, the last letter's overhang on the right — so the mask is padded out to
+   word's own box - the tails of g, p, y below, the last letter's overhang on the right - so the mask is padded out to
    take them in, and the matching negative margins leave the layout exactly where it was */
 .split-word {
   display: inline-flex;
@@ -317,7 +355,8 @@ button:hover .roll-char span {
 }
 
 .split-word:not(:last-child) {
-  margin-right: calc(0.22em - 0.1em); /* the word gap, less the overhang padding */
+  margin-right: calc(0.22em - 0.1em);
+  /* the word gap, less the overhang padding */
 }
 
 .split-char {
@@ -342,10 +381,13 @@ button:hover .roll-char span {
 }
 
 @keyframes marquee {
-  to { transform: translateX(-50%); }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

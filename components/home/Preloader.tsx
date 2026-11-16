@@ -24,6 +24,7 @@ export default function Preloader() {
       {!done && (
         <motion.div
           className="preloader"
+          data-preloader
           exit={{ clipPath: "inset(0 0 100% 0)" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >

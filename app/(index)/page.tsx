@@ -8,8 +8,8 @@ export default function Index() {
         <img src="/images/logo-black.svg" alt="Levo Exhibitions" className="ix-logo" />
         <h1>Website templates</h1>
         <p>
-          {templates.length} editions of the Levo site, all focused on European exhibitors and built to the EU's rules: no cookies, and
-          nothing loaded from third parties. Open one to review it.
+          {templates.length} editions of the Levo site, all focused on European exhibitors and built to the EU's rules: nothing is stored or
+          loaded from third parties without the visitor's consent. Open one to review it.
         </p>
       </header>
 

@@ -25,7 +25,7 @@ export default function Shows() {
   const cur = hover === null ? null : shows.list[hover];
 
   return (
-    <section className="section soft sh" id="shows">
+    <section className="section sh" id="shows">
       <Lines />
       <div className="head cols">
         <div className="head-left">
@@ -53,10 +53,23 @@ export default function Shows() {
               <span className="sh-name">
                 <span className="mono-up muted">0{i + 1}.</span>
                 <span className="sh-title">{s.title}</span>
+                <span className="sh-date mono-up">{s.date}</span>
               </span>
               <span className="sh-text muted">{s.text}</span>
               <span className="sh-meta">
-                <span className="mono-up">{s.date}</span>
+                {/* the clients we built for at this show: their logo where we have it, otherwise their name */}
+                <span className="sh-clients" aria-label={`Built here for ${s.clients.map((c) => c.name).join(", ")}`}>
+                  <span className="sh-clients-label mono-up muted" aria-hidden>
+                    Built here for
+                  </span>
+                  <span className="sh-tiles" aria-hidden>
+                    {s.clients.map((c) => (
+                      <span key={c.name} className="sh-tile">
+                        {c.logo ? <img src={c.logo} alt="" loading="lazy" /> : <b>{c.name}</b>}
+                      </span>
+                    ))}
+                  </span>
+                </span>
                 <span className="sh-icon" aria-hidden>
                   +
                 </span>

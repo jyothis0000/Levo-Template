@@ -51,26 +51,12 @@ export default function Hero() {
       </motion.div>
       <div className="hero-grain" aria-hidden />
 
-      <div className="hero-grid" aria-hidden>
-        <i /><i /><i /><i />
-        <b style={{ left: 0, top: 0 }} /><b style={{ left: "33.333%", top: 0 }} /><b style={{ left: "66.666%", top: 0 }} /><b style={{ right: 0, top: 0 }} />
-        <b style={{ left: 0, bottom: 0 }} /><b style={{ left: "33.333%", bottom: 0 }} /><b style={{ left: "66.666%", bottom: 0 }} /><b style={{ right: 0, bottom: 0 }} />
-      </div>
-
       <motion.div className="hero-top mono-up" {...enter(0.1, 0)}>
         <span>{brand.est}–26©</span>
         <span className="hero-slots">
           {hero.slots.label} <b className="hero-bars"><i /><i /><i /><i /></b> {hero.slots.value}
         </span>
       </motion.div>
-
-      <div className="hero-services cols">
-        {hero.services.map((s, i) => (
-          <motion.p key={s} className="mono-up" {...enter(0.2 + i * 0.08, 10)}>
-            <span className="muted">0{i + 1}.</span> {s}
-          </motion.p>
-        ))}
-      </div>
 
       <motion.div className="hero-word" style={{ y: wordY, opacity: wordO }}>
         <motion.h1

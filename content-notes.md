@@ -30,9 +30,9 @@ Home · About Us · Services (Exhibition Services, Events & Conferences, Mall Ki
 ### Home: "Built by Experience. Driven by Expertise." (H2)
 For over 25 years, LEVO Exhibitions has been delivering custom exhibition stand design and build solutions across Dubai, Abu Dhabi and the wider Middle East. We work with international brands, event agencies, architects, exhibition organisers and venues to create exhibition spaces that combine creative design, practical functionality and high-quality construction.
 
-As an experienced exhibition stand builder and contractor, we manage every stage of the process in-house — from concept development and 3D design to engineering, fabrication, installation and dismantling. Our team of skilled professionals brings expertise across carpentry, steel, electrical, graphics, fabrics and logistics, supported by experienced designers, engineers, project managers and event specialists.
+As an experienced exhibition stand builder and contractor, we manage every stage of the process in-house - from concept development and 3D design to engineering, fabrication, installation and dismantling. Our team of skilled professionals brings expertise across carpentry, steel, electrical, graphics, fabrics and logistics, supported by experienced designers, engineers, project managers and event specialists.
 
-Whether you need a custom exhibition stand, double-decker stand, pavilion or complete exhibition solution, LEVO provides the expertise and production capabilities to deliver your project to the highest standards — on time, on site and ready for your show.
+Whether you need a custom exhibition stand, double-decker stand, pavilion or complete exhibition solution, LEVO provides the expertise and production capabilities to deliver your project to the highest standards - on time, on site and ready for your show.
 
 (Images beside it: the four `home-*.jpeg` collage images.)
 
@@ -88,10 +88,10 @@ Levo Exhibitions has been appointed as stand contractor by national trade organi
 
 | Figure | Where | Label / wording |
 |---|---|---|
-| **1800+** | Home counter | Projects Completed — "Delivering projects with proven success." |
-| **1000+** | Home counter | Satisfied Customers — "Trusted partnerships built on reliability and consistent delivery." |
-| **98%** | Home counter | Client Satisfaction — "Unwavering commitment to quality and service excellence." |
-| **5+** | Home counter | Countries — "Strategic hubs across major global financial and logistical markets." |
+| **1800+** | Home counter | Projects Completed - "Delivering projects with proven success." |
+| **1000+** | Home counter | Satisfied Customers - "Trusted partnerships built on reliability and consistent delivery." |
+| **98%** | Home counter | Client Satisfaction - "Unwavering commitment to quality and service excellence." |
+| **5+** | Home counter | Countries - "Strategic hubs across major global financial and logistical markets." |
 | **1978** | About stat strip | Alams Group founded |
 | **3,000+** | About stat strip + meta description | Projects completed |
 | **75+** | About, Events, Exhibition Services | In-house specialists / full-time employees |

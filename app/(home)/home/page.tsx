@@ -3,7 +3,7 @@ import Approach from "@/components/home/Approach";
 import Blog from "@/components/home/Blog";
 import { Footer } from "@/components/home/Contact";
 import FooterReveal from "@/components/home/FooterReveal";
-import Events from "@/components/home/Events";
+// import Events from "@/components/home/Events"; // hidden for now (see below)
 import Faq from "@/components/home/Faq";
 import Hero from "@/components/home/Hero";
 import LTransition from "@/components/home/LTransition";
@@ -24,21 +24,22 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Events />
+        <Shows />
+        {/* Events (the work built in Europe): hidden for now - restore this line and its import */}
+        {/* <Events /> */}
         <Perception />
+        <Reviews />
         <Services />
         <Approach />
-        <Shows />
         <CaseShowcase />
-        <Reviews />
         <Blog />
-        {/* Case studies: hidden for now — restore this line, and the nav's "Projects" link to "/home#projects" in lib/home.ts */}
+        {/* Case studies: hidden for now - restore this line, and the nav's "Projects" link to "/home#projects" in lib/home.ts */}
         {/* <Portfolio /> */}
-        {/* Steps and Features: hidden for now — restore these lines (and their imports), and the nav's "Process" link to
+        {/* Steps and Features: hidden for now - restore these lines (and their imports), and the nav's "Process" link to
             "/home#process" in lib/home.ts */}
         {/* <Process /> */}
         {/* <Features /> */}
-        {/* The Journey timeline and The team: hidden for now — restore these two lines */}
+        {/* The Journey timeline and The team: hidden for now - restore these two lines */}
         {/* <Timeline /> */}
         {/* Numbers band (3,000+ projects…): hidden for now — restore this line and its import */}
         {/* <Facts /> */}

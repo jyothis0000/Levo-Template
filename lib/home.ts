@@ -45,7 +45,6 @@ export const hero = {
   image: "/videos/levo-banner-poster.jpg",
   // the 58.8 MB master, re-encoded for the web: same 1080p30 and 30s, no audio track, faststart — 19.7 MB
   video: "/videos/levo-banner.mp4",
-  services: ["Exhibition stands", "National pavilions", "Events & conferences"],
   slots: { label: "Now booking", value: "Europe & Gulf 2027" },
   intro:
     "We design, engineer and build custom exhibition stands for European brands - at shows across Europe through our partner network, and at the Gulf's biggest trade shows.",
@@ -53,10 +52,16 @@ export const hero = {
   clientCount: "40+",
 };
 
-// European brands, universities and national pavilions first; global brands that exhibit with us after them
+// Every client logo on levoexhibitions.com's home page (38, checked against the live site on 16 Nov 2026; Alfanar and
+// Petronas have since been taken off it). European brands, universities and national pavilions lead, as before, so the
+// avatars that use the first eight stay the same; the rest follow in the site's own order.
 const clientNames = [
   "Coesia", "Arkema", "AGFA", "Panatta", "Mazzoni LB", "Remsdaq", "Middlesex University", "Polska",
   "Belarus", "Brother", "Mitsubishi",
+  "Pharmalink", "Miraj Group", "GAP Corp", "Foodics", "Phnix", "Albaddad", "MTR", "Matrix", "Medway", "Hemani",
+  "Zamil Offshore", "Dermaqual", "Veritas", "ADSM", "Gulf Medical University", "EIBFS", "Jumeira University", "Servtech",
+  "Council of Cooperative", "Enjoy Jakarta", "CCPIT", "Ecuador", "Turkey", "Ping Tung Good Food", "HAL", "Florida",
+  "Tourism Malaysia",
 ];
 export const clients = clientNames.map((name) => {
   const slug = name.toLowerCase().replace(/\s+/g, "-");
@@ -80,7 +85,7 @@ export const about = {
 };
 
 export const servicesIntro = {
-  text: "Four disciplines, one team. From brief to dismantle, nothing falls between suppliers.",
+  text: "One team for every discipline. From brief to dismantle, nothing falls between suppliers.",
   kicker: "One point of contact",
   sub: "Design through dismantling sits with one team.",
   booking: [
@@ -357,7 +362,7 @@ export const faqs = [
   },
   {
     q: "How do you handle my data?",
-    a: "Under the EU GDPR. This site sets no cookies, runs no analytics and loads nothing from third parties. What you send us is used only to answer your enquiry, and you can ask us at any time what we hold, or have it corrected or deleted — see our privacy notice.",
+    a: "Under the EU GDPR. The only cookies are Google Analytics’, and only if you accept them in the cookie banner — reject, and nothing is sent to Google; otherwise nothing is loaded from third parties. What you send us is used only to answer your enquiry, and you can ask us at any time what we hold, or have it corrected or deleted — see our privacy notice.",
   },
   {
     q: "How do I start a project?",
@@ -436,17 +441,22 @@ export const approach = {
 // organisers' sites (piscine-global.com, intertabac.de, eurosatory.com) as each edition nears.
 export const shows = {
   label: "Upcoming events",
-  title: "Upcoming\nevents.",
+  title: "Where to find\nus next.",
   intro: "Where European exhibitors will find our stands next — at shows across Europe and in the Gulf.",
   cta: "All events",
   all: "https://levoexhibitions.com/upcoming-exhibitions-dubai/",
   list: [
-    { title: "Piscine Global Europe 2026", text: "Eurexpo, Lyon — we built a 117 sqm stand for PHNIX here in 2022.", date: "17.11.26", img: img("project-028-phnix.webp"), cap: "PHNIX — Piscine Global 2022" },
-    { title: "IDEX & NAVDEX 2027", text: "ADNEC, Abu Dhabi — a 104 sqm stand for Spain's Indra at IDEX 2025.", date: "25.01.27", img: img("project-044-indra.webp"), cap: "Indra — IDEX 2025" },
-    { title: "Gulfood 2027", text: "Dubai World Trade Centre and Expo City — stands for Italy's Coesia, and the Belarus national stand at Gulfood Manufacturing.", date: "15.03.27", img: img("project-206-belarus.webp"), cap: "Belarus — Gulfood Manufacturing" },
-    { title: "InterTabac 2027", text: "Messe Dortmund — a 60 sqm stand for Tabaterra here in 2024.", date: "14.09.27", img: img("project-027-tabaterra.webp"), cap: "Tabaterra — InterTabac 2024" },
-    { title: "Eurosatory 2028", text: "Paris Nord Villepinte — the 210 sqm Ukraine Pavilion here in 2022.", date: "19.06.28", img: img("project-208-ukraine-pavilion.webp"), cap: "Ukraine Pavilion — Eurosatory 2022" },
-  ],
+    { title: "Piscine Global Europe 2026", text: "Eurexpo, Lyon — we built a 117 sqm stand for PHNIX here in 2022.", date: "17.11.26", img: img("project-028-phnix.webp"), cap: "PHNIX — Piscine Global 2022",
+      clients: [{ name: "PHNIX", logo: img("client-phnix.jpg") }] },
+    { title: "IDEX & NAVDEX 2027", text: "ADNEC, Abu Dhabi — a 104 sqm stand for Spain's Indra at IDEX 2025.", date: "25.01.27", img: img("project-044-indra.webp"), cap: "Indra — IDEX 2025",
+      clients: [{ name: "Indra" }, { name: "SFTE" }] },
+    { title: "Gulfood 2027", text: "Dubai World Trade Centre and Expo City — stands for Italy's Coesia, and the Belarus national stand at Gulfood Manufacturing.", date: "15.03.27", img: img("project-206-belarus.webp"), cap: "Belarus — Gulfood Manufacturing",
+      clients: [{ name: "Coesia", logo: img("client-coesia.jpg") }, { name: "Belarus pavilion" }] },
+    { title: "InterTabac 2027", text: "Messe Dortmund — a 60 sqm stand for Tabaterra here in 2024.", date: "14.09.27", img: img("project-027-tabaterra.webp"), cap: "Tabaterra — InterTabac 2024",
+      clients: [{ name: "Tabaterra" }] },
+    { title: "Eurosatory 2028", text: "Paris Nord Villepinte — the 210 sqm Ukraine Pavilion here in 2022.", date: "19.06.28", img: img("project-208-ukraine-pavilion.webp"), cap: "Ukraine Pavilion — Eurosatory 2022",
+      clients: [{ name: "Ukraine Pavilion" }, { name: "CAA" }] },
+  ] as { title: string; text: string; date: string; img: string; cap: string; clients: { name: string; logo?: string }[] }[],
 };
 
 // The closing scene around the logo's "L", just before it grows into the footer: a last call to action, with the

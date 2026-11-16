@@ -14,7 +14,7 @@ export default function Privacy() {
         <div className="h4-wrap">
           <span className="h4-pill-label">Last updated {PRIVACY_UPDATED}</span>
           <h1>Privacy notice</h1>
-          <PrivacyBody stored="Nothing is kept in your browser either, and there are no forms on this site: you reach us by e-mail, phone or WhatsApp." />
+          <PrivacyBody stored="There are no forms on this site: you reach us by e-mail, phone or WhatsApp." />
         </div>
       </main>
       <Footer />

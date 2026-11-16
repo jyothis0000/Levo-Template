@@ -231,7 +231,7 @@ export default function Loader() {
 
   if (done) return null;
   return (
-    <div className="h4-loader" aria-hidden>
+    <div className="h4-loader" data-preloader aria-hidden>
       <svg className="h4-ld-svg" width="100%" height="100%">
         <defs>
           <linearGradient ref={gradStem} id="h4-ld-stem" gradientUnits="userSpaceOnUse">

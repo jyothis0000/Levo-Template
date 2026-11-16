@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, type MotionValue, useInView, useMotionValue, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { clients, events, faq, footer, hero, insights, process, projects, reviewStats, services, site, statement, stories } from "@/lib/home4";
+import { CookieSettings } from "@/components/consent/Consent";
 import { Icon } from "./Chrome";
 import { useLoaderReveal } from "./Loader";
 
@@ -535,6 +536,7 @@ export function Footer() {
               {l.label}
             </a>
           ))}
+          <CookieSettings />
         </nav>
         <p>{footer.copyright}</p>
       </div>

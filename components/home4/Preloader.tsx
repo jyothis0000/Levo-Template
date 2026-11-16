@@ -41,7 +41,7 @@ export default function Preloader() {
   return (
     <AnimatePresence>
       {!done && (
-        <motion.div className="h4-pre" aria-hidden exit={{ clipPath: "inset(0 0 100% 0)" }} transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}>
+        <motion.div className="h4-pre" data-preloader aria-hidden exit={{ clipPath: "inset(0 0 100% 0)" }} transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}>
           <motion.p
             className="h4-pre-script"
             initial={{ clipPath: "inset(-0.6em 100% -0.6em 0)", opacity: 0 }}
