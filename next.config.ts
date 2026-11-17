@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: { agentUpgrade: "security" },
   images: { qualities: [75, 90] },
   // Baseline hardening (GDPR Art. 32): no referrer leakage to third parties, no MIME sniffing, no device APIs.
   async headers() {
