@@ -13,7 +13,8 @@ import { CaseShowcase } from "@/components/home/Portfolio";
 import Preloader from "@/components/home/Preloader";
 import Reviews from "@/components/home/Reviews";
 import Services from "@/components/home/Services";
-import Shows from "@/components/home/Shows";
+// import Shows from "@/components/home/Shows"; // the list version of Upcoming events: hidden for now (see below)
+import ShowCalendar from "@/components/home/ShowCalendar";
 import { getEvents } from "@/lib/events";
 import { contact } from "@/lib/home";
 
@@ -28,7 +29,10 @@ export default async function Home() {
       <main>
         <Hero />
         <About />
-        <Shows events={events} />
+        <ShowCalendar events={events} />
+        {/* Upcoming events as a list (a photo follows the pointer): hidden for now - swap it back for the line above,
+            and restore its import */}
+        {/* <Shows events={events} /> */}
         {/* Events (the work built in Europe): hidden for now - restore this line and its import */}
         {/* <Events /> */}
         <Perception />

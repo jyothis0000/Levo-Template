@@ -16,6 +16,9 @@ export const lockScroll = (on: boolean) => {
   document.documentElement.style.overflow = on ? "hidden" : "";
 };
 
+/** Glide to a scroll position, through Lenis when it runs (it would fight a native smooth scroll). */
+export const scrollToY = (y: number) => (lenis ? lenis.scrollTo(y) : window.scrollTo({ top: y, behavior: "smooth" }));
+
 export default function SmoothScroll() {
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;

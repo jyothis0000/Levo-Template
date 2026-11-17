@@ -1,6 +1,6 @@
 // Upcoming events: one list for /home's Upcoming events, the /home/events page and /home4.
-// Dates from content-notes.md (Gulf) and the organisers' listings (Europe, Nov 2026). Where the end date isn't
-// published yet it's left out; the event then drops off the day it starts.
+// Dates from content-notes.md (Gulf) and trade-fair listings (Europe, checked Nov 2026: InterTabac 2027 and Eurosatory
+// 2028 are from listings, not yet the organisers' own sites). Without an end date an event drops off the day it starts.
 // Plain JSON-shaped records on purpose: a dashboard can later serve exactly this (see getEvents).
 const img = (f: string) => `/images/${f}`;
 
@@ -22,7 +22,7 @@ export type LevoEvent = {
 
 export const EVENTS: LevoEvent[] = [
   {
-    title: "Piscine Global Europe 2026", start: "2026-11-17", venue: "Eurexpo", city: "Lyon", country: "France", region: "Europe",
+    title: "Piscine Global Europe 2026", start: "2026-11-17", end: "2026-11-20", venue: "Eurexpo", city: "Lyon", country: "France", region: "Europe",
     industry: "Pool & spa", text: "We built a 117 sqm stand for PHNIX here in 2022.", img: img("project-028-phnix.webp"),
     cap: "PHNIX — Piscine Global 2022", clients: [{ name: "PHNIX", logo: img("client-phnix.jpg") }], featured: true,
   },
@@ -48,12 +48,12 @@ export const EVENTS: LevoEvent[] = [
     clients: [{ name: "Coesia", logo: img("client-coesia.jpg") }, { name: "Belarus", logo: img("client-belarus.jpg") }], featured: true,
   },
   {
-    title: "InterTabac 2027", start: "2027-09-14", venue: "Messe Dortmund", city: "Dortmund", country: "Germany", region: "Europe",
+    title: "InterTabac 2027", start: "2027-09-14", end: "2027-09-16", venue: "Messe Dortmund", city: "Dortmund", country: "Germany", region: "Europe",
     industry: "Tobacco", text: "A 60 sqm stand for Tabaterra here in 2024.", img: img("project-027-tabaterra.webp"),
     cap: "Tabaterra — InterTabac 2024", clients: [{ name: "Tabaterra" }], featured: true,
   },
   {
-    title: "Eurosatory 2028", start: "2028-06-19", venue: "Paris Nord Villepinte", city: "Paris", country: "France", region: "Europe",
+    title: "Eurosatory 2028", start: "2028-06-19", end: "2028-06-23", venue: "Paris Nord Villepinte", city: "Paris", country: "France", region: "Europe",
     industry: "Defence", text: "The 210 sqm Ukraine Pavilion here in 2022.", img: img("project-208-ukraine-pavilion.webp"),
     cap: "Ukraine Pavilion — Eurosatory 2022", clients: [{ name: "Ukraine Pavilion" }, { name: "CAA" }], featured: true,
   },
@@ -79,6 +79,9 @@ const fmt = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat("en-GB", 
 const dmy = fmt({ day: "numeric", month: "short", year: "numeric" });
 const dm = fmt({ day: "numeric", month: "short" });
 const d = fmt({ day: "numeric" });
+
+/** "20 Nov 2026". */
+export const fullDate = (iso: string) => dmy.format(new Date(iso));
 
 /** "17.11.26": the home page's short date. */
 export const shortDate = (iso: string) => iso.slice(2).split("-").reverse().join(".");
