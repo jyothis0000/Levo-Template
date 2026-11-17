@@ -225,38 +225,44 @@ export const process = [
 
 export const reviews = {
   intro: "Real words from the exhibitors, trade bodies and governments we've built for.",
-  moreIntro: "More from the European ministries and brands we have built for.",
   score: "4.7/5",
   basedOn: "From 18 client reviews",
-  // the photo is Levo's Polska pavilion (Dubai International Boat Show); the reference itself is for the ATM 2019 stand
-  featured: {
-    img: img("project-210-poland-pavilion.webp"),
-    services: "National stand design & build",
-    quote:
-      "During this partnership we have experienced very high quality of all services. We are completely satisfied with their performance and happy to recommend the services of Levo.",
-    name: "The Polish Tourism Organization",
-    role: "72 sqm Polish National Stand · Arabian Travel Market 2019",
-  },
+  rating: 4.7, // the same, as numbers for the counters
+  count: 18,
   stats: [
     { label: "Satisfied customers", note: "Trusted partnerships", value: 1000, prefix: "", suffix: "+" },
     { label: "Client satisfaction", note: "Quality & service", value: 98, prefix: "", suffix: "%" },
   ],
-  more: [
+  // the reference letters, verbatim (content-notes.md §9, cut to a passage each); European clients only. Logos are
+  // the 90 × 90 testimonial images.
+  letters: [
+    {
+      company: "Polish Tourism Organization",
+      logo: img("testimonial-poland.jpg"),
+      role: "72 sqm national stand · Arabian Travel Market 2019",
+      quote:
+        "During this partnership we have experienced very high quality of all services. We are completely satisfied with their performance and happy to recommend the services of Levo.",
+    },
     {
       company: "Coesia",
       logo: img("testimonial-coesia.jpg"),
+      role: "Gulfood Manufacturing · two years running",
       quote:
         "Thank you Team Levo for the great job done on the design and execution of the Gulfood Manufacturing exhibition stand project. We at Coesia were greatly satisfied with the work you had presented in the past 2 consecutive years.",
-      name: "Coesia",
-      role: "Gulfood Manufacturing",
     },
     {
-      company: "Czech Trade",
+      company: "Czech Trade Promotion Agency",
       logo: img("testimonial-czech-trade-promotion-agency.jpg"),
+      role: "With MAEP · WETEX 2019",
       quote:
         "We have been working with LEVO to design and execute our stand and have always been completely satisfied with their performance. We are happy to recommend the services of Levo Exhibitions.",
-      name: "MAEP, for the Czech Trade Promotion Agency",
-      role: "WETEX 2019",
+    },
+    {
+      company: "National Tourism Agency of Belarus",
+      logo: img("testimonial-belarus.jpg"),
+      role: "Arabian Travel Market 2019",
+      quote:
+        "During our relationship with LEVO ADVERTISING we have experienced services that have met and exceeded our expectations. We are happy to recommend the services of Levo Exhibitions.",
     },
   ],
 };

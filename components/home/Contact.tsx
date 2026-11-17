@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { CookieSettings } from "@/components/consent/Consent";
 import { brand, contact, nav } from "@/lib/home";
-import { Label, Lines, RollText } from "./ui";
+import { Label, Lines, RollText, SocialIcon } from "./ui";
 
 function Clock({ zone }: { zone: string }) {
   const [t, setT] = useState("");
@@ -74,14 +74,11 @@ export function Footer() {
           </ul>
           <p className="mono-up muted">Socials</p>
           <div className="footer-socials">
-            {contact.socials.map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noreferrer">
-                {s.label}
+            {[...contact.socials, { label: "Wa", name: "WhatsApp", href: contact.whatsappLink }].map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={`Levo on ${s.name}`} title={s.name}>
+                <SocialIcon label={s.label} />
               </a>
             ))}
-            <a href={contact.whatsappLink} target="_blank" rel="noreferrer">
-              WhatsApp
-            </a>
           </div>
         </div>
       </div>

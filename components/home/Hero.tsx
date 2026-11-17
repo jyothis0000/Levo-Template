@@ -4,28 +4,9 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { brand, clients, contact, hero, reviews } from "@/lib/home";
 import { INTRO } from "./Preloader";
-import { Button, Marquee } from "./ui";
+import { Button, Marquee, SocialIcon } from "./ui";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-// Social marks drawn inline (24×24, currentColor), so the banner loads no icon font or third-party script.
-const ICONS: Record<string, React.ReactNode> = {
-  Fb: <path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V10H7v4h2.5v8h4v-8h3l.6-4h-3.6V8.7c0-.4.3-.7.5-.7z" />,
-  Ig: (
-    <>
-      <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
-      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
-      <circle cx="17.4" cy="6.6" r="1.3" />
-    </>
-  ),
-  In: <path d="M5 3.5a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8zM3 9.6h4V21H3zM9.5 9.6h3.8v1.6c.6-1 1.9-2 3.9-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V21h-4z" />,
-  Yt: (
-    <path
-      fillRule="evenodd"
-      d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9 .5 12 .5 12s0 3 .5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-4.8.5-4.8s0-3-.5-4.8zM9.8 15.2V8.8L15.6 12z"
-    />
-  ),
-};
 
 const enter = (d: number, y = 30) => ({
   initial: { opacity: 0, y, filter: "blur(10px)" },
@@ -87,9 +68,7 @@ export default function Hero() {
         <motion.div className="hero-social" {...enter(0.9, 10)}>
           {contact.socials.slice(0, 4).map((s) => (
             <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={`Levo on ${s.name}`} title={s.name}>
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                {ICONS[s.label]}
-              </svg>
+              <SocialIcon label={s.label} />
             </a>
           ))}
           <span className="mono-up">

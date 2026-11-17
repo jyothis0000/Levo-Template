@@ -530,8 +530,8 @@
   font-weight: 700;
 }
 
-/* round outlined icon buttons; they fill with the Levo blue on hover */
-.hero-social a {
+/* round outlined icon buttons (the footer's too); they fill with the Levo blue on hover */
+:is(.hero-social, .footer-socials) a {
   display: grid;
   place-items: center;
   width: 38px;
@@ -544,12 +544,12 @@
   transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease);
 }
 
-.hero-social svg {
+:is(.hero-social, .footer-socials) svg {
   width: 16px;
   height: 16px;
 }
 
-.hero-social a:hover {
+:is(.hero-social, .footer-socials) a:is(:hover, :focus-visible) {
   background: var(--accent);
   border-color: var(--accent);
   transform: translateY(-2px);
@@ -1226,56 +1226,373 @@
   max-width: 340px;
 }
 
-/* ───────── reviews ───────── */
-.featured {
+/* ───────── reviews: a pile of reference letters (Reviews.tsx) ───────── */
+.rv {
+  align-items: center;
+  padding: 56px 0 72px;
   border-top: 1px solid var(--line);
 }
 
-.featured-img {
-  aspect-ratio: 1;
-  overflow: hidden;
+/* which letter, the clients, the arrows and the timer */
+.rv-side {
+  display: grid;
+  gap: 26px;
+  padding-right: 40px;
 }
 
-.featured-img img {
+.rv-no {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: clamp(56px, 6vw, 96px);
+  font-weight: 600;
+  letter-spacing: -0.08em;
+}
+
+.rv-no>.muted {
+  font-size: 0.24em;
+  letter-spacing: -0.02em;
+}
+
+.rv-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.rv-list button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  padding: 12px 0 12px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s;
 }
 
-.featured-card {
+.rv-list button:hover,
+.rv-list button.is-on {
+  color: var(--black);
+}
+
+.rv-list button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* the marker slides from client to client */
+.rv-bar {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: var(--accent);
+}
+
+.rv-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rv-progress {
+  flex: 1;
+  height: 2px;
+  margin-left: 14px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.rv-progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  animation: rv-timer 6.5s linear forwards;
+}
+
+@keyframes rv-timer {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* the timer holds while the slider is pointed at, focused, dragged or off screen */
+.rv:is(:hover, :focus-within, .is-idle, .is-held) .rv-progress i {
+  animation-play-state: paused;
+}
+
+/* no turning by itself for anyone who has asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+  .rv-progress i {
+    animation: none;
+  }
+}
+
+/* the pile */
+.rv-deck {
   grid-column: 2 / 4;
-  padding: 24px 24px 24px 34px;
+  position: relative;
+  height: clamp(400px, 33vw, 470px);
+  margin: 0 24px;
+  /* the letters are layered by their depth (z), so one can change layer as it goes round the pile */
+  transform-style: preserve-3d;
+}
+
+.rv-card {
+  position: absolute;
+  inset: 0 0 36px;
+  padding: 30px 34px 26px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 34px 60px -34px rgba(0, 0, 0, 0.28), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transform-origin: 50% 100%;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.rv-card.is-front {
+  cursor: grab;
+}
+
+.rv-card.is-front:active {
+  cursor: grabbing;
+}
+
+.rv-card-in {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  transition: opacity 0.4s;
 }
 
-.featured-top {
+/* the letters underneath show only their edges; one going to the back is blank by the time it slips under the pile */
+.rv-card:not(.is-front) .rv-card-in {
+  opacity: 0;
+  transition: opacity 0.2s 0.08s;
+}
+
+.rv-card-top {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.rv-card-top b {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.rv-card-top .muted {
+  font-size: 13px;
+}
+
+.rv-logo {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.rv-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.rv-mark {
+  margin: 26px 0 4px;
+  font-family: var(--display);
+  font-size: 96px;
+  line-height: 0.6;
+  color: var(--accent);
+}
+
+.rv-quote {
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+/* each word rises on its own as the letter comes to the top (--j: its place; --rv-words: when they start) */
+.rv-quote>span>span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.rv-card.is-front .rv-quote>span>span {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  transition-delay: calc(var(--rv-words, 0.15s) + var(--j) * 12ms);
+}
+
+.rv-card-foot {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  font-size: 12px;
-}
-
-.featured-services {
-  text-align: right;
-  max-width: 220px;
-}
-
-.featured-quote {
-  font-size: clamp(26px, 2.8vw, 42px);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1.1;
-  margin: 10px 0 40px;
-}
-
-.featured-foot {
   margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
-.featured-foot>div {
+/* numbers that roll in like an odometer (RollNumber) */
+.roll-num {
+  display: inline-flex;
+}
+
+.roll-digit {
+  position: relative;
+  display: inline-block;
+  height: 1.1em;
+  overflow: hidden;
+  line-height: 1.1;
+}
+
+.roll-size {
+  visibility: hidden;
+}
+
+.roll-strip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.roll-strip>span {
+  display: block;
+  text-align: center;
+}
+
+/* the value as text, for screen readers and copying, while the rolling digits show it */
+.roll-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rv-score {
   display: grid;
-  font-size: 13px;
+  gap: 8px;
+}
+
+.rv-rating {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.rv-rating>.muted {
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+/* five stars, filled in blue as far as the rating goes */
+.rv-stars {
+  position: relative;
+  width: max-content;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(0, 0, 0, 0.14);
+}
+
+.rv-stars::before,
+.rv-stars i::before {
+  content: "★★★★★";
+}
+
+.rv-stars i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+@media (max-width: 899px) {
+  .rv {
+    gap: 26px;
+    padding: 28px 0 48px;
+  }
+
+  /* the pile first, then which letter and the arrows on one line; the list of clients waits for a wider screen */
+  .rv-deck {
+    order: -1;
+    grid-column: auto;
+    height: 470px;
+    margin: 0;
+  }
+
+  .rv-side {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-right: 0;
+  }
+
+  .rv-no {
+    font-size: 40px;
+  }
+
+  .rv-list {
+    display: none;
+  }
+
+  .rv-controls {
+    flex: 1;
+  }
+
+  .rv-card {
+    padding: 22px 20px 18px;
+  }
+
+  .rv-card-top {
+    grid-template-columns: 48px 1fr;
+  }
+
+  .rv-card-top .stars {
+    display: none;
+  }
+
+  .rv-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .rv-mark {
+    margin-top: 20px;
+    font-size: 72px;
+  }
+
+  .rv-quote {
+    font-size: 19px;
+  }
 }
 
 .review-stats {
@@ -1330,43 +1647,6 @@
     border-left: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
-}
-
-.more-reviews {
-  border-top: 1px solid var(--line);
-  padding-bottom: 80px;
-}
-
-.more-reviews .head-left {
-  padding-top: 40px;
-}
-
-.more-reviews-title {
-  font-size: clamp(48px, 5vw, 70px);
-  font-weight: 600;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
-}
-
-.review-card {
-  padding: 24px 24px 24px 34px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  min-height: 380px;
-}
-
-.review-card-top {
-  display: flex;
-  justify-content: space-between;
-}
-
-.review-card>p {
-  font-size: 15px;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.45;
-  margin: auto 0;
 }
 
 /* ───────── features (bento) ───────── */
@@ -1982,7 +2262,8 @@
   padding-left: 24px;
 }
 
-.footer-col a:hover {
+/* the text links; the social icons fill blue instead */
+.footer-col a:not(.footer-socials a):hover {
   color: var(--accent);
 }
 
@@ -2032,10 +2313,9 @@
 
 .footer-socials {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 18px;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 /* full size again, but held to half the screen height so the whole footer fits on one screen */
@@ -2207,7 +2487,6 @@
   .services-list,
   .more-list,
   .steps,
-  .featured-card,
   .faq-list,
   .team-marquee,
   .belief-body {
@@ -2411,15 +2690,9 @@
     padding-right: 56px;
   }
 
-  .featured-card,
-  .review-card,
   .post,
   .posts>div:first-child .post {
     padding: 24px 0;
-  }
-
-  .featured-img {
-    aspect-ratio: 4 / 3;
   }
 
   .bento-card {
@@ -3298,16 +3571,47 @@
   position: relative;
   height: 330vh;
   /* 50vh closing scene, 130vh L zoom, 50vh footer fade, plus the screen it pins on (LTransition.tsx) */
-  margin-bottom: -100vh;
-  /* the footer overlaps the last screen, to fade in there (FooterReveal.tsx) */
+  margin-bottom: -200vh;
+  /* the footer's box overlaps the last two screens: it is held at the top through the second and fades in there
+     (FooterReveal.tsx) */
   background: var(--white);
   /* carries on from the light section above */
 }
 
-/* the footer sits over the L transition's last screen, invisible until it fades in */
+/* the footer sits over the L transition's last screens, invisible until it fades in; it takes the pointer only once it
+   shows */
 .footer-reveal {
   position: relative;
   z-index: 3;
+  pointer-events: none;
+}
+
+/* the screen below the footer that its sticky box travels through while held at the top (content, not padding: a
+   sticky box only moves within its parent's content) */
+.footer-reveal::after {
+  content: "";
+  display: block;
+  height: 100vh;
+}
+
+/* the screen the footer is held through: what the fade is measured against */
+.footer-reveal-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100vh;
+  visibility: hidden;
+}
+
+.footer-reveal-in {
+  position: sticky;
+  top: 0;
+}
+
+/* a link to #contact lands where the footer has fully arrived (its box starts a screen earlier, at the hold) */
+.footer-reveal-in #contact {
+  scroll-margin-top: -100vh;
 }
 
 .lx-sticky {
