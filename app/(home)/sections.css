@@ -3814,13 +3814,16 @@
   border-bottom: 1px solid var(--black);
 }
 
-/* month and year roll up like an odometer when the page turns */
+/* month and year roll like an odometer when the page turns: a window one line tall onto a strip of them all */
 .cal-roll {
   display: block;
+  height: 1.15em;
   overflow: hidden;
+  line-height: 1.15;
 }
 
-.cal-roll>span {
+.cal-strip,
+.cal-strip>span {
   display: block;
 }
 
@@ -3828,12 +3831,49 @@
   font-size: clamp(30px, 3.2vw, 46px);
   font-weight: 600;
   letter-spacing: -0.06em;
-  line-height: 1.05;
 }
 
 .cal-year {
-  padding-bottom: 6px;
   color: var(--accent);
+}
+
+/* the year, then the arrows that turn the calendar by hand */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 2px;
+}
+
+.cal-nav .cal-year {
+  margin-right: 8px;
+}
+
+.cal-arrow {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.cal-arrow:hover:not(:disabled) {
+  border-color: var(--black);
+  background: var(--black);
+  color: #fff;
+}
+
+.cal-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.cal-arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .cal-week {
@@ -3844,14 +3884,17 @@
   color: var(--muted);
 }
 
+/* holds six weeks of height even between pages, so the calendar never jumps */
 .cal-pages {
+  --cal-row: clamp(30px, 6vh, 54px);
   position: relative;
+  min-height: calc(var(--cal-row) * 6);
 }
 
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: clamp(30px, 6vh, 54px);
+  grid-auto-rows: var(--cal-row);
   transform-style: preserve-3d;
 }
 
@@ -4145,6 +4188,47 @@
   color: var(--black);
 }
 
+/* the show's name, over the number while the dot is pointed at or focused */
+.cal-tip {
+  position: absolute;
+  left: 50%;
+  bottom: 38px;
+  translate: -50% 4px;
+  padding: 7px 9px;
+  background: var(--black);
+  color: #fff;
+  font-style: normal;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, translate 0.25s;
+}
+
+.cal-dot:is(:hover, :focus-visible) .cal-tip {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+/* the first and last names open inwards, so they stay on screen */
+.cal-dot:first-of-type .cal-tip {
+  left: -6px;
+  translate: 0 4px;
+}
+
+.cal-dot:first-of-type:is(:hover, :focus-visible) .cal-tip {
+  translate: 0 0;
+}
+
+.cal-dot:last-of-type .cal-tip {
+  left: auto;
+  right: -6px;
+  translate: 0 4px;
+}
+
+.cal-dot:last-of-type:is(:hover, :focus-visible) .cal-tip {
+  translate: 0 0;
+}
+
 .cal-dot:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
@@ -4195,8 +4279,8 @@
     font-size: 30px;
   }
 
-  .cal-grid {
-    grid-auto-rows: clamp(28px, 4.6svh, 40px);
+  .cal-pages {
+    --cal-row: clamp(28px, 4.6svh, 40px);
   }
 
   .cal-day {

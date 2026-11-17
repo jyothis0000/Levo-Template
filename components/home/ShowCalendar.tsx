@@ -98,13 +98,20 @@ export default function ShowCalendar({ events }: { events: LevoEvent[] }) {
 
   if (!e) return null;
 
-  // a click on the rail glides to the middle of that show's step
+  // picking a show by hand (the arrows, or a dot on the rail) glides the page to the middle of that show's step, so the
+  // calendar and the scroll never disagree
   const go = (k: number) => {
     const el = track.current;
-    if (!el) return;
+    if (!el || k < 0 || k >= n) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
     scrollToY(top + ((k + 0.5) / n) * (el.offsetHeight - window.innerHeight));
   };
+
+  // the month and year rolls: each month (and year) the shows fall in, stacked in a strip that slides to the current
+  // one, like an odometer. A fast scroll just rolls further, so two titles can never sit on top of each other.
+  const months = [...new Set(events.map((ev) => ev.start.slice(0, 7)))];
+  const years = [...new Set(events.map((ev) => ev.start.slice(0, 4)))];
+  const roll = (list: string[], key: string) => ({ y: `${(-list.indexOf(key) / list.length) * 100}%` });
 
   const grid = monthGrid(e);
   let band = 0; // order of the show's days, so its dates draw across the grid one after another
@@ -129,47 +136,55 @@ export default function ShowCalendar({ events }: { events: LevoEvent[] }) {
         style={{ "--n": n } as React.CSSProperties}
       >
         <div className="cal-stage">
-          {/* the desk calendar (the dates are in the text beside it, so it is left out for screen readers) */}
-          <div className="cal-card" aria-hidden>
+          {/* the desk calendar: its month and days are left out for screen readers (the dates are in the text beside it),
+              its arrows are not */}
+          <div className="cal-card">
             <div className="cal-top">
-              <span className="cal-roll cal-month">
-                <AnimatePresence initial={false} mode="popLayout">
-                  <motion.span
-                    key={e.start.slice(0, 7)}
-                    initial={{ y: "105%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "-105%" }}
-                    transition={{ duration: 0.6, ease }}
-                  >
-                    {monthOf.format(utc(e.start))}
-                  </motion.span>
-                </AnimatePresence>
+              <span className="cal-roll cal-month" aria-hidden>
+                <motion.span className="cal-strip" initial={false} animate={roll(months, e.start.slice(0, 7))} transition={{ duration: 0.7, ease }}>
+                  {months.map((m) => (
+                    <span key={m}>{monthOf.format(utc(`${m}-01`))}</span>
+                  ))}
+                </motion.span>
               </span>
-              <span className="cal-roll cal-year mono-up">
-                <AnimatePresence initial={false} mode="popLayout">
-                  <motion.span
-                    key={e.start.slice(0, 4)}
-                    initial={{ y: "105%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "-105%" }}
-                    transition={{ duration: 0.6, ease }}
-                  >
-                    {e.start.slice(0, 4)}
+              <div className="cal-nav">
+                <span className="cal-roll cal-year mono-up" aria-hidden>
+                  <motion.span className="cal-strip" initial={false} animate={roll(years, e.start.slice(0, 4))} transition={{ duration: 0.7, ease }}>
+                    {years.map((y) => (
+                      <span key={y}>{y}</span>
+                    ))}
                   </motion.span>
-                </AnimatePresence>
-              </span>
+                </span>
+                {/* turn the calendar by hand, a show at a time */}
+                {[-1, 1].map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    className="cal-arrow"
+                    onClick={() => go(i + d)}
+                    disabled={!events[i + d]}
+                    aria-label={events[i + d] ? `${d < 0 ? "Previous" : "Next"} show: ${events[i + d].title}` : d < 0 ? "Previous show" : "Next show"}
+                  >
+                    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden>
+                      <path d={d < 0 ? "M10 3 5 8l5 5" : "M6 3l5 5-5 5"} fill="none" stroke="currentColor" strokeWidth="1.5" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="cal-week mono-up">
+            <div className="cal-week mono-up" aria-hidden>
               {WEEK.map((w, k) => (
                 <span key={k}>{w}</span>
               ))}
             </div>
-            <div className="cal-pages">
-              <AnimatePresence initial={false} mode="popLayout">
+            <div className="cal-pages" aria-hidden>
+              {/* one page at a time: the old one lifts away before the next flips in, so a fast scroll skips the pages
+                  between rather than piling them up */}
+              <AnimatePresence initial={false} mode="wait">
                 <motion.div
                   key={i}
                   className="cal-grid"
-                  exit={{ opacity: 0, y: -16, transition: { duration: 0.25 } }}
+                  exit={{ opacity: 0, y: -12, transition: { duration: 0.18 } }}
                 >
                   {grid.map((c, k) => {
                     const order = c.on ? band++ : 0;
@@ -333,6 +348,9 @@ export default function ShowCalendar({ events }: { events: LevoEvent[] }) {
                   aria-current={k === i ? "step" : undefined}
                 >
                   <span className="mono-up">{two(k + 1)}</span>
+                  <em className="cal-tip mono-up" aria-hidden>
+                    {ev.title}
+                  </em>
                 </button>
               ))}
               <motion.i
